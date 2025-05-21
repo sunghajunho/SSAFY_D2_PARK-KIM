@@ -15,4 +15,7 @@ urlpatterns = [
         'put': 'update',
         'delete': 'destroy'
     })),
+    path('articles/<int:article_pk>/comments/<int:pk>/like/', CommentViewSet.as_view({
+    'post': 'like'
+    })),
 ]

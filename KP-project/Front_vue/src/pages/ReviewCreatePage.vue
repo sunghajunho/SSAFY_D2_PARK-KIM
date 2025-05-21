@@ -9,8 +9,16 @@ const store = useReviewStore()
 const router = useRouter()
 
 async function submit() {
-  await store.createReview({ title: title.value, content: content.value })
-  router.push('/reviews')
+  const newID = await store.createReview({
+    title: title.value,
+    content: content.value
+  })
+
+  if (newID) {
+    router.push(`/reviews/${newID}`)
+  } else {
+    alert('리뷰 작성에 실패했습니다.')
+  }
 }
 </script>
 

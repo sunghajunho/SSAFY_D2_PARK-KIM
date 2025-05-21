@@ -26,7 +26,7 @@ class Genre(models.Model):
 class CustomUser(AbstractUser):
     # 사용자 기본 정보 확장
     real_name = models.CharField(max_length=100)
-    nickname = models.CharField(max_length=30)
+    nickname = models.CharField(max_length=30,unique=True)
     age = models.PositiveIntegerField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=[
         ('남성', '남성'), ('여성', '여성')

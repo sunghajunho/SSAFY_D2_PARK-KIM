@@ -1,12 +1,25 @@
 <script setup>
+import { computed, onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useReviewStore } from '@/stores/reviewStore'
 
 const userStore = useUserStore()
 const reviewStore = useReviewStore()
 
-const myReviews = reviewStore.getReviewsByAuthor(userStore.username)
-const myComments = reviewStore.getCommentsByAuthor(userStore.username)
+// ✅ 마운트 시 리뷰/댓글 미리 가져오기
+// onMounted(() => {
+//   reviewStore.fetchReviews()
+//   reviewStore.fetchComments()
+// })
+
+// ✅ 반응형 computed로 필터링
+const myReviews = computed(() =>
+  reviewStore.getReviewsByAuthor(userStore.username)
+)
+
+const myComments = computed(() =>
+  reviewStore.comments.filter(c => c.author?.username === userStore.username)
+)
 </script>
 
 <template>
@@ -33,3 +46,4 @@ const myComments = reviewStore.getCommentsByAuthor(userStore.username)
     <p v-else class="text-muted">작성한 댓글이 없습니다.</p>
   </div>
 </template>
+
