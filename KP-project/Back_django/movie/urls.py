@@ -16,12 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+# settings.py 아래에 넣고 runserver 중 출력 확인
+from dj_rest_auth.registration.views import RegisterView
+print('REGISTER VIEW SERIALIZER:', RegisterView.serializer_class)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('core.urls')),
     path('community/', include('community.urls')),
+    path('accounts/', include('accounts.urls')),
     path('accounts/',include('dj_rest_auth.urls')),
     path('accounts/signup/',include('dj_rest_auth.registration.urls')),
     path('api/recommend/', include('recommend.urls')),

@@ -1,62 +1,77 @@
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import UserDetailsSerializer
 from rest_framework import serializers
-from django.conf import settings
-from django.contrib.auth import authenticate
-from django.contrib.auth.password_validation import validate_password
-from django.contrib.auth import get_user_model
-from .models import CustomUser, Follow
+from .models import CustomUser, Genre, UserGenrePreference, Follow
 
-class SignupSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, validators=[validate_password])
-
+class CustomRegisterSerializer(RegisterSerializer):
+    real_name = serializers.CharField(required=True)
+    nickname = serializers.CharField(required=True)
+    age = serializers.IntegerField(required=True)
+    gender = serializers.ChoiceField(choices=CustomUser._meta.get_field('gender').choices, required=True)
+    mbti = serializers.ChoiceField(choices=CustomUser._meta.get_field('mbti').choices, required=True)
+    region = serializers.ChoiceField(choices=CustomUser._meta.get_field('region').choices, required=True)
+    # 장르 우선순위 (예: 1~3순위)
+    preferred_genres = serializers.ListField(child=serializers.IntegerField(), required=True)
+    
     class Meta:
-        model = CustomUser
-        fields = ['username', 'password', 'nickname', 'age', 'gender']
+        fields = [
+            'username', 'email', 'password1', 'password2',
+            'real_name', 'nickname', 'age', 'gender', 'mbti', 'region', 'preferred_genres'
+        ]
 
-    def create(self, validated_data):
-        user = CustomUser.objects.create_user(**validated_data)
-        return user
-
-
-class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField(write_only=True)
-
-    def validate(self, data):
-        user = authenticate(username=data['username'], password=data['password'])
-        if user is None:
-            raise serializers.ValidationError('Invalid credentials')
-        self.context['user'] = user
+    def get_cleaned_data(self):
+        data = super().get_cleaned_data()
+        extra_fields = ['real_name', 'nickname', 'age', 'gender', 'mbti', 'region', 'preferred_genres']
+        for field in extra_fields:
+            data[field] = self.validated_data.get(field)
         return data
 
+    def save(self, request):
+        user = super().save(request)
+        user.real_name = self.cleaned_data.get('real_name')
+        user.nickname = self.cleaned_data.get('nickname')
+        user.age = self.cleaned_data.get('age')
+        user.gender = self.cleaned_data.get('gender')
+        user.mbti = self.cleaned_data.get('mbti')
+        user.region = self.cleaned_data.get('region')
+        user.save()
 
-class UserSerializer(serializers.ModelSerializer):
+        preferred_genres = self.cleaned_data.get('preferred_genres')
+        if preferred_genres:
+            for i, genre_id in enumerate(preferred_genres):
+                genre = Genre.objects.get(id=genre_id)
+                UserGenrePreference.objects.create(user=user, genre=genre, priority=i+1)
+
+        return user
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    preferred_genres = serializers.SerializerMethodField()
+
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'nickname', 'age', 'gender']
+        fields = ['username', 'nickname', 'real_name', 'age', 'gender', 'mbti', 'region', 'preferred_genres']
 
-
-class ChangePasswordSerializer(serializers.Serializer):
-    old_password = serializers.CharField(required=True)
-    new_password = serializers.CharField(required=True, validators=[validate_password])
-
-
-class UserProfileSerializer(serializers.ModelSerializer):
-    is_following = serializers.SerializerMethodField()
-    followers_count = serializers.IntegerField(source='followers.count', read_only=True)
-    following_count = serializers.IntegerField(source='following.count', read_only=True)
-
-    class Meta:
-        model = get_user_model()
-        fields = ['id', 'username', 'is_following', 'followers_count', 'following_count']
-
-    def get_is_following(self, obj):
-        request = self.context.get('request')
-        if request and request.user.is_authenticated:
-            return obj.followers.filter(follower=request.user).exists()
-        return False
-
+    def get_preferred_genres(self, user):
+        return [
+            {
+                "id": pref.genre.id,
+                "name": pref.genre.name,
+                "priority": pref.priority
+            }
+            for pref in user.usergenrepref_set.all().order_by('priority')
+        ]
+    
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = '__all__'
         read_only_fields = ['follower']
+
+class CustomUserDetailsSerializer(UserDetailsSerializer):
+    class Meta(UserDetailsSerializer.Meta):
+        model = CustomUser
+        fields = (
+            'id', 'username', 'email',
+            'real_name', 'nickname', 'age',
+            'gender', 'mbti', 'region'
+        )
