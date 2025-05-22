@@ -1,11 +1,13 @@
 from django.db import models
 from django.conf import settings
+from core.models import Genre, Movie
 
 class Article(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='articles')
     title = models.CharField(max_length=100)
     content = models.TextField()
-    genre = models.CharField(max_length=50)
+    movie_title = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='articles')
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, related_name='articles')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     article_likes = models.PositiveIntegerField(default=0)

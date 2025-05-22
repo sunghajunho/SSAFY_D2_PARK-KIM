@@ -12,7 +12,7 @@ const userStore = useUserStore()
     </div>
     <div class="ms-auto">
       <span v-if="userStore.isLoggedIn">
-        👋 {{ userStore.username }}
+        👋 {{ userStore.nickname }}
         <button @click="userStore.logout" class="btn btn-sm btn-outline-danger ms-2">로그아웃</button>
       </span>
       <span v-else>

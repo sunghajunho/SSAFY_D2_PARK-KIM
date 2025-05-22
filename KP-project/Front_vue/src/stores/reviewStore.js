@@ -34,7 +34,7 @@ export const useReviewStore = defineStore('review', {
         this.reviews.unshift(res.data)
         return res.data.id
       } catch (e) {
-        console.error('리뷰 작성 실패', e)
+        console.error('리뷰 작성 실패', e.response?.data || e)
         return null
       }
     },

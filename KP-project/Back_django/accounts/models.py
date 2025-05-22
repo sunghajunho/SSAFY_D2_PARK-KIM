@@ -1,27 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-class Genre(models.Model):
-    GENRE_CHOICES = [
-        ('액션', '액션'),
-        ('로맨스', '로맨스'),
-        ('코미디', '코미디'),
-        ('스릴러', '스릴러'),
-        ('판타지', '판타지'),
-        ('공포', '공포'),
-        ('SF', 'SF'),
-        ('애니메이션', '애니메이션'),
-        ('다큐멘터리', '다큐멘터리'),
-        ('드라마', '드라마'),
-    ]
-
-    name = models.CharField(
-        max_length=50,
-        choices=GENRE_CHOICES,
-        unique=True
-    )
-
-    def __str__(self):
-        return self.name
+from core.models import Genre
 
 class CustomUser(AbstractUser):
     # 사용자 기본 정보 확장
@@ -75,7 +54,7 @@ class Follow(models.Model):
         unique_together = ['follower', 'following']
 
 class UserGenrePreference(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='genre_preferences')
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     
     # 순위 필드 추가!

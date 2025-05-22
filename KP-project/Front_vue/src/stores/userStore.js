@@ -8,6 +8,7 @@ export const useUserStore = defineStore('user', () => {
 
   const token = ref(localStorage.getItem('token') || '')
   const username = ref(localStorage.getItem('username') || '')
+  const nickname = ref(localStorage.getItem('nickname') || '')
 
   const isLoggedIn = computed(() => !!token.value)
 
@@ -20,6 +21,7 @@ export const useUserStore = defineStore('user', () => {
       await fetchUserInfo()
     } catch (err) {
       console.error('회원가입 실패:', err.response?.data || err)
+      throw err
     }
   }
 
@@ -45,7 +47,9 @@ export const useUserStore = defineStore('user', () => {
     try {
       const res = await api.get(`${ACCOUNT_API_URL}/user/`)
       username.value = res.data.username
+      nickname.value = res.data.nickname
       localStorage.setItem('username', username.value)
+      localStorage.setItem('nickname', nickname.value)
     } catch (err) {
       console.error('사용자 정보 로드 실패:', err)
     }
@@ -62,6 +66,7 @@ export const useUserStore = defineStore('user', () => {
   return {
     token,
     username,
+    nickname,
     isLoggedIn,
     register,
     logIn,

@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from .serializers import CustomUserSerializer, FollowSerializer
-from .models import CustomUser, Follow, Genre
+from .models import CustomUser, Follow
+from core.models import Genre
 from rest_framework import status, viewsets, generics, permissions, serializers
 from rest_framework.authentication import TokenAuthentication
 

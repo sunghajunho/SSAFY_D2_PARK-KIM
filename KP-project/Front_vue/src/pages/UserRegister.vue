@@ -59,6 +59,8 @@
     </div>
 
     <button type="submit">회원가입</button>
+
+    <p v-if="errorMsg" class="text-danger mt-2">{{ errorMsg }}</p>
   </form>
 </template>
 
@@ -66,9 +68,10 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useUserStore } from '@/stores/userStore'
+import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
-
+const router = useRouter()
 // ✅ 회원가입 폼 데이터
 const form = ref({
   username: '',
@@ -96,9 +99,26 @@ onMounted(async () => {
   }
 })
 
+const errorMsg = ref('')
+
 // ✅ 회원가입 요청
 const onRegister = async () => {
-  await userStore.register(form.value)
+  errorMsg.value = ''  // 에러 메시지 초기화
+
+  try {
+    await userStore.register(form.value)
+    router.push('/')  // 성공 시 홈으로 이동
+  } catch (error) {
+    if (error.response?.data) {
+      const errorData = error.response.data
+      const firstKey = Object.keys(errorData)[0]
+      errorMsg.value = `${firstKey}: ${errorData[firstKey]}`
+    } else {
+      errorMsg.value = '알 수 없는 오류가 발생하였습니다.'
+    }
+    // 실패 시 alert로 알림
+    alert(errorMsg.value)
+  }
 }
 </script>
 
