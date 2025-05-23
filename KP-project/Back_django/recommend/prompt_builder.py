@@ -1,17 +1,14 @@
-# recommend/prompt_builder.py
-def build_prompt(query: str = None, user=None):
-    if query:
-        return f"""
-"{query}"와 어울리는 영화 3편을 추천해줘.
-각 영화는 JSON 형식으로 {{ "title": "영화 제목" }} 배열로 반환해줘.
+def build_prompt(user_input, user=None):
+    base = f"'{user_input}'에 어울리는 영화를 3개 추천해줘. JSON 형식으로 다음처럼:"
+    sample = """
+[
+  {
+      "title": "영화 제목" 
+      "description": "추천 이유",
+      "tmdb_hint": "TMDB에서 찾을 수 있는 키워드 또는 감독 이름"
+    }
+]
 """
-    elif user and user.is_authenticated:
-        return f"""
-사용자 '{user.username}'의 취향에 맞는 영화를 3편 추천해줘.
-각 영화는 {{ "title": "영화 제목" }} 형식의 JSON 배열로 보내줘.
-"""
-    else:
-        return """
-최근 인기 있는 영화를 3편 추천해줘.
-각 영화는 {{ "title": "영화 제목" }} 형식의 JSON 배열로 보내줘.
-"""
+    if user:
+        base = f"{user}님의 취향을 반영해서, " + base
+    return base + sample
