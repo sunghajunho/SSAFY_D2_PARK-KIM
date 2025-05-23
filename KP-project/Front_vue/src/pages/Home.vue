@@ -6,11 +6,6 @@ import RecommendedPreview from '@/components/RecommendedPreview.vue'
 const query = ref('')
 const themeStore = useThemeStore()
 
-// const res = await api.post('/api/recommend/', {
-//   input: null  // 또는 아예 비워둠
-// })
-// const recommendations = res.data.results
-
 function search() {
   if (query.value.trim()) {
     window.location.href = `/results?q=${encodeURIComponent(query.value)}`
@@ -27,6 +22,8 @@ function search() {
       <input v-model="query" class="form-control" placeholder="영화를 찾아보세요..." />
       <button class="btn btn-primary" @click="search">검색</button>
     </div>
+
+    <hr class="my-4" />
 
     <RecommendedPreview />
 
