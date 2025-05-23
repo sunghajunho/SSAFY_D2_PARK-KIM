@@ -6,8 +6,11 @@ import { createPinia } from 'pinia'
 import { useThemeStore } from '@/stores/themeStore'
 
 const app = createApp(App)
-app.use(createPinia())
+const pinia = createPinia()
+app.use(pinia)
 app.use(router)
+
 app.mount('#app')
 
-useThemeStore().initTheme()
+const themeStore = useThemeStore(pinia)
+themeStore.initTheme()
