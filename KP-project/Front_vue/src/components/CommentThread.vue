@@ -51,15 +51,19 @@ function cancelEdit() {
   editBuffer.value = ''
 }
 
-function submitEdit(commentId) {
-  store.updateComment(commentId, editBuffer.value)
+function submitEdit(articleId,commentId) {
+  store.updateComment(articleId,commentId, editBuffer.value)
   cancelEdit()
 }
 
-function handleDelete(commentId) {
+function handleDelete(articleId,commentId) {
   if (confirm('댓글을 삭제하시겠습니까?')) {
-    store.deleteComment(commentId)
+    store.deleteComment(articleId,commentId)
   }
+}
+
+function handleCommentLike(commentId) {
+  store.toggleCommentLike(props.reviewId, commentId)
 }
 
 onMounted(() => {
@@ -92,17 +96,21 @@ onMounted(() => {
         <small class="text-muted">
           {{ comment.author }} · {{ comment.created_at }} · 👍 {{ comment.comment_likes || 0 }}
         </small>
+
+        <button @click="handleCommentLike(comment.id)">
+          {{ comment.is_liked ? '💔' : '❤️' }} {{ comment.comment_likes }}
+        </button>
+        
         <div class="mt-2">
           <a href="#" @click.prevent="toggleReply(comment.id)">💬 답글</a>
-          <template v-if="comment.author === userStore.username">
+          <template v-if="comment.author.username === userStore.username">
             <a href="#" @click.prevent="startEdit(comment)">✏️ 수정</a>
-            <a href="#" @click.prevent="handleDelete(comment.id)">🗑 삭제</a>
+            <a href="#" @click.prevent="handleDelete(props.reviewId,comment.id)">🗑 삭제</a>
           </template>
-
           <!-- 수정 폼 -->
           <div v-if="editingCommentId === comment.id" class="mt-2">
             <textarea v-model="editBuffer" class="form-control mb-2" rows="2"></textarea>
-            <button class="btn btn-sm btn-primary" @click="submitEdit(comment.id)">저장</button>
+            <button class="btn btn-sm btn-primary" @click="submitEdit(props.reviewId,comment.id)">저장</button>
             <button class="btn btn-sm btn-secondary ms-2" @click="cancelEdit">취소</button>
           </div>
         </div>
@@ -132,7 +140,7 @@ onMounted(() => {
           >
             <p class="mb-1">{{ reply.content }}</p>
             <small class="text-muted">
-              {{ reply.author }} · {{ reply.created_at }} · 👍 {{ reply.comment_likes || 0 }}
+              {{ reply.author.nickname }} · {{ reply.created_at }}
             </small>
           </div>
         </div>
