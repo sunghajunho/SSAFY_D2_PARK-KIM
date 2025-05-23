@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Article, Comment  # ✅ 모델 클래스 명시적 import
 from django.contrib.auth import get_user_model
 from accounts.serializers import CustomUserSerializer
+from core.models import Genre, Movie
 
 User = get_user_model()
 
@@ -24,8 +25,11 @@ class CommentSerializer(serializers.ModelSerializer):
 class ArticleSerializer(serializers.ModelSerializer):
     author = CustomUserSerializer(read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
-    movie_title = serializers.CharField(source='movie.title', read_only=True)
-    movie_genres = serializers.SerializerMethodField()
+    movie_title = serializers.PrimaryKeyRelatedField(queryset=Movie.objects.all())
+    genre = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Genre.objects.all()
+    )
 
     class Meta:
         model = Article  # ✅ 문자열이 아닌 클래스 참조로 수정

@@ -23,6 +23,7 @@ export const useReviewStore = defineStore('review', {
       try {
         const res = await api.get(`/community/articles/${id}/`)
         this.currentReview = res.data
+        console.log(this.currentReview.author.nickname)
       } catch (e) {
         console.error('리뷰 상세 불러오기 실패', e)
       }

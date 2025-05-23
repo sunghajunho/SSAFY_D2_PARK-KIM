@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Movie, Genre
-from .serializers import GenreSerializer
+from .serializers import GenreSerializer, MovieSerializer
 # Create your views here.
 def home(request):
     return render(request,'core/home.html')
@@ -12,17 +12,9 @@ def home(request):
 def search_movie(request):
     title = request.GET.get('title', '')
     movies = Movie.objects.filter(title__icontains=title)
+    serializer = MovieSerializer(movies,many=True)
 
-    results = [
-        {
-            'id': movie.id,
-            'title': movie.title,
-            'genres': [genre.name for genre in movie.genres.all()]
-        }
-        for movie in movies
-    ]
-
-    return Response(results)
+    return Response(serializer.data)
 
 class GenreListView(APIView):
     def get(self, request):

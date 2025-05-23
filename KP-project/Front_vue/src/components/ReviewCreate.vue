@@ -48,14 +48,15 @@
       <textarea v-model="content" class="form-control" rows="5" required />
     </div>
     <div>
-      <select v-model="genre" v-if="isManualMode">
-        <option v-for="g in allGenres" :key="g.id" :value="g.name">
-          {{ g.name }}
-        </option>
-      </select>
-      <button @click="isManualMode = !isManualMode">
-        {{ isManualMode ? '자동 모드로 전환' : '직접 선택 모드' }}
-      </button>
+      <label for="form-label">장르</label>
+      <label v-for="g in allGenres" :key="g.id">
+        <input
+          type="checkbox"
+          :value="g.id"
+          v-model="genres"
+        />
+        {{ g.name }}
+      </label>
     </div>
     <button type="submit" class="btn btn-primary">등록</button>
   </form>
@@ -70,34 +71,15 @@ import axios from 'axios'
 const reviewStore = useReviewStore()
 const title = ref('')
 const content = ref('')
-const genre = ref('')
-// const movieTitle = ref('')
-// const searchResults = ref([])
-// const selectedMovie = ref(null)
+const genres = ref([])
 const query = ref('')
 const results = ref([])
 const selectedMovie = ref(null)
 const selectedIndex = ref(-1)
 const allGenres = ref([])
-const isManualMode = ref(false)
 
 const emit = defineEmits(['submit'])
 
-// const searchMovie = async () => {
-//   try {
-//     const res = await axios.get(`http://localhost:8000/movies/search/`, {
-//       params: { title: movieTitle.value }
-//     })
-//     searchResults.value = res.data
-//   } catch (err) {
-//     console.error('검색 실패:', err)
-//     searchResults.value = []
-//   }
-// }
-
-// const selectMovie = (movie) => {
-//   selectedMovie.value = movie
-// }
 
 const onSearch = async () => {
   selectedIndex.value = -1
@@ -121,14 +103,15 @@ const onSearch = async () => {
 
 const selectMovie = (movie) => {
   selectedMovie.value = movie
+  console.log(movie.genres)
   query.value = movie.title
   results.value = []
   selectedIndex.value = -1
 
   if (movie.genres && movie.genres.length > 0) {
-    genre.value = movie.genres.map(g => g.name).join(', ')
+    genres.value = movie.genres.map(g => g.id)
   } else {
-    genre.value = ''
+    genres.value = []
   }
 }
 
@@ -138,10 +121,12 @@ onMounted(async () => {
 })
 
 async function submit() {
+  console.log('rksk',selectedMovie.value)
   const newID = await reviewStore.createReview({
     title: title.value,
     content: content.value,
-    genre: genre.value
+    movie_title: selectedMovie.value.id,
+    genre: genres.value,
   })
   console.log('서버 응답 newID:', newID)
 
@@ -150,6 +135,8 @@ async function submit() {
   // 폼 초기화
   title.value = ''
   content.value = ''
-  genre.value = ''
+  genres.value = []
+  query.value = ''
+  selectedMovie.value = null
 }
 </script>

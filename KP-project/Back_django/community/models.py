@@ -7,7 +7,7 @@ class Article(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     movie_title = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='articles')
-    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, related_name='articles')
+    genre = models.ManyToManyField(Genre, related_name='articles')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     article_likes = models.PositiveIntegerField(default=0)
