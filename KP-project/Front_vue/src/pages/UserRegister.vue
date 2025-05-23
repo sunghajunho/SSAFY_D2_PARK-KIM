@@ -1,5 +1,6 @@
 <template>
   <form @submit.prevent="onRegister">
+    <!-- 기본 정보 입력 -->
     <label>Username:</label>
     <input type="text" v-model="form.username" />
 
@@ -31,59 +32,47 @@
     <label>MBTI:</label>
     <select v-model="form.mbti">
       <option disabled value="">MBTI 선택</option>
-      <option>INTP</option>
-      <option>INFP</option>
-      <option>INFJ</option>
-      <option>INTJ</option>
-      <option>ISFP</option>
-      <option>ISFJ</option>
-      <option>ISTP</option>
-      <option>ISTJ</option>
-      <option>ENFP</option>
-      <option>ENFJ</option>
-      <option>ENTP</option>
-      <option>ENTJ</option>
-      <option>ESFP</option>
-      <option>ESFJ</option>
-      <option>ESTP</option>
-      <option>ESTJ</option>
+      <option>INTP</option><option>INFP</option><option>INFJ</option><option>INTJ</option>
+      <option>ISFP</option><option>ISFJ</option><option>ISTP</option><option>ISTJ</option>
+      <option>ENFP</option><option>ENFJ</option><option>ENTP</option><option>ENTJ</option>
+      <option>ESFP</option><option>ESFJ</option><option>ESTP</option><option>ESTJ</option>
     </select>
 
     <label>Region:</label>
     <select v-model="form.region">
       <option disabled value="">지역 선택</option>
-      <option>서울</option>
-      <option>부산</option>
-      <option>대구</option>
-      <option>인천</option>
-      <option>광주</option>
-      <option>대전</option>
-      <option>울산</option>
-      <option>세종</option>
-      <option>경기</option>
-      <option>강원</option>
-      <option>충북</option>
-      <option>충남</option>
-      <option>전남</option>
-      <option>전북</option>
-      <option>경북</option>
-      <option>경남</option>
-      <option>제주</option>
+      <option>서울</option><option>부산</option><option>대구</option><option>인천</option>
+      <option>광주</option><option>대전</option><option>울산</option><option>세종</option>
+      <option>경기</option><option>강원</option><option>충북</option><option>충남</option>
+      <option>전남</option><option>전북</option><option>경북</option><option>경남</option><option>제주</option>
     </select>
 
-    <label>선호 장르 ID 목록 (예: 1,2,3):</label>
-    <input v-model="genreInput" placeholder="장르 ID 쉼표로 입력" />
+    <!-- ✅ 선호 장르 체크박스 방식 -->
+    <label>선호 장르 선택:</label>
+    <div v-for="genre in genres" :key="genre.id">
+      <input
+        type="checkbox"
+        :value="genre.id"
+        v-model="form.preferred_genres"
+      />
+      {{ genre.name }}
+    </div>
 
     <button type="submit">회원가입</button>
+
+    <p v-if="errorMsg" class="text-danger mt-2">{{ errorMsg }}</p>
   </form>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 import { useUserStore } from '@/stores/userStore'
+import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
-
+const router = useRouter()
+// ✅ 회원가입 폼 데이터
 const form = ref({
   username: '',
   email: '',
@@ -98,14 +87,38 @@ const form = ref({
   preferred_genres: []
 })
 
-const genreInput = ref('')
+// ✅ 장르 목록 불러오기용 ref
+const genres = ref([])
 
+onMounted(async () => {
+  try {
+    const res = await axios.get('http://127.0.0.1:8000/accounts/genres/')
+    genres.value = res.data
+  } catch (err) {
+    console.error('장르 목록 불러오기 실패:', err)
+  }
+})
+
+const errorMsg = ref('')
+
+// ✅ 회원가입 요청
 const onRegister = async () => {
-  form.value.preferred_genres = genreInput.value
-    .split(',')
-    .map(str => parseInt(str.trim()))
-    .filter(id => !isNaN(id))
+  errorMsg.value = ''  // 에러 메시지 초기화
 
-  await userStore.register(form.value)
+  try {
+    await userStore.register(form.value)
+    router.push('/')  // 성공 시 홈으로 이동
+  } catch (error) {
+    if (error.response?.data) {
+      const errorData = error.response.data
+      const firstKey = Object.keys(errorData)[0]
+      errorMsg.value = `${firstKey}: ${errorData[firstKey]}`
+    } else {
+      errorMsg.value = '알 수 없는 오류가 발생하였습니다.'
+    }
+    // 실패 시 alert로 알림
+    alert(errorMsg.value)
+  }
 }
 </script>
+

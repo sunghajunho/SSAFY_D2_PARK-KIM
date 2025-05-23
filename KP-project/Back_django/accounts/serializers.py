@@ -1,7 +1,8 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import UserDetailsSerializer
 from rest_framework import serializers
-from .models import CustomUser, Genre, UserGenrePreference, Follow
+from .models import CustomUser, UserGenrePreference, Follow
+from core.models import Genre
 
 class CustomRegisterSerializer(RegisterSerializer):
     real_name = serializers.CharField(required=True)
@@ -58,7 +59,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
                 "name": pref.genre.name,
                 "priority": pref.priority
             }
-            for pref in user.usergenrepref_set.all().order_by('priority')
+            for pref in user.genre_preferences.all().order_by('priority')
         ]
     
 class FollowSerializer(serializers.ModelSerializer):

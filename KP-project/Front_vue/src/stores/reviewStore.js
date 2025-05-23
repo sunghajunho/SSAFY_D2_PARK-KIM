@@ -23,6 +23,7 @@ export const useReviewStore = defineStore('review', {
       try {
         const res = await api.get(`/community/articles/${id}/`)
         this.currentReview = res.data
+        console.log(this.currentReview.author.nickname)
       } catch (e) {
         console.error('리뷰 상세 불러오기 실패', e)
       }
@@ -32,8 +33,10 @@ export const useReviewStore = defineStore('review', {
       try {
         const res = await api.post('/community/articles/', data)
         this.reviews.unshift(res.data)
+        return res.data.id
       } catch (e) {
-        console.error('리뷰 작성 실패', e)
+        console.error('리뷰 작성 실패', e.response?.data || e)
+        return null
       }
     },
 
@@ -41,7 +44,6 @@ export const useReviewStore = defineStore('review', {
       try {
         const res = await api.put(`/community/articles/${id}/`, data)
         this.currentReview = res.data
-        // 리스트도 갱신
         this.reviews = this.reviews.map((r) =>
           r.id === id ? res.data : r
         )
@@ -110,6 +112,11 @@ export const useReviewStore = defineStore('review', {
 
     getReplies(parentId) {
       return this.comments.filter((c) => c.parent === parentId)
+    },
+
+    // ⭐ 작성자 기준 리뷰 필터링
+    getReviewsByAuthor(authorUsername) {
+      return this.reviews.filter((r) => r.author.username === authorUsername)
     },
   },
 })

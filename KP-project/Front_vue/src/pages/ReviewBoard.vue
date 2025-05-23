@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useReviewStore } from '@/stores/reviewStore'
-import { useRouter } from 'vue-router'
+import { useRouter,RouterLink } from 'vue-router'
 
 const store = useReviewStore()
 const router = useRouter()
@@ -15,7 +15,7 @@ onMounted(() => {
   <div class="container mt-4">
     <h2 class="mb-3">📝 전체 리뷰</h2>
     <div class="mb-3 text-end">
-      <router-link to="/reviews/create" class="btn btn-primary btn-sm">+ 글쓰기</router-link>
+      <router-link :to="{ name: 'ReviewWrite'}" class="btn btn-primary btn-sm">+ 글쓰기</router-link>
     </div>
     <div v-if="store.reviews.length === 0" class="text-muted">
       등록된 리뷰가 없습니다.

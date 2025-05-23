@@ -1,50 +1,61 @@
 // src/stores/userStore.js
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import axios from 'axios'
-
-const ACCOUNT_API_URL = 'http://127.0.0.1:8000/accounts'
+import api from '@/api/axios'  // ✅ 공통 인스턴스를 사용
 
 export const useUserStore = defineStore('user', () => {
+  const ACCOUNT_API_URL = 'accounts'  // baseURL에서 이미 / 붙었음
+
   const token = ref(localStorage.getItem('token') || '')
   const username = ref(localStorage.getItem('username') || '')
+  const nickname = ref(localStorage.getItem('nickname') || '')
 
   const isLoggedIn = computed(() => !!token.value)
 
-  const register = async (userInfo) => {
+  // ✅ 회원가입
+  const register = async (form) => {
     try {
-      const res = await axios.post(`${ACCOUNT_API_URL}/signup/`, userInfo)
+      const res = await api.post(`${ACCOUNT_API_URL}/signup/`, form)
       token.value = res.data.key
       localStorage.setItem('token', token.value)
       await fetchUserInfo()
     } catch (err) {
       console.error('회원가입 실패:', err.response?.data || err)
+      throw err
     }
   }
 
-  const login = async ({ email, password }) => {
+  // ✅ 로그인
+  const logIn = async ({ username, password }) => {
     try {
-      const res = await axios.post(`${ACCOUNT_API_URL}/login/`, { email, password })
+      const res = await api.post(`${ACCOUNT_API_URL}/login/`, {
+        username,
+        password,
+      })
       token.value = res.data.key
       localStorage.setItem('token', token.value)
       await fetchUserInfo()
+      return true
     } catch (err) {
       console.error('로그인 실패:', err.response?.data || err)
+      return false
     }
   }
 
+  // ✅ 사용자 정보 불러오기
   const fetchUserInfo = async () => {
     try {
-      const res = await axios.get(`${ACCOUNT_API_URL}/user/`, {
-        headers: { Authorization: `Token ${token.value}` }
-      })
+      const res = await api.get(`${ACCOUNT_API_URL}/user/`)
       username.value = res.data.username
+      nickname.value = res.data.nickname
       localStorage.setItem('username', username.value)
-    } catch (e) {
-      console.error('사용자 정보 불러오기 실패:', e)
+      localStorage.setItem('nickname', nickname.value)
+    } catch (err) {
+      console.error('사용자 정보 로드 실패:', err)
     }
   }
 
+  // ✅ 로그아웃
   const logout = () => {
     token.value = ''
     username.value = ''
@@ -52,6 +63,19 @@ export const useUserStore = defineStore('user', () => {
     localStorage.removeItem('username')
   }
 
-  return { token, username, isLoggedIn, register, login, logout }
+  return {
+    token,
+    username,
+    nickname,
+    isLoggedIn,
+    register,
+    logIn,
+    fetchUserInfo,
+    logout,
+  }
+}, {
+  persist: true,
 })
+
+
 
