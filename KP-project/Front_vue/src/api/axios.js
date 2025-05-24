@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { useUserStore } from '@/stores/userStore'
 import { getActivePinia, setActivePinia, createPinia } from 'pinia'
+import router from '@/router' // ✅ 라우터 접근 추가
 
 /* ------------------------------------------------------------------
    1. 공통 인스턴스
@@ -36,12 +37,32 @@ api.interceptors.request.use((config) => {
   // (3) 토큰 주입
   if (token) {
     config.headers = {
-      ...config.headers,                // 기존 헤더 유지
+      ...config.headers,
       Authorization: `Token ${token}`,
     }
   }
 
   return config
 })
+
+/* ------------------------------------------------------------------
+   3. 응답 인터셉터 (401 처리)
+      - 인증 실패 시 로그아웃 + 로그인 페이지 이동
+   ----------------------------------------------------------------- */
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response?.status === 401) {
+      alert('세션이 만료되었습니다. 다시 로그인해 주세요.')
+      if (!getActivePinia()) {
+        setActivePinia(createPinia())
+      }
+      const userStore = useUserStore()
+      userStore.logout()
+      router.push('/login')
+    }
+    return Promise.reject(error)
+  }
+)
 
 export default api

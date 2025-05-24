@@ -40,10 +40,13 @@ const error = ref('')
 const onLogIn = async () => {
   try {
     await userStore.logIn({ username: username.value, password: password.value })
-    router.push('/profile')
+
+    const nextRoute = router.currentRoute.value.query.next
+    router.push(nextRoute || '/profile')  // 👈 next 있으면 복귀, 없으면 /profile
   } catch (err) {
     error.value = '로그인 실패. 정보를 확인하세요.'
     console.error(err)
   }
 }
+
 </script>
