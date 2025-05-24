@@ -17,7 +17,6 @@ const articleLikes = computed(() => reviewStore.currentReview?.article_likes ?? 
 onMounted(async () => {
   await reviewStore.fetchReview(reviewId)
   await reviewStore.fetchComments(reviewId)
-  console.log(reviewStore.currentReview)
 })
 
 async function deleteReview() {

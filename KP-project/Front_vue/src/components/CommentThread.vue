@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted,computed } from 'vue'
 import { useReviewStore } from '@/stores/reviewStore'
 import { useUserStore } from '@/stores/userStore'
 
@@ -69,6 +69,18 @@ function handleCommentLike(commentId) {
 onMounted(() => {
   loadComments()
 })
+
+// ✅ 정렬된 댓글 계산
+const sortedComments = computed(() => {
+  return [...store.getCommentsByReviewId(props.reviewId)]
+    .sort((a, b) => {
+      if (b.comment_likes === a.comment_likes) {
+        // 좋아요 수가 같으면 created_at이 빠른 순서
+        return new Date(a.created_at) - new Date(b.created_at)
+      }
+      return b.comment_likes - a.comment_likes
+    })
+})
 </script>
 
 <template>
@@ -86,15 +98,16 @@ onMounted(() => {
     </form>
 
     <!-- 댓글 리스트 -->
+           <!-- v-for="comment in store.getCommentsByReviewId(props.reviewId)" -->
     <div
-      v-for="comment in store.getCommentsByReviewId(props.reviewId)"
+      v-for="comment in sortedComments"
       :key="comment.id"
       class="mb-3"
     >
       <div class="p-2 bg-light border rounded">
         <p class="mb-1">{{ comment.content }}</p>
         <small class="text-muted">
-          {{ comment.author }} · {{ comment.created_at }} · 👍 {{ comment.comment_likes || 0 }}
+          {{ comment.author.nickname }} · {{ comment.created_at }}
         </small>
 
         <button @click="handleCommentLike(comment.id)">

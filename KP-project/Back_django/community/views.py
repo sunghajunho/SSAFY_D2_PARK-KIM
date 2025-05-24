@@ -37,8 +37,6 @@ class ArticleViewSet(viewsets.ModelViewSet):
         article = self.get_object()
         user = request.user
 
-        print(request.META.get('HTTP_AUTHORIZATION'))
-
         if article.liked_users.filter(pk=user.pk).exists():
             article.liked_users.remove(user)
             liked = False
@@ -62,7 +60,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     authentication_classes = [SessionAuthentication, TokenAuthentication]  # ✅ 추가됨
 
     def get_serializer_context(self):  # ✅ context에 request 추가
@@ -93,7 +91,6 @@ class CommentViewSet(viewsets.ModelViewSet):
             comment.liked_users.remove(user)
             liked = False
         else:
-            print('확인')
             comment.liked_users.add(user)
             liked = True
 

@@ -120,20 +120,23 @@ export const useReviewStore = defineStore('review', {
       }
     },
 
-
     async toggleCommentLike(articleId, commentId) {
       try {
-        const res = await api.post(`/community/articles/${articleId}/comments/${commentId}/like/`)
-        const updatedComment = res.data
+        // 좋아요 토글 요청
+        const res = await api.post(`/community/articles/${articleId}/comments/${commentId}/like/`);
+        const updatedLikeData = res.data; // { liked: true/false, comment_likes: 3 }
 
-        // 🔽 전체 객체 교체 방식
-        this.comments = this.comments.map(c =>
-          c.id === commentId ? updatedComment : c
-        )
+        // 해당 댓글 객체 갱신
+        this.comments = this.comments.map((c) =>
+          c.id === commentId
+            ? { ...c, is_liked: updatedLikeData.liked, comment_likes: updatedLikeData.comment_likes }
+            : c
+        );
       } catch (e) {
-        console.error('댓글 좋아요 실패', e)
+        console.error('댓글 좋아요 실패', e);
       }
     },
+
 
     getCommentsByReviewId(reviewId) {
       return this.comments.filter((c) => c.article === reviewId && c.parent === null)
