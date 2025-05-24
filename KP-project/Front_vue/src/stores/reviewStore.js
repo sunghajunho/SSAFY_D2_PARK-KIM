@@ -23,7 +23,7 @@ export const useReviewStore = defineStore('review', {
       try {
         const res = await api.get(`/community/articles/${id}/`)
         this.currentReview = res.data
-        console.log(this.currentReview.author.nickname)
+        console.log(this.currentReview.article_likes)
       } catch (e) {
         console.error('리뷰 상세 불러오기 실패', e)
       }
@@ -61,6 +61,21 @@ export const useReviewStore = defineStore('review', {
       }
     },
 
+    async toggleReviewLike(reviewId) {
+      try {
+        const res = await api.post(`/community/articles/${reviewId}/like/`)
+        const { article_likes, liked } = res.data
+
+        if (this.currentReview && this.currentReview.id === reviewId) {
+          this.currentReview.article_likes = article_likes
+          this.currentReview.is_liked = liked
+        }
+
+      } catch (e) {
+        console.error('게시글 좋아요 실패:', e)
+      }
+    },
+
     // ===== 댓글 =====
     async fetchComments(reviewId) {
       try {
@@ -73,8 +88,7 @@ export const useReviewStore = defineStore('review', {
 
     async addComment(reviewId, content, parentId = null) {
       try {
-        const res = await api.post('/community/comments/', {
-          article: reviewId,
+        const res = await api.post(`/community/articles/${reviewId}/comments/`, {
           content,
           parent: parentId,
         })
@@ -84,9 +98,9 @@ export const useReviewStore = defineStore('review', {
       }
     },
 
-    async updateComment(commentId, content) {
+    async updateComment(articleId, commentId, content) {
       try {
-        const res = await api.put(`/community/comments/${commentId}/`, {
+        const res = await api.put(`/community/articles/${articleId}/comments/${commentId}/`, {
           content,
         })
         this.comments = this.comments.map((c) =>
@@ -97,14 +111,32 @@ export const useReviewStore = defineStore('review', {
       }
     },
 
-    async deleteComment(commentId) {
+    async deleteComment(articleId, commentId) {
       try {
-        await api.delete(`/community/comments/${commentId}/`)
+        await api.delete(`/community/articles/${articleId}/comments/${commentId}/`)
         this.comments = this.comments.filter((c) => c.id !== commentId)
       } catch (e) {
         console.error('댓글 삭제 실패', e)
       }
     },
+
+    async toggleCommentLike(articleId, commentId) {
+      try {
+        // 좋아요 토글 요청
+        const res = await api.post(`/community/articles/${articleId}/comments/${commentId}/like/`);
+        const updatedLikeData = res.data; // { liked: true/false, comment_likes: 3 }
+
+        // 해당 댓글 객체 갱신
+        this.comments = this.comments.map((c) =>
+          c.id === commentId
+            ? { ...c, is_liked: updatedLikeData.liked, comment_likes: updatedLikeData.comment_likes }
+            : c
+        );
+      } catch (e) {
+        console.error('댓글 좋아요 실패', e);
+      }
+    },
+
 
     getCommentsByReviewId(reviewId) {
       return this.comments.filter((c) => c.article === reviewId && c.parent === null)

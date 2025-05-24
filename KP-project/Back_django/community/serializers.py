@@ -9,6 +9,8 @@ User = get_user_model()
 class CommentSerializer(serializers.ModelSerializer):
     author = CustomUserSerializer(read_only=True)
     replies = serializers.SerializerMethodField()
+    comment_likes = serializers.SerializerMethodField()
+    is_liked = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
@@ -20,6 +22,16 @@ class CommentSerializer(serializers.ModelSerializer):
         if obj.replies.exists():
             return self.__class__(obj.replies.all(), many=True).data
         return []
+    
+    def get_comment_likes(self,obj):
+        return obj.liked_users.count()
+    
+    def get_is_liked(self, obj):
+        request = self.context.get('request',None)
+        user = getattr(request,'user',None)
+        if user and request.user.is_authenticated:
+            return obj.liked_users.filter(pk=request.user.pk).exists()
+        return False
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -30,6 +42,8 @@ class ArticleSerializer(serializers.ModelSerializer):
         many=True,
         queryset=Genre.objects.all()
     )
+    article_likes = serializers.SerializerMethodField()
+    is_liked = serializers.SerializerMethodField()
 
     class Meta:
         model = Article  # ✅ 문자열이 아닌 클래스 참조로 수정
@@ -40,3 +54,13 @@ class ArticleSerializer(serializers.ModelSerializer):
         if obj.movie:
             return [genre.name for genre in obj.movie.genres.all()]
         return []
+    
+    def get_article_likes(self,obj):
+        return obj.liked_users.count()
+    
+    def get_is_liked(self,obj):
+        request = self.context.get('request',None)
+        user = getattr(request,'user',None)
+        if user and request.user.is_authenticated:
+            return obj.liked_users.filter(pk=request.user.pk).exists()
+        return False

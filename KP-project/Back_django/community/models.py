@@ -12,6 +12,7 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     article_likes = models.PositiveIntegerField(default=0)
     views = models.PositiveIntegerField(default=0)
+    liked_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_articles', blank=True)
 
 class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
@@ -21,5 +22,10 @@ class Comment(models.Model):
     comment_likes = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    liked_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='liked_comments',
+        blank=True
+    )
 
 

@@ -15,8 +15,14 @@ class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all().order_by('-created_at')
     serializer_class = ArticleSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
-    authentication_classes = [SessionAuthentication, TokenAuthentication]  # ✅ 추가됨
+    authentication_classes = [TokenAuthentication]  # ✅ 추가됨
 
+    def get_serializer_context(self):  # ✅ context에 request 추가
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
+    
+    # @action(detail=True, methods=['post'],authentication_classes = [TokenAuthentication],permission_classes=[permissions.IsAuthenticated])
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
@@ -26,12 +32,22 @@ class ArticleViewSet(viewsets.ModelViewSet):
         instance.save()
         return super().retrieve(request, *args, **kwargs)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post'],permission_classes=[permissions.IsAuthenticated])  # ✅ detail=True는 pk 기반
     def like(self, request, pk=None):
         article = self.get_object()
-        article.article_likes += 1
-        article.save()
-        return Response({'article_likes': article.article_likes})
+        user = request.user
+
+        if article.liked_users.filter(pk=user.pk).exists():
+            article.liked_users.remove(user)
+            liked = False
+        else:
+            article.liked_users.add(user)
+            liked = True
+
+        return Response({
+            'liked': liked,
+            'article_likes': article.liked_users.count()
+        })
 
     @action(detail=False)
     def search(self, request):
@@ -44,8 +60,13 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     authentication_classes = [SessionAuthentication, TokenAuthentication]  # ✅ 추가됨
+
+    def get_serializer_context(self):  # ✅ context에 request 추가
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
 
     def get_queryset(self):
         return Comment.objects.filter(article_id=self.kwargs['article_pk'], parent=None)
@@ -59,4 +80,22 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=request.user, article=article)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    @action(detail=True, methods=['post'],permission_classes=[permissions.IsAuthenticated])
+    def like(self, request, article_pk=None, pk=None):
+        comment = self.get_object()
+        print(comment)
+        user = request.user
+
+        if comment.liked_users.filter(pk=user.pk).exists():
+            comment.liked_users.remove(user)
+            liked = False
+        else:
+            comment.liked_users.add(user)
+            liked = True
+
+        return Response({
+            'liked':liked,
+            'comment_likes': comment.liked_users.count()
+        })
 

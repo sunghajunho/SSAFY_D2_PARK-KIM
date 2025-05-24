@@ -9,3 +9,7 @@ genres = [
 
 for name in genres:
     Genre.objects.get_or_create(name=name)
+
+
+
+

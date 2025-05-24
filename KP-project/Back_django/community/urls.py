@@ -11,11 +11,12 @@ urlpatterns = [
         'get': 'list',
         'post': 'create'
     })),
+    path('articles/<int:pk>/like/', ArticleViewSet.as_view({'post': 'like'})),
     path('articles/<int:article_pk>/comments/<int:pk>/', CommentViewSet.as_view({
         'put': 'update',
         'delete': 'destroy'
     })),
     path('articles/<int:article_pk>/comments/<int:pk>/like/', CommentViewSet.as_view({
-    'post': 'like'
+        'post': 'like'
     })),
 ]
