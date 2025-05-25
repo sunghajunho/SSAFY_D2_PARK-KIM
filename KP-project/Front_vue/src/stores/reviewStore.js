@@ -7,13 +7,28 @@ export const useReviewStore = defineStore('review', {
     reviews: [],
     currentReview: null,
     comments: [],
+    totalCount: 0,
+    next: null,
+    previous: null,
   }),
 
   actions: {
-    async fetchReviews() {
+    async fetchReviews(sort='',page=1, q='') {
       try {
-        const res = await api.get('/community/articles/')
-        this.reviews = res.data
+        const endpoint = q ? '/community/articles/search/' : '/community/articles/'
+        const res = await api.get(endpoint, { params: { sort, page, q } })
+
+        if (res.data.results) {
+          this.reviews = res.data.results
+          this.totalCount = res.data.count
+          this.next = res.data.next
+          this.previous = res.data.previous
+        } else {
+          this.reviews = res.data  // 검색 API가 pagination 없으면 이렇게 처리
+          this.totalCount = res.data.length
+          this.next = null
+          this.previous = null
+        }
       } catch (e) {
         console.error('리뷰 리스트 불러오기 실패', e)
       }
@@ -80,9 +95,10 @@ export const useReviewStore = defineStore('review', {
     async fetchComments(reviewId) {
       try {
         const res = await api.get(`/community/articles/${reviewId}/comments/`)
-        this.comments = res.data
+        this.comments = res.data.results
       } catch (e) {
         console.error('댓글 로딩 실패', e)
+        this.comments = []
       }
     },
 

@@ -7,12 +7,20 @@ from .models import CustomUser, Follow
 from core.models import Genre
 from rest_framework import status, viewsets, generics, permissions, serializers
 from rest_framework.authentication import TokenAuthentication
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
+
 
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        serializer = CustomUserSerializer(request.user)
+    def get(self, request, username=None):
+        if username:
+            user = get_object_or_404(get_user_model(), username=username)
+        else:
+            user = request.user
+        
+        serializer = CustomUserSerializer(user)
         return Response(serializer.data)
 
     def put(self, request):

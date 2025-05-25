@@ -1,31 +1,47 @@
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted,ref } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useReviewStore } from '@/stores/reviewStore'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const userStore = useUserStore()
 const reviewStore = useReviewStore()
 
-// ✅ 마운트 시 리뷰/댓글 미리 가져오기
-// onMounted(() => {
-//   reviewStore.fetchReviews()
-//   reviewStore.fetchComments()
-// })
+const profile = ref('')
+const usernameParam = route.params.username
+
+const fetchProfile = async () => {
+  if (usernameParam) {
+    profile.value = await userStore.getUserProfile(usernameParam)
+  } else  {
+    // 내 프로필
+    await userStore.fetchUserInfo()
+    profile.value = {
+      username: userStore.username,
+      nickname: userStore.nickname
+    }
+  }
+}
+
+onMounted(() => {
+  fetchProfile()
+})
 
 // ✅ 반응형 computed로 필터링
 const myReviews = computed(() =>
-  reviewStore.getReviewsByAuthor(userStore.username)
+  reviewStore.getReviewsByAuthor(profile.value?.username)
 )
 
 const myComments = computed(() =>
-  reviewStore.comments.filter(c => c.author?.username === userStore.username)
+  reviewStore.comments.filter(c => c.author?.username === profile.value?.username)
 )
 </script>
 
 <template>
   <div class="container mt-5">
-    <h2 class="mb-3">👤 내 프로필</h2>
-    <p class="text-muted">사용자명: <strong>{{ userStore.username }}</strong></p>
+    <h2 class="mb-3">👤 {{ usernameParam ? profile.nickname + '의 프로필' : '내 프로필' }}</h2>
+    <p class="text-muted">사용자명: <strong>{{ profile.username }}</strong></p>
 
     <hr />
 

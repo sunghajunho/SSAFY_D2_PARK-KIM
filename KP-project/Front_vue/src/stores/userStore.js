@@ -63,6 +63,18 @@ export const useUserStore = defineStore('user', () => {
     localStorage.removeItem('username')
   }
 
+  // ✅ 특정 사용자 프로필 가져오기
+  const getUserProfile = async (usernameParam) => {
+    try {
+      const res = await api.get(`/accounts/profile/${usernameParam}/`)
+      return res.data
+    } catch (err) {
+      console.error('사용자 프로필 로드 실패:', err)
+      return null
+    }
+  }
+
+
   return {
     token,
     username,
@@ -72,6 +84,7 @@ export const useUserStore = defineStore('user', () => {
     logIn,
     fetchUserInfo,
     logout,
+    getUserProfile,
   }
 }, {
   persist: true,

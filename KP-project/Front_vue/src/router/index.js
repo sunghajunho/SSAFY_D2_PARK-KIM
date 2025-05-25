@@ -18,7 +18,8 @@ const routes = [
   { path: '/reviews', name: 'ReviewBoard', component: ReviewBoard },
   { path: '/login', name: 'UserLogin', component: UserLogin },
   { path: '/register', name: 'UserRegister', component: UserRegister },
-  { path: '/profile', name: 'UserProfile', component: UserProfile, meta: { requiresAuth: true } },
+  { path: '/profile', name: 'MyProfile', component: UserProfile, meta: { requiresAuth: true }},
+  { path: '/profile/:username', name: 'UserProfile', component: UserProfile, meta: { requiresAuth: true } },
   { path: '/reviews/write', name: 'ReviewWrite', component: ReviewCreatePage, meta: { requiresAuth: true } },
   { path: '/reviews/:id', name: 'ReviewDetail', component: ReviewDetail },
 ]
