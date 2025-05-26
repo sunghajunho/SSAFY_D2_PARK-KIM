@@ -6,6 +6,7 @@ import { computed } from 'vue'
 const themeStore = useThemeStore()
 const isDark = computed(() => themeStore.theme === 'dark')
 const userStore = useUserStore()
+
 </script>
 
 <template>

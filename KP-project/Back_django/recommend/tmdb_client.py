@@ -1,6 +1,9 @@
 import os
 import requests
 from typing import Optional, Dict, List
+from core.models import Movie, Genre
+from django.db import transaction
+
 
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 TMDB_BASE_URL = "https://api.themoviedb.org/3"
@@ -36,23 +39,60 @@ def get_movie_details(movie_id: int) -> Optional[Dict]:
 
 
 def enrich_movies(gpt_result: List[Dict]) -> List[Dict]:
-     """GPT가 준 추천 결과(title만 있음)를 TMDB 정보로 풍부하게 만들어줌"""
-     enriched = []
-     for item in gpt_result:
-         movie_data = search_movie_by_title(item["title"])
-         if movie_data:
-            # 1) ko-KR title   2) original_title   3) GPT가 준 title
-            title_ko = (
-                movie_data.get("title")          # 번역된 제목
-                or movie_data.get("original_title")
-                or item["title"]
-            )
-            enriched.append({
-                 "title": title_ko,
-                 "id": movie_data["id"],
-                 "poster_path": movie_data.get("poster_path"),
-                 "overview": movie_data.get("overview", ""),
-                 "rating": movie_data.get("vote_average", "N/A"),
-                 "reason": item.get("description", ""),
-             })
-     return enriched
+    """GPT 추천 결과(title만 있음)를 로컬 DB 우선으로 enrich. 없으면 TMDB fallback"""
+    enriched = []
+
+    for item in gpt_result:
+        title = item["title"].strip()
+        reason = item.get("description", "")
+
+        # ① 로컬 DB에서 title 일치 검색 (대소문자 무시)
+        movie = Movie.objects.filter(title__iexact=title).first()
+
+        # ② 없으면 TMDB API로 보강
+        if not movie:
+            movie_data = search_movie_by_title(title)
+            if not movie_data:
+                # TMDB에서도 못 찾으면 최소한 제목만 반환
+                enriched.append({
+                    "title": title,
+                    "id": None,
+                    "poster_path": None,
+                    "overview": "",
+                    "rating": "정보 없음",
+                    "reason": reason,
+                })
+                continue
+
+            details = get_movie_details(movie_data["id"]) or movie_data
+
+            with transaction.atomic():
+                movie, _ = Movie.objects.update_or_create(
+                    id=details["id"],
+                    defaults={
+                        "title": details.get("title") or details.get("original_title") or title,
+                        "overview": details.get("overview", ""),
+                        "poster_path": details.get("poster_path"),
+                        "release_date": details.get("release_date") or None,
+                        "vote_average": details.get("vote_average") or 0,
+                        "runtime": details.get("runtime") or 0,
+                        "adult": details.get("adult", False),
+                        "original_language": details.get("original_language", "en"),
+                    },
+                )
+                # 장르 연결
+                genre_ids = details.get("genre_ids") or [g["id"] for g in details.get("genres", [])]
+                if genre_ids:
+                    movie.genres.set(genre_ids)
+
+        # 공통 응답 포맷
+        enriched.append({
+            "title": movie.title,
+            "id": movie.id,
+            "poster_path": movie.poster_path,
+            "overview": movie.overview,
+            "rating": movie.vote_average,
+            "reason": reason,
+        })
+
+    return enriched

@@ -66,54 +66,43 @@ watch(() => userStore.username, loadPreviewRecommendations)
       </div>
     </div>
 
-    <!-- 추천 카드 -->
+        <!-- 추천 카드 -->
     <div v-else class="row">
-      <!-- 먼저 보여질 4개 -->
-      <router-link
-        v-for="movie in firstChunk"
-        :key="movie.id"
-        :to="`/detail/${movie.id}`"
-        class="text-decoration-none text-dark col-md-4 mb-3"
+      <div
+        v-for="movie in recommendations"
+        :key="movie.id || movie.title"
+        class="col-md-4 mb-3"
       >
-        <div class="card h-100 shadow-sm">
-          <img
-            v-if="movie.poster_path"
-            :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
-            class="card-img-top preview-img"
-            :alt="movie.title"
-          />
-          <div class="card-body">
-            <h5 class="card-title">{{ movie.title }}</h5>
-            <p class="card-text text-muted small text-truncate-2">
-              {{ movie.overview }}
-            </p>
+        <!-- 🎯 정보 있는 경우: 링크 카드 -->
+        <router-link
+          v-if="movie.id"
+          :to="`/detail/${movie.id}`"
+          class="text-decoration-none text-dark"
+        >
+          <div class="card h-100 shadow-sm">
+            <img
+              v-if="movie.poster_path"
+              :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+              class="card-img-top preview-img"
+              :alt="movie.title"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ movie.title }}</h5>
+              <p class="card-text text-muted small text-truncate-2">
+                {{ movie.overview || '줄거리 정보가 없습니다.' }}
+              </p>
+            </div>
           </div>
-        </div>
-      </router-link>
+        </router-link>
 
-      <!-- 한 박자 뒤에 나머지 카드 -->
-      <router-link
-        v-if="showRest"
-        v-for="movie in restChunk"
-        :key="movie.id"
-        :to="`/detail/${movie.id}`"
-        class="text-decoration-none text-dark col-md-4 mb-3"
-      >
-        <div class="card h-100 shadow-sm">
-          <img
-            v-if="movie.poster_path"
-            :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
-            class="card-img-top preview-img"
-            :alt="movie.title"
-          />
+        <!-- 🔒 정보 없는 경우: 정적 카드 -->
+        <div v-else class="card h-100 shadow-sm text-muted small">
           <div class="card-body">
             <h5 class="card-title">{{ movie.title }}</h5>
-            <p class="card-text text-muted small text-truncate-2">
-              {{ movie.overview }}
-            </p>
+            <p>이 영화의 정보를 아직 찾을 수 없습니다.</p>
           </div>
         </div>
-      </router-link>
+      </div>
     </div>
   </div>
 </template>

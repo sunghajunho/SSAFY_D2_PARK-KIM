@@ -55,6 +55,7 @@ watch(
         :key="movie.id"
       >
         <router-link
+           v-if="movie.id"
           :to="`/detail/${movie.id}`"
           class="text-decoration-none text-dark"
         >
@@ -78,10 +79,10 @@ watch(
             <div class="card-body">
               <h5 class="card-title">{{ movie.title }}</h5>
               <p class="card-text text-muted small">
-                ⭐ 평점: {{ movie.rating }}
+                ⭐ 평점: {{ movie.rating || '정보 없음' }}
               </p>
               <p class="card-text text-muted small">
-                {{ movie.overview }}
+                {{ movie.overview || '줄거리 정보가 없습니다.' }}
               </p>
               <p class="card-text text-muted small fst-italic" v-if="movie.reason">
                 🧠 추천 이유: {{ movie.reason }}
@@ -89,6 +90,13 @@ watch(
             </div>
           </div>
         </router-link>
+          <div v-else class="card h-100 shadow-sm">
+          <!-- 정보를 못 찾은 영화 -->
+          <div class="card-body text-muted small">
+            <h5 class="card-title">{{ movie.title }}</h5>
+            <p>이 영화는 아직 정보가 부족합니다.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

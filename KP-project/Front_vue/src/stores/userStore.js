@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import api from '@/api/axios'  // ✅ 공통 인스턴스를 사용
+import { useRouter } from 'vue-router'  // ✅ 라우터 인스턴스 가져오기
 
 export const useUserStore = defineStore('user', () => {
   const ACCOUNT_API_URL = 'accounts'  // baseURL에서 이미 / 붙었음
@@ -11,6 +12,7 @@ export const useUserStore = defineStore('user', () => {
   const nickname = ref(localStorage.getItem('nickname') || '')
   const id = ref(localStorage.getItem('id') || '')
   const isLoggedIn = computed(() => !!token.value)
+  const router = useRouter()
 
   const model = ref(localStorage.getItem('gpt_model') || 'gpt-3.5-turbo')
 
@@ -85,6 +87,7 @@ export const useUserStore = defineStore('user', () => {
     username.value = ''
     localStorage.removeItem('token')
     localStorage.removeItem('username')
+    router.push('/')
   }
 
   const setModel = (newModel) => {
