@@ -27,7 +27,7 @@ async function fetchAndStoreResults (query) {
 watch(
   searchQuery,
   async (newQuery) => {
-    if (!newQuery) return
+    if (!newQuery || newQuery === movieStore.query) return
     await fetchAndStoreResults(newQuery)
   },
   { immediate: true }
@@ -76,6 +76,9 @@ watch(
               </p>
               <p class="card-text text-muted small">
                 {{ movie.overview }}
+              </p>
+              <p class="card-text text-muted small fst-italic" v-if="movie.reason">
+                🧠 추천 이유: {{ movie.reason }}
               </p>
             </div>
           </div>
