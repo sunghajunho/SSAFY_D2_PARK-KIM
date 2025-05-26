@@ -9,7 +9,10 @@ import ReviewDetail from '@/pages/ReviewDetail.vue'
 import UserLogin from '@/pages/UserLogin.vue'
 import UserRegister from '@/pages/UserRegister.vue'
 import UserProfile from '@/pages/UserProfile.vue'
+import ProfileEdit from '@/pages/ProfileEdit.vue'
 import ReviewCreatePage from '@/pages/ReviewCreatePage.vue'
+import FollowersList from '@/pages/FollowersList.vue'
+import FollowingList from '@/pages/FollowingList.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -20,8 +23,11 @@ const routes = [
   { path: '/register', name: 'UserRegister', component: UserRegister },
   { path: '/profile', name: 'MyProfile', component: UserProfile, meta: { requiresAuth: true }},
   { path: '/profile/:username', name: 'UserProfile', component: UserProfile, meta: { requiresAuth: true } },
+  { path: '/profile/edit', name: 'ProfileEdit', component: ProfileEdit, meta: {requiresAuth: true}},
   { path: '/reviews/write', name: 'ReviewWrite', component: ReviewCreatePage, meta: { requiresAuth: true } },
   { path: '/reviews/:id', name: 'ReviewDetail', component: ReviewDetail },
+  { path: '/profile/:username/followers', name : 'FollowersList', component: FollowersList},
+  { path: '/profile/:username/following', name : 'FollowingList', component: FollowingList},
 ]
 
 const router = createRouter({

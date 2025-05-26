@@ -2,6 +2,9 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from core.models import Genre
 
+def user_profile_image_path(instance, filename):
+    return f'profile_images/user_{instance.id}/{filename}'
+
 class CustomUser(AbstractUser):
     # 사용자 기본 정보 확장
     real_name = models.CharField(max_length=100)
@@ -40,7 +43,12 @@ class CustomUser(AbstractUser):
     preferred_genres = models.ManyToManyField(Genre,blank=True,through='UserGenrePreference', related_name='user_genre')
     # 감정 태그 (ManyToMany → EmotionTag 모델 필요)
     # 시청기록은 WatchHistory로 분리 관리 (다대다 중간 테이블)
-
+    profile_image = models.ImageField(
+        upload_to = user_profile_image_path,
+        blank = True,
+        null = True,
+        default = 'default_profile.jpg'
+        )
     # UI 구성용 메서드
     def __str__(self):
         return self.username

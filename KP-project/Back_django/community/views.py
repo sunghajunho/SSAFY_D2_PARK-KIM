@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.authentication import TokenAuthentication
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from .models import Article, Comment
@@ -87,7 +87,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    authentication_classes = [SessionAuthentication, TokenAuthentication]  # ✅ 추가됨
+    authentication_classes = [TokenAuthentication]  # ✅ 추가됨
 
     def get_serializer_context(self):  # ✅ context에 request 추가
         context = super().get_serializer_context()
