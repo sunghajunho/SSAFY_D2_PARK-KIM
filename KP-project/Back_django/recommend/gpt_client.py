@@ -4,19 +4,20 @@ from openai import OpenAI
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def call_gpt(prompt):
+def call_gpt(prompt, model="gpt-3.5-turbo"):
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model=model,
         messages=[
             {
                 "role": "system",
                 "content": (
-                    "당신은 사용자의 취향을 고려해 영화를 추천해주는 친절한 AI입니다.\n"
-                    "항상 정확히 3개의 영화를 추천해 주세요.\n"
-                    "응답은 반드시 아래와 같은 **JSON 형식**의 배열로만 해 주세요:\n"
-                    "[\n  {\n    \"title\": \"...\",\n    \"description\": \"...\",\n    \"tmdb_hint\": \"...\"\n  },\n  { ... },\n  { ... }\n]\n"
-                    "설명, 마크다운, 여는 말이나 닫는 말 등은 절대 포함하지 마세요.\n"
-                    "반드시 JSON 배열만 출력해 주세요."
+                    "당신은 영화 추천을 도와주는 어시스턴트입니다.\n"
+                    "먼저, 추천의 이유를 한 문장으로 간단히 요약해 주세요.\n"
+                    "그 다음, 아래 형식에 따라 정확히 3개의 영화를 JSON 배열로 출력해 주세요:\n"
+                    "[\n  {\n    \"title\": \"영화 제목\",\n    \"description\": \"추천 이유\",\n    \"tmdb_hint\": \"TMDB에서 검색에 사용할 키워드 또는 감독 이름\"\n  },\n  ...\n]\n"
+                    "응답은 다음과 같은 JSON 객체여야 합니다:\n"
+                    "{\"explanation\": \"요약 문장\", \"recommendations\": [ ... ]}\n"
+                    "추가 설명 없이 위 JSON 형식으로만 응답해 주세요."
                 )
             },
             {"role": "user", "content": prompt}

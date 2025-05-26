@@ -8,15 +8,18 @@ const route       = useRoute()
 const movieStore  = useMovieStore()
 
 const loading     = ref(false)
+const explanation = ref('')
 const searchQuery = computed(() => route.query.q || '')
+const model = computed(() => route.query.model || 'gpt-3.5-turbo')
 const results     = computed(() => movieStore.results)
 
 async function fetchAndStoreResults (query) {
   loading.value = true
   try {
-    const result = await fetchRecommendations(query)
+    const result = await fetchRecommendations(query, model.value)
     movieStore.setQuery(query)
-    movieStore.setResults(result)
+    movieStore.setResults(result.results || result)
+    explanation.value = result.explanation || ''
   } catch (error) {
     console.error('검색 추천 실패:', error)
   } finally {
@@ -36,7 +39,10 @@ watch(
 
 <template>
   <div class="container mt-5">
-    <h2 class="mb-4">🔍 검색어: "{{ searchQuery }}"</h2>
+    <h2 class="mb-4">🔍 추천 결과</h2>
+    <p class="text-muted fst-italic" v-if="explanation">
+      🧠 {{ explanation }}
+    </p>
 
     <div v-if="loading" class="text-muted">
       GPT & TMDB에서 추천을 불러오는 중...
@@ -121,3 +127,4 @@ watch(
   object-fit: cover;
 }
 </style>
+    

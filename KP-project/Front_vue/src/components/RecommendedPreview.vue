@@ -15,17 +15,19 @@ const firstChunk = computed(() => recommendations.value.slice(0, 4))
 const restChunk = computed(() => recommendations.value.slice(4))
 
 async function loadPreviewRecommendations() {
+  const todayKR = new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long',day:'numeric'}).format(new Date())
+
   loading.value = true
   try {
     const prompt = userStore.isLoggedIn
-      ? `${userStore.username}님의 취향에 맞는 최신 영화`
-      : '요즘 인기있는 영화 추천해줘'
+   ? `${todayKR} 기준으로 ${userStore.username}님의 취향에 맞는 최신 영화`
+   : `${todayKR} 기준 인기있는 영화 추천해줘` 
 
     const result = await fetchRecommendations(prompt)
 
-    recommendations.value = result
+    recommendations.value = result.results || result
     movieStore.setQuery('[홈 추천]')
-    movieStore.setResults(result)
+    movieStore.setResults(result.results || result)
 
     showRest.value = false
     await nextTick()
