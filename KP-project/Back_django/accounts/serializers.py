@@ -47,10 +47,11 @@ class CustomRegisterSerializer(RegisterSerializer):
 
 class CustomUserSerializer(serializers.ModelSerializer):
     preferred_genres = serializers.SerializerMethodField()
+    profile_image = serializers.ImageField(required=False)
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'nickname', 'real_name', 'age', 'gender', 'mbti', 'region', 'preferred_genres']
+        fields = ['id','username', 'nickname', 'real_name', 'age', 'gender', 'mbti', 'region', 'preferred_genres','profile_image']
 
     def get_preferred_genres(self, user):
         return [

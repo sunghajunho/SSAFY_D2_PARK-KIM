@@ -6,9 +6,11 @@ router = DefaultRouter()
 router.register(r'follows', views.FollowViewSet)
 
 urlpatterns = [
-    path('profile/', views.UserProfileView.as_view(), name='user-profile'),
+    path('profile/', views.UserProfileView.as_view(), name='my-profile'), 
+    path('profile/<str:username>/', views.UserProfileView.as_view(), name='user-profile'),
     path('', include(router.urls)),
     path('genres/', views.GenreListView.as_view(), name='genre-list'),
+    path('profile/image/delete/',views.delete_profile_image, name='delete_profileimage'),
     path('history/check/<int:tmdb_id>/', views.WatchHistoryCheckView.as_view(), name='watch-history-check'),
     path('history/add/', views.WatchHistoryAddView.as_view(), name='watch-history-add'),
     path('history/remove/<int:tmdb_id>/', views.WatchHistoryRemoveView.as_view(), name='watch-history-remove'),

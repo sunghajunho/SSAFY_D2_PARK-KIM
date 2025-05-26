@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 # settings.py 아래에 넣고 runserver 중 출력 확인
 from dj_rest_auth.registration.views import RegisterView
 print('REGISTER VIEW SERIALIZER:', RegisterView.serializer_class)
@@ -29,4 +31,4 @@ urlpatterns = [
     path('accounts/',include('dj_rest_auth.urls')),
     path('accounts/signup/',include('dj_rest_auth.registration.urls')),
     path('api/recommend/', include('recommend.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
