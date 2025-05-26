@@ -12,6 +12,9 @@ export const useUserStore = defineStore('user', () => {
   const id = ref(localStorage.getItem('id') || '')
   const isLoggedIn = computed(() => !!token.value)
 
+  const model = ref(localStorage.getItem('gpt_model') || 'gpt-3.5-turbo')
+
+
   // ✅ 회원가입
   const register = async (form) => {
     try {
@@ -84,6 +87,11 @@ export const useUserStore = defineStore('user', () => {
     localStorage.removeItem('username')
   }
 
+  const setModel = (newModel) => {
+  model.value = newModel
+  localStorage.setItem('gpt_model', newModel)
+  }
+
   // ✅ 특정 사용자 프로필 가져오기
   const getUserProfile = async (usernameParam) => {
     try {
@@ -144,6 +152,8 @@ export const useUserStore = defineStore('user', () => {
     username,
     nickname,
     isLoggedIn,
+    model,
+    setModel,
     register,
     logIn,
     fetchUserInfo,

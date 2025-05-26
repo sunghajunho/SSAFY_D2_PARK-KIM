@@ -10,8 +10,13 @@ def build_prompt(user_input, username=None, preferred_genres=None, watch_history
     if preferred_genres:
         intro += f"선호 장르는 {', '.join(preferred_genres)}입니다. "
 
-    # 2. 기본 요청 문장
-    core = f"'{user_input}'에 어울리는 영화를 3개 추천해줘."
+    # 2. 기본 요청 문장 (user_input을 핵심으로, 나머지는 참고용으로)
+    core = (
+        f"'{user_input}'에 어울리는 영화를 추천해줘. "
+        "사용자의 선호 장르와 시청 이력도 참고하되, 입력 내용이 가장 중요합니다. "
+        "먼저 추천 이유를 한 문장으로 요약하고, "
+        "그 다음 3개의 영화를 JSON 배열로 제공해줘.\n"
+    )
 
     # 3. 시청 기록 제외 요청
     exclusion = ""

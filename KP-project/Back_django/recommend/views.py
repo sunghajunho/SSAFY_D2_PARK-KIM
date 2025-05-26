@@ -52,15 +52,23 @@ class RecommendationAPIView(APIView):
 
         # 3. GPT 호출
         try:
-            gpt_response_text = call_gpt(prompt)
-            gpt_result = json.loads(gpt_response_text)
+            model = request.data.get("model", "gpt-3.5-turbo")
+            gpt_response_text = call_gpt(prompt, model)
+            parsed = json.loads(gpt_response_text)
+            explanation = parsed.get("explanation", "")
+            gpt_result = parsed.get("recommendations", [])
+
         except Exception as e:
             return Response({"error": f"GPT 응답 처리 실패: {str(e)}"}, status=500)
 
         # 4. TMDB enrich
         enriched = enrich_movies(gpt_result)
 
-        return Response({"results": enriched})
+        return Response({
+            "explanation": explanation,
+            "results": enriched
+        })
+
 
 @api_view(['GET'])
 def tmdb_detail(request, movie_id):
