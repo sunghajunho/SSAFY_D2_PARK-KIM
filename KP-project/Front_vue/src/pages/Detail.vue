@@ -1,13 +1,21 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import api from '@/api/axios'
+import { useMovieStore } from '@/stores/movieStore'
+
+
 
 /* ───── 상태 ─────────────────────────── */
 const route   = useRoute()
 const movie   = ref(null)
 const error   = ref('')
 const loading = ref(true)
+const movieStore = useMovieStore()
+const seen = ref(false)
+const checked = ref(false)
+const liked = ref(false)
+const likeChecked = ref(false)
 
 /* ───── 데이터 fetch ─────────────────── */
 async function fetchMovie () {
@@ -22,9 +30,73 @@ async function fetchMovie () {
     loading.value = false
   }
 }
-onMounted(fetchMovie)
+
+async function checkWatchHistory() {
+  try {
+    const { data } = await api.get(`/accounts/history/check/${route.params.id}/`)
+    seen.value = data.seen
+  } catch (e) {
+    console.error('시청 여부 확인 실패', e)
+  } finally {
+    checked.value = true
+  }
+}
+
+async function addToWatchHistory() {
+  try {
+    await api.post(`/accounts/history/add/`, { tmdb_id: parseInt(route.params.id) })
+    seen.value = true
+  } catch (e) {
+    console.error('시청기록 저장 실패', e)
+  }
+}
+
+async function removeFromWatchHistory() {
+  try {
+    await api.delete(`/accounts/history/remove/${route.params.id}/`)
+    seen.value = false
+  } catch (e) {
+    console.error('시청기록 삭제 실패', e)
+  }
+}
+
+async function checkFavorite() {
+  try {
+    const { data } = await api.get(`/accounts/favorites/check/${route.params.id}/`)
+    liked.value = data.liked
+  } catch (e) {
+    console.error('찜 여부 확인 실패', e)
+  } finally {
+    likeChecked.value = true
+  }
+}
+
+async function toggleFavorite() {
+  try {
+    if (liked.value) {
+      await api.delete(`/accounts/favorites/remove/${route.params.id}/`)
+      liked.value = false
+    } else {
+      await api.post(`/accounts/favorites/add/`, { tmdb_id: parseInt(route.params.id) })
+      liked.value = true
+    }
+  } catch (e) {
+    console.error('찜 토글 실패', e)
+  }
+}
+
+onMounted(() => {
+  fetchMovie()
+})
+
 
 /* ───── 계산 속성 ─────────────────────── */
+const matched = computed(() =>
+  movieStore.results.find(m => m.id === parseInt(route.params.id))
+)
+
+const reason = computed(() => matched.value?.reason || '')
+
 const director = computed(() =>
   movie.value?.credits?.crew?.find((c) => c.job === 'Director')
 )
@@ -48,6 +120,15 @@ const castCards = computed(() => {
   )
   return cards
 })
+
+
+watch(movie, (newVal) => {
+  if (newVal?.id) {
+    checkWatchHistory()
+    checkFavorite()
+  }
+})
+
 
 /* ───── 캐러셀 스크롤 핸들러 ───────────── */
 function scrollByPx (px) {
@@ -87,6 +168,46 @@ function scrollByPx (px) {
           평점 ★ {{ movie.vote_average?.toFixed(1) ?? 'N/A' }}
         </p>
         <p>{{ movie.overview || '줄거리 정보가 없습니다.' }}</p>
+
+        <!-- 찜 여부 표시 -->
+        <!-- ❤️ 찜하기 토글 버튼 -->
+        <!-- 찜 여부 표시 -->
+        <div v-if="likeChecked" class="mt-3">
+          <button
+            class="btn btn-sm"
+            :class="liked ? 'btn-danger' : 'btn-outline-danger'"
+            @click="toggleFavorite"
+          >
+            ❤️ {{ liked ? '찜한 영화입니다' : '찜하기' }}
+          </button>
+        </div>
+
+
+
+        <!-- 시청 여부 표시 -->
+
+        <div v-if="checked" class="mt-3">
+          <button
+            v-if="seen"
+            class="btn btn-outline-secondary btn-sm"
+            @click="removeFromWatchHistory"
+          >
+            👁️ 이미 본 영화입니다 (클릭 시 취소)
+          </button>
+          <button
+            v-else
+            class="btn btn-outline-primary btn-sm"
+            @click="addToWatchHistory"
+          >
+            👁️ 봤어요
+          </button>
+        </div>
+
+        <!-- 🧠 추천 이유 -->
+        <p class="text-muted fst-italic mt-3" v-if="reason">
+          🧠 이 영화를 추천한 이유: {{ reason }}
+        </p>
+
 
         <!-- 장르 -->
         <div v-if="movie.genres?.length">

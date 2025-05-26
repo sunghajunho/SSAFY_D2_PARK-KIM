@@ -11,5 +11,10 @@ urlpatterns = [
     path('', include(router.urls)),
     path('genres/', views.GenreListView.as_view(), name='genre-list'),
     path('profile/image/delete/',views.delete_profile_image, name='delete_profileimage'),
+    path('history/check/<int:tmdb_id>/', views.WatchHistoryCheckView.as_view(), name='watch-history-check'),
+    path('history/add/', views.WatchHistoryAddView.as_view(), name='watch-history-add'),
+    path('history/remove/<int:tmdb_id>/', views.WatchHistoryRemoveView.as_view(), name='watch-history-remove'),
+    path('favorites/check/<int:tmdb_id>/', views.FavoriteCheckView.as_view(), name='favorite-check'),
+    path('favorites/add/', views.FavoriteAddView.as_view(), name='favorite-add'),
+    path('favorites/remove/<int:tmdb_id>/', views.FavoriteRemoveView.as_view(), name='favorite-remove'),
 ]
-

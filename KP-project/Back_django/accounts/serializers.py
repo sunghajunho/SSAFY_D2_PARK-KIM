@@ -77,3 +77,6 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
             'real_name', 'nickname', 'age',
             'gender', 'mbti', 'region'
         )
+        
+class WatchHistorySerializer(serializers.Serializer):
+    tmdb_id = serializers.IntegerField()

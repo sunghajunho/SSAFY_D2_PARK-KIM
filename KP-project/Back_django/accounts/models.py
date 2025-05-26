@@ -79,3 +79,11 @@ class WatchHistory(models.Model):
 
     class Meta:
         unique_together = ('user', 'tmdb_id')
+        
+class FavoriteMovie(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="favorites")
+    tmdb_id = models.PositiveIntegerField()
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "tmdb_id")
