@@ -66,10 +66,24 @@ watch(model, (val) => {
 
     <!-- 검색어 + 조건 필터 통합 영역 -->
     <div class="mb-4">
-      <div class="input-group input-group-lg mx-auto" style="max-width: 600px;">
-        <input v-model="query" class="form-control" placeholder="영화를 찾아보세요..." />
-        <button class="btn btn-primary" @click="searchCombined">🎯 추천 받기</button>
-      </div>
+      <form
+        @submit.prevent="searchCombined"
+        class="input-group input-group-lg mx-auto"
+        style="max-width: 600px;"
+      >
+        <input
+          v-model="query"
+          class="form-control"
+          placeholder="영화를 찾아보세요..."
+        />
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          🎯 추천 받기
+        </button>
+      </form>
+
 
       <!-- 조건 필터 UI -->
       <div class="text-start mt-4" style="max-width: 600px; margin: auto;">
