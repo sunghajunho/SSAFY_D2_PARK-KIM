@@ -53,5 +53,6 @@ def enrich_movies(gpt_result: List[Dict]) -> List[Dict]:
                  "poster_path": movie_data.get("poster_path"),
                  "overview": movie_data.get("overview", ""),
                  "rating": movie_data.get("vote_average", "N/A"),
+                 "reason": item.get("description", ""),
              })
      return enriched

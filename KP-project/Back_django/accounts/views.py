@@ -2,8 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
-from .serializers import CustomUserSerializer, FollowSerializer
-from .models import CustomUser, Follow
+from .serializers import CustomUserSerializer, FollowSerializer, WatchHistorySerializer
+from .models import CustomUser, Follow, WatchHistory, FavoriteMovie
 from core.models import Genre
 from rest_framework import status, viewsets, generics, permissions, serializers
 from rest_framework.authentication import TokenAuthentication
@@ -54,3 +54,60 @@ class GenreListView(APIView):
     def get(self, request):
         genres = Genre.objects.all().values('id', 'name')
         return Response(genres)
+    
+class WatchHistoryCheckView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, tmdb_id):
+        seen = WatchHistory.objects.filter(user=request.user, tmdb_id=tmdb_id).exists()
+        return Response({"seen": seen})
+
+class WatchHistoryAddView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = WatchHistorySerializer(data=request.data)
+        if serializer.is_valid():
+            tmdb_id = serializer.validated_data['tmdb_id']
+            history, created = WatchHistory.objects.get_or_create(
+                user=request.user,
+                tmdb_id=tmdb_id
+            )
+            if created:
+                return Response({"status": "added"}, status=201)
+            return Response({"status": "already exists"}, status=200)
+        return Response(serializer.errors, status=400)
+    
+class WatchHistoryRemoveView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, tmdb_id):
+        deleted, _ = WatchHistory.objects.filter(user=request.user, tmdb_id=tmdb_id).delete()
+        if deleted:
+            return Response({"status": "removed"})
+        return Response({"status": "not found"}, status=404)
+    
+class FavoriteCheckView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, tmdb_id):
+        exists = FavoriteMovie.objects.filter(user=request.user, tmdb_id=tmdb_id).exists()
+        return Response({ "liked": exists })
+
+class FavoriteAddView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = WatchHistorySerializer(data=request.data)
+        if serializer.is_valid():
+            tmdb_id = serializer.validated_data['tmdb_id']
+            _, created = FavoriteMovie.objects.get_or_create(user=request.user, tmdb_id=tmdb_id)
+            return Response({ "status": "added" if created else "exists" })
+        return Response(serializer.errors, status=400)
+
+class FavoriteRemoveView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, tmdb_id):
+        deleted, _ = FavoriteMovie.objects.filter(user=request.user, tmdb_id=tmdb_id).delete()
+        return Response({ "status": "removed" if deleted else "not found" })
