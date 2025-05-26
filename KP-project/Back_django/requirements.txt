@@ -30,6 +30,7 @@ numpy==2.0.2
 oauthlib==3.2.2
 openai==1.79.0
 parso==0.8.4
+pillow==11.2.1
 prompt_toolkit==3.0.50
 pure_eval==0.2.3
 pycparser==2.22

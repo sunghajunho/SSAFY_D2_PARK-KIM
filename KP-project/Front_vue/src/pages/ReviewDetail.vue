@@ -41,7 +41,16 @@ async function handleReviewLike() {
     <div v-if="!reviewStore.currentReview" class="text-muted">로딩 중...</div>
     <div v-else>
       <h3>글 제목: {{ reviewStore.currentReview.title }}</h3>
-      <p class="text-muted small">작성자: {{ reviewStore.currentReview.author.nickname }}</p>
+      <p class="m-0 text-muted small">
+        작성자: 
+        <router-link
+          :to="reviewStore.currentReview.author.username === userStore.username ? '/profile' : `/profile/${reviewStore.currentReview.author.username}`"
+          class="text-decoration-none"
+        >
+        {{ reviewStore.currentReview.author.username }}
+        </router-link>
+      </p>  
+      <p class="text-muted small">조회수: {{ reviewStore.currentReview.views }}</p>
       <p>{{ reviewStore.currentReview.content }}</p>
 
       <div v-if="reviewStore.currentReview.author.username === userStore.username" class="mt-3">
@@ -58,5 +67,9 @@ async function handleReviewLike() {
       <hr />
       <CommentThread :reviewId="reviewId" />
     </div>
+    
+    <button @click="router.push('/reviews')" class="btn btn-secondary mt-3">
+      목록으로
+    </button>
   </div>
 </template>

@@ -2,17 +2,26 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
+from rest_framework.decorators import api_view, permission_classes
 from .serializers import CustomUserSerializer, FollowSerializer, WatchHistorySerializer
 from .models import CustomUser, Follow, WatchHistory, FavoriteMovie
 from core.models import Genre
 from rest_framework import status, viewsets, generics, permissions, serializers
 from rest_framework.authentication import TokenAuthentication
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
+
 
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        serializer = CustomUserSerializer(request.user)
+    def get(self, request, username=None):
+        if username:
+            user = get_object_or_404(get_user_model(), username=username)
+        else:
+            user = request.user
+        
+        serializer = CustomUserSerializer(user)
         return Response(serializer.data)
 
     def put(self, request):
@@ -22,6 +31,8 @@ class UserProfileView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
+
+
 
 class FollowViewSet(viewsets.ModelViewSet):
     queryset = Follow.objects.all()
@@ -38,6 +49,7 @@ class FollowViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def toggle(self, request):
         following_id = request.data.get('following')
+        print(following_id)
         try:
             following_user = CustomUser.objects.get(id=following_id)
         except CustomUser.DoesNotExist:
@@ -48,6 +60,24 @@ class FollowViewSet(viewsets.ModelViewSet):
             follow.delete()
             return Response({'status': 'unfollowed'})
         return Response({'status': 'followed'})
+    
+    @action(detail=False, methods=['get'], url_path='status/(?P<username>[^/.]+)')
+    def follow_status(self, request, username=None):
+        user = get_object_or_404(CustomUser, username=username)
+        is_following = Follow.objects.filter(follower=request.user, following=user).exists()
+        return Response({'is_following': is_following})
+
+    @action(detail=False, methods=['get'], url_path='followers/(?P<username>[^/.]+)')
+    def followers(self, request, username=None):
+        user = get_object_or_404(CustomUser, username=username)
+        followers = user.followers.values_list('follower__username', flat=True)
+        return Response({'followers': list(followers)})
+
+    @action(detail=False, methods=['get'], url_path='following/(?P<username>[^/.]+)')
+    def following(self, request, username=None):
+        user = get_object_or_404(CustomUser, username=username)
+        following = user.following.values_list('following__username', flat=True)
+        return Response({'following': list(following)})
 
 
 class GenreListView(APIView):
@@ -55,6 +85,16 @@ class GenreListView(APIView):
         genres = Genre.objects.all().values('id', 'name')
         return Response(genres)
     
+# views.py
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_profile_image(request):
+    user = request.user
+    user.profile_image.delete(save=False)
+    user.profile_image='default_profile.jpg'
+    user.save()
+    return Response({'status': 'profile image deleted'}, status=200)
+
 class WatchHistoryCheckView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -111,3 +151,4 @@ class FavoriteRemoveView(APIView):
     def delete(self, request, tmdb_id):
         deleted, _ = FavoriteMovie.objects.filter(user=request.user, tmdb_id=tmdb_id).delete()
         return Response({ "status": "removed" if deleted else "not found" })
+
