@@ -153,6 +153,24 @@ export const useReviewStore = defineStore('review', {
       }
     },
 
+    // ⭐ reviewStore.js에 추가
+    async fetchUserReviews(username) {
+      try {
+        const res = await api.get(`/community/${username}/posts/`)
+        this.reviews = res.data
+      } catch (e) {
+        console.error('사용자 게시글 조회 실패', e)
+      }
+    },
+
+    async fetchUserComments(username) {
+      try {
+        const res = await api.get(`/community/${username}/comments/`)
+        this.comments = res.data
+      } catch (e) {
+        console.error('사용자 댓글 조회 실패', e)
+      }
+    },
 
     getCommentsByReviewId(reviewId) {
       return this.comments.filter((c) => c.article === reviewId && c.parent === null)

@@ -4,6 +4,8 @@ import { useUserStore } from '@/stores/userStore'
 import { useReviewStore } from '@/stores/reviewStore'
 import { useRoute, useRouter } from 'vue-router'
 import api from '@/api/axios'
+import PreferenceMatch from '@/components/PreferenceMatch.vue'
+import ProfileFavorites from '@/components/ProfileFavorites.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -51,8 +53,12 @@ const goToFollowing = () => {
   router.push(`/profile/${profile.value.username}/following`)
 }
 
-onMounted(() => {
-  fetchProfile()
+onMounted(async () => {
+  await fetchProfile()
+  await reviewStore.fetchUserReviews(usernameParam || userStore.username)
+  await reviewStore.fetchUserComments(usernameParam || userStore.username)
+  followers.value = await userStore.getFollowers(usernameParam || userStore.username)
+  following.value = await userStore.getFollowing(usernameParam || userStore.username)
 })
 
 // ✅ 반응형 computed로 내 리뷰, 댓글 필터링
@@ -66,62 +72,178 @@ const myComments = computed(() =>
 </script>
 
 <template>
-  <div class="container mt-5">
-    <h2 class="mb-3">👤 {{ usernameParam ? profile.nickname + '의 프로필' : '내 프로필' }}</h2>
-    
-    <!-- ✅ 최종 정리된 profileImageURL 사용 -->
-    <img :src="profileImageURL" alt="프로필 이미지" width="150" height="150" />
-    
-    <p class="text-muted">사용자명: <strong>{{ profile.username }}</strong></p>
-    <h3>{{ profile.nickname }} ({{ profile.username }})</h3>
+  <div>
+    <div class="profile-container">
+      <div class="profile-header">
+        <img :src="profileImageURL" alt="프로필 사진" class="profile-image" />
+        <div class="profile-info">
+          <h2>{{ profile.nickname }}</h2>
+          <div class="follow-info">
+            <router-link :to="`/profile/${profile.username}/followers`" class="follow-link">
+              <span>팔로워 <b>{{ followers.length }}</b> | </span>
+            </router-link>
+            |
+            <router-link :to="`/profile/${profile.username}/following`" class="follow-link">
+              <span>팔로잉 <b>{{ following.length }}</b></span>
+            </router-link>
+          </div>
+        </div>
+      </div>
+
+      <div class="follow-btn-container">
+        <button @click="handleFollowToggle" class="follow-btn">
+          {{ isFollowing ? '팔로우 취소' : '팔로우' }}
+        </button>
+      </div>
+
+      <div class="profile-stats">
+        <div class="stat">
+          <router-link :to="`/profile/${profile.username}/posts`" class="stat-link">
+              <span class="stat-number">{{ myReviews.length }}</span>
+              <span class="stat-label">게시글</span>
+          </router-link>
+        </div>
+
+        <div class="stat">
+          <router-link :to="`/profile/${profile.username}/comments`" class="stat-link">
+              <span class="stat-number">{{ myComments.length }}</span>
+              <span class="stat-label">댓글</span>
+          </router-link>
+        </div>
+
+        <div class="stat">
+            <span class="stat-number">0</span>
+            <span class="stat-label">컬렉션</span>
+          </div>
+      </div>
+    </div>
     
     <div v-if="isMyProfile">
       <router-link to="/profile/edit" class="btn btn-primary">프로필 변경</router-link>
     </div>
-    
-    <button @click="handleFollowToggle">
-      {{ isFollowing ? '팔로우 취소' : '팔로우' }}
-    </button>
-
-    <div>
-      <span @click="goToFollowers">팔로워: {{ followers.length }}</span>
-      <span @click="goToFollowing">팔로잉: {{ following.length }}</span>
-    </div>
-
-    <div v-if="showFollowers">
-      <h4>팔로워</h4>
-      <ul>
-        <li v-for="follower in followers" :key="follower">
-          <router-link :to="`/profile/${follower}`">{{ follower }}</router-link>
-        </li>
-      </ul>
-    </div>
-
-    <div v-if="showFollowing">
-      <h4>팔로잉</h4>
-      <ul>
-        <li v-for="user in following" :key="user">
-          <router-link :to="`/profile/${user}`">{{ user }}</router-link>
-        </li>
-      </ul>
-    </div>
 
     <hr />
 
-    <h4 class="mt-4">내가 쓴 리뷰</h4>
-    <ul v-if="myReviews.length" class="list-group mb-4">
-      <li v-for="review in myReviews" :key="review.id" class="list-group-item">
-        {{ review.title }} ({{ review.createdAt }})
-      </li>
-    </ul>
-    <p v-else class="text-muted">작성한 리뷰가 없습니다.</p>
+    <PreferenceMatch />
 
-    <h4 class="mt-4">내가 단 댓글</h4>
-    <ul v-if="myComments.length" class="list-group">
-      <li v-for="comment in myComments" :key="comment.id" class="list-group-item">
-        {{ comment.content }} ({{ comment.createdAt }})
-      </li>
-    </ul>
-    <p v-else class="text-muted">작성한 댓글이 없습니다.</p>
+    <ProfileFavorites :is-my-profile="isMyProfile"/>
+
+
   </div>
 </template>
+
+<style scoped>
+/* 전체 컨테이너를 중앙 정렬 + 고정 폭 */
+.profile-container {
+  width: 420px; /* 적당한 너비 */
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 프로필 헤더 */
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.profile-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: center;
+}
+
+.user-name {
+  margin: 0;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+}
+
+.badge {
+  margin-left: 6px;
+  font-size: 1rem;
+  color: red;
+}
+
+.follow-info {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 8px;
+}
+
+.follow-info b {
+  font-weight: bold;
+  color: #000;
+}
+
+.bio {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* 팔로우 버튼 영역 */
+.follow-btn-container {
+  border-top: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+.follow-btn {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 0;
+  width: 100%;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* ✅ 게시글/댓글/컬렉션 통계 스타일 */
+.profile-stats {
+  display: flex;
+  border-top: 1px solid #ddd;
+  padding: 12px 0;
+}
+
+.stat {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.stat-number {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.stat-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  color: #777;
+}
+</style>

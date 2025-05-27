@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ArticleViewSet, CommentViewSet
+from .views import ArticleViewSet, CommentViewSet, UserArticlesView, UserCommentsView
 
 router = DefaultRouter()
 router.register(r'articles', ArticleViewSet)
@@ -19,4 +19,6 @@ urlpatterns = [
     path('articles/<int:article_pk>/comments/<int:pk>/like/', CommentViewSet.as_view({
         'post': 'like'
     })),
+    path('<str:username>/posts/', UserArticlesView.as_view(), name='user-articles'),
+    path('<str:username>/comments/', UserCommentsView.as_view(), name='user-comments'),
 ]

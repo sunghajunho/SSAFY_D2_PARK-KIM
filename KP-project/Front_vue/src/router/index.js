@@ -13,6 +13,8 @@ import ProfileEdit from '@/pages/ProfileEdit.vue'
 import ReviewCreatePage from '@/pages/ReviewCreatePage.vue'
 import FollowersList from '@/pages/FollowersList.vue'
 import FollowingList from '@/pages/FollowingList.vue'
+import ProfilePosts from '@/pages/ProfilePosts.vue'
+import ProfileComments from '@/pages/ProfileComments.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -23,6 +25,8 @@ const routes = [
   { path: '/register', name: 'UserRegister', component: UserRegister },
   { path: '/profile', name: 'MyProfile', component: UserProfile, meta: { requiresAuth: true }},
   { path: '/profile/:username', name: 'UserProfile', component: UserProfile, meta: { requiresAuth: true } },
+  { path: '/profile/:username/posts', name: 'ProfilePosts', component: ProfilePosts},
+  { path: '/profile/:username/comments', name: 'ProfileComments', component: ProfileComments},
   { path: '/profile/edit', name: 'ProfileEdit', component: ProfileEdit, meta: {requiresAuth: true}},
   { path: '/reviews/write', name: 'ReviewWrite', component: ReviewCreatePage, meta: { requiresAuth: true } },
   { path: '/reviews/:id', name: 'ReviewDetail', component: ReviewDetail },
