@@ -126,7 +126,11 @@ onBeforeUnmount(() => {
       </span>
     </div>
 
-    <div v-if="loading" class="text-muted">로딩 중...</div>
+    <!-- ✅ 로딩 애니메이션 추가 -->
+    <div v-if="loading" class="loading-overlay">
+      <video src="@/assets/loading_1.mp4" autoplay loop muted playsinline></video>
+    </div>
+
     <div v-else-if="error" class="text-danger">{{ error }}</div>
 
     <div v-else class="scroll-wrapper">
@@ -211,4 +215,17 @@ onBeforeUnmount(() => {
   50% { transform: translateX(-50%); }
   100% { transform: translateX(0); }
 }
+
+/* ✅ 로딩 애니메이션 스타일 */
+.loading-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 320px; /* 스크롤 영역 높이와 맞춰서 */
+}
+.loading-overlay video {
+  max-width: 200px;
+  border-radius: 10px;
+}
 </style>
+

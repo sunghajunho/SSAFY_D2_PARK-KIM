@@ -46,6 +46,9 @@ watch(
     <!-- 🔍 추천 결과 -->
     <h2 class="results-title">🔍 당신을 위한 추천 영화</h2>
 
+    <!-- ✅ 로딩 애니메이션 추가 -->
+    <div v-if="loading" class="loading-overlay">
+      <video src="@/assets/loading_1.mp4" autoplay loop muted playsinline></video>
     <!-- 🎯 조건 요약 영역 -->
     <div class="conditions-bar">
       <span v-if="mood" class="chip">🎭 {{ mood }}</span>
@@ -170,6 +173,22 @@ watch(
 
 .card:hover .overlay {
   opacity: 1;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
+/* ✅ 로딩 애니메이션 스타일 */
+.loading-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 320px; /* 필요한 만큼 높이 조절 */
+}
+.loading-overlay video {
+  max-width: 200px;
+  border-radius: 10px;
 }
 
 .overlay .title {
