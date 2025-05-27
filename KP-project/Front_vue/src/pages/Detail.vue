@@ -3,6 +3,7 @@ import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import api from '@/api/axios'
 import { useMovieStore } from '@/stores/movieStore'
+import MovieArticleList from '@/components/MovieArticleList.vue'
 
 /* ───────────────────────── 상태 ───────────────────────── */
 const route         = useRoute()
@@ -261,6 +262,8 @@ function ytThumb (id, isShorts = false) {
           </div>
         </div>
       </div>
+
+      <MovieArticleList />
 
       <!-- 리뷰 영상 -->
       <div v-if="reviewVideos.length" class="col-12 mt-5">

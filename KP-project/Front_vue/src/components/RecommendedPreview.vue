@@ -57,7 +57,11 @@ onMounted(async () => {
       {{ isLoggedIn ? `🎯 ${username}님의 선호 장르: ${tagline} 추천` : '🔥 요즘 사람들이 많이 보는 인기 영화' }}
     </h3>
 
-    <div v-if="loading" class="text-muted">로딩 중...</div>
+    <!-- ✅ 로딩 애니메이션 추가 -->
+    <div v-if="loading" class="loading-overlay">
+      <video src="@/assets/loading_1.mp4" autoplay loop muted playsinline></video>
+    </div>
+
     <div v-else-if="error" class="text-danger">{{ error }}</div>
 
     <div v-else class="scroll-wrapper">
@@ -107,8 +111,8 @@ onMounted(async () => {
   border: 1px solid #dee2e6;
   border-radius: 0.5rem;
   overflow: hidden;
-  background-color: #1e1e1e; /* 다크 배경에 어울리는 진회색 */
-  color: #f1f1f1; /* 텍스트 색상도 더 밝게 */
+  background-color: #1e1e1e;
+  color: #f1f1f1;
   transition: transform 0.2s ease;
 }
 .scroll-card:hover {
@@ -124,4 +128,17 @@ onMounted(async () => {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-100%); }
 }
+
+/* ✅ 로딩 애니메이션 스타일 */
+.loading-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 320px; /* 스크롤 영역 높이와 맞춰서 */
+}
+.loading-overlay video {
+  max-width: 200px;
+  border-radius: 10px;
+}
 </style>
+

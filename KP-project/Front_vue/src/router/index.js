@@ -17,7 +17,7 @@ import FollowingList from '@/pages/FollowingList.vue'
 import ProfilePosts from '@/pages/ProfilePosts.vue'
 import ProfileComments from '@/pages/ProfileComments.vue'
 import Search from '@/pages/Search.vue'  // ← 이 줄 추가
-
+import MovieArticlesBoard from '@/pages/MovieArticlesBoard.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -37,6 +37,7 @@ const routes = [
   { path: '/profile/:username/followers', name : 'FollowersList', component: FollowersList},
   { path: '/profile/:username/following', name : 'FollowingList', component: FollowingList},
   { path: '/search', name : 'Search', component: Search},
+  { path: '/movies/:id/articles', name: 'MovieArticlesBoard', component: MovieArticlesBoard},
 ]
 
 const router = createRouter({

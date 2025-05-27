@@ -44,8 +44,9 @@ watch(
       🧠 {{ explanation }}
     </p>
 
-    <div v-if="loading" class="text-muted">
-      GPT & TMDB에서 추천을 불러오는 중...
+    <!-- ✅ 로딩 애니메이션 추가 -->
+    <div v-if="loading" class="loading-overlay">
+      <video src="@/assets/loading_1.mp4" autoplay loop muted playsinline></video>
     </div>
 
     <div v-else class="row">
@@ -55,7 +56,7 @@ watch(
         :key="movie.id"
       >
         <router-link
-           v-if="movie.id"
+          v-if="movie.id"
           :to="`/detail/${movie.id}`"
           class="text-decoration-none text-dark"
         >
@@ -90,7 +91,8 @@ watch(
             </div>
           </div>
         </router-link>
-          <div v-else class="card h-100 shadow-sm">
+
+        <div v-else class="card h-100 shadow-sm">
           <!-- 정보를 못 찾은 영화 -->
           <div class="card-body text-muted small">
             <h5 class="card-title">{{ movie.title }}</h5>
@@ -130,9 +132,19 @@ watch(
   100% { background-position: -200% 0; }
 }
 
-/* 이미지가 로드된 뒤에는 object-fit 으로 깔끔하게 맞춤 */
 .object-fit-cover {
   object-fit: cover;
 }
+
+/* ✅ 로딩 애니메이션 스타일 */
+.loading-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 320px; /* 필요한 만큼 높이 조절 */
+}
+.loading-overlay video {
+  max-width: 200px;
+  border-radius: 10px;
+}
 </style>
-    
