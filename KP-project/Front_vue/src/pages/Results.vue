@@ -47,7 +47,10 @@ watch(
     <h2 class="results-title">🔍 당신을 위한 추천 영화</h2>
 
     <!-- ✅ 로딩 애니메이션 추가 -->
-    
+    <div v-if="loading" class="loading-overlay">
+      <video src="@/assets/loading_1.mp4" autoplay loop muted playsinline></video>
+    </div>
+
     <!-- 🎯 조건 요약 영역 -->
     <div class="conditions-bar">
       <span v-if="mood" class="chip">🎭 {{ mood }}</span>
