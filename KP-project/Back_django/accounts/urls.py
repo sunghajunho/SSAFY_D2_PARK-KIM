@@ -17,4 +17,7 @@ urlpatterns = [
     path('favorites/check/<int:tmdb_id>/', views.FavoriteCheckView.as_view(), name='favorite-check'),
     path('favorites/add/', views.FavoriteAddView.as_view(), name='favorite-add'),
     path('favorites/remove/<int:tmdb_id>/', views.FavoriteRemoveView.as_view(), name='favorite-remove'),
+    path('favorite-movies/', views.FavoriteMovieListView.as_view(), name='my-favorite-movie-list'),
+    path('favorites/<str:username>/',views.FavoriteMovieListView.as_view(), name='favorite-movie-list'),
 ]
+

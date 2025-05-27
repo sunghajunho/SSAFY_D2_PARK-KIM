@@ -152,3 +152,19 @@ class FavoriteRemoveView(APIView):
         deleted, _ = FavoriteMovie.objects.filter(user=request.user, tmdb_id=tmdb_id).delete()
         return Response({ "status": "removed" if deleted else "not found" })
 
+class FavoriteMovieListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, username=None):
+        if username:
+            user = get_object_or_404(CustomUser, username=username)
+            print(user.id)
+        else:
+            user = request.user
+            print(user.id)
+
+        favorite_movies = FavoriteMovie.objects.filter(user=user)
+        print(favorite_movies.count())
+        tmdb_ids = favorite_movies.values_list('tmdb_id', flat=True)
+        print(list(tmdb_ids))
+        return Response({'tmdb_ids': list(tmdb_ids)})

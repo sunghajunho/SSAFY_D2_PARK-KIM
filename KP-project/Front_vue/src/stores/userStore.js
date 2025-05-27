@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import api from '@/api/axios'  // ✅ 공통 인스턴스를 사용
-import { useRouter } from 'vue-router'  // ✅ 라우터 인스턴스 가져오기
 
 export const useUserStore = defineStore('user', () => {
   const ACCOUNT_API_URL = 'accounts'  // baseURL에서 이미 / 붙었음
@@ -12,10 +11,7 @@ export const useUserStore = defineStore('user', () => {
   const nickname = ref(localStorage.getItem('nickname') || '')
   const id = ref(localStorage.getItem('id') || '')
   const isLoggedIn = computed(() => !!token.value)
-  const router = useRouter()
-
-  const model = ref(localStorage.getItem('gpt_model') || 'gpt-3.5-turbo')
-
+  const favoriteMovieIds = ref([])
 
   // ✅ 회원가입
   const register = async (form) => {
@@ -87,12 +83,6 @@ export const useUserStore = defineStore('user', () => {
     username.value = ''
     localStorage.removeItem('token')
     localStorage.removeItem('username')
-    router.push('/')
-  }
-
-  const setModel = (newModel) => {
-  model.value = newModel
-  localStorage.setItem('gpt_model', newModel)
   }
 
   // ✅ 특정 사용자 프로필 가져오기
@@ -150,13 +140,26 @@ export const useUserStore = defineStore('user', () => {
     }
   };
 
+
+  const fetchFavoriteMovies = async (username) => {
+      try {
+        const url = username
+        ? `/accounts/favorite-movies/${username}/`
+        : `/accounts/favorite-movies/`
+        const res = await api.get(url)
+        favoriteMovieIds.value = res.data.tmdb_ids
+      } catch (e) {
+        console.error('찜한 영화 목록 가져오기 실패', e)
+      }
+    };
+
+
   return {
     token,
     username,
     nickname,
     isLoggedIn,
-    model,
-    setModel,
+    favoriteMovieIds,
     register,
     logIn,
     fetchUserInfo,
@@ -167,10 +170,13 @@ export const useUserStore = defineStore('user', () => {
     getFollowStatus,
     getFollowers,
     getFollowing,
+    fetchFavoriteMovies,
   }
 }, {
   persist: true,
 })
+
+
 
 
 

@@ -1,10 +1,13 @@
 from rest_framework import viewsets, permissions, status
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from .models import Article, Comment
+from accounts.models import CustomUser
 from .serializers import ArticleSerializer, CommentSerializer
 from datetime import datetime, timedelta
 from django.db import models
@@ -125,3 +128,28 @@ class CommentViewSet(viewsets.ModelViewSet):
             'comment_likes': comment.liked_users.count()
         })
 
+class UserArticlesView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, username):
+        try:
+            user = CustomUser.objects.get(username=username)
+        except CustomUser.DoesNotExist:
+            return Response({'detail': '사용자가 존재하지 않습니다.'}, status=status.HTTP_404_NOT_FOUND)
+
+        articles = Article.objects.filter(author=user).order_by('-created_at')
+        serializer = ArticleSerializer(articles, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UserCommentsView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, username):
+        try:
+            user = CustomUser.objects.get(username=username)
+        except CustomUser.DoesNotExist:
+            return Response({'detail': '사용자가 존재하지 않습니다.'}, status=status.HTTP_404_NOT_FOUND)
+
+        comments = Comment.objects.filter(author=user).order_by('-created_at')
+        serializer = CommentSerializer(comments, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)

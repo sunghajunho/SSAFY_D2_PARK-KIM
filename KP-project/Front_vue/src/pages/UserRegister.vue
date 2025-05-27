@@ -1,67 +1,63 @@
 <template>
-  <form @submit.prevent="onRegister">
-    <!-- 기본 정보 입력 -->
-    <label>Username:</label>
-    <input type="text" v-model="form.username" />
+  <div class="register-container">
+    <form class="register-form" @submit.prevent="onRegister">
+      <h2 class="form-title">회원가입</h2>
+      <div class="form-group">
+        <input type="text" placeholder="Username" v-model="form.username" />
+      </div>
+      <div class="form-group">
+        <input type="email" placeholder="Email" v-model="form.email" />
+      </div>
+      <div class="form-group">
+        <input type="password" placeholder="Password" v-model="form.password1" />
+      </div>
+      <div class="form-group">
+        <input type="password" placeholder="Password 확인" v-model="form.password2" />
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="Real Name" v-model="form.real_name" />
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="Nickname" v-model="form.nickname" />
+      </div>
+      <div class="form-group">
+        <input type="number" placeholder="Age" v-model.number="form.age" />
+      </div>
+      <div class="form-group">
+        <select v-model="form.gender">
+          <option disabled value="">성별 선택</option>
+          <option>남성</option>
+          <option>여성</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <select v-model="form.mbti">
+          <option disabled value="">MBTI 선택</option>
+          <option v-for="mbti in mbtis" :key="mbti">{{ mbti }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <select v-model="form.region">
+          <option disabled value="">지역 선택</option>
+          <option v-for="region in regions" :key="region">{{ region }}</option>
+        </select>
+      </div>
 
-    <label>Email:</label>
-    <input type="email" v-model="form.email" />
+      <div class="form-group genre-box">
+        <label>선호 장르</label>
+        <div class="genres">
+          <label v-for="genre in genres" :key="genre.id">
+            <input type="checkbox" :value="genre.id" v-model="form.preferred_genres" />
+            {{ genre.name }}
+          </label>
+        </div>
+      </div>
 
-    <label>Password:</label>
-    <input type="password" v-model="form.password1" />
+      <button class="submit-btn" type="submit">회원가입</button>
 
-    <label>Password 확인:</label>
-    <input type="password" v-model="form.password2" />
-
-    <label>Real Name:</label>
-    <input type="text" v-model="form.real_name" />
-
-    <label>Nickname:</label>
-    <input type="text" v-model="form.nickname" />
-
-    <label>Age:</label>
-    <input type="number" v-model.number="form.age" />
-
-    <label>Gender:</label>
-    <select v-model="form.gender">
-      <option value="">선택</option>
-      <option value="남성">남성</option>
-      <option value="여성">여성</option>
-    </select>
-
-    <label>MBTI:</label>
-    <select v-model="form.mbti">
-      <option disabled value="">MBTI 선택</option>
-      <option>INTP</option><option>INFP</option><option>INFJ</option><option>INTJ</option>
-      <option>ISFP</option><option>ISFJ</option><option>ISTP</option><option>ISTJ</option>
-      <option>ENFP</option><option>ENFJ</option><option>ENTP</option><option>ENTJ</option>
-      <option>ESFP</option><option>ESFJ</option><option>ESTP</option><option>ESTJ</option>
-    </select>
-
-    <label>Region:</label>
-    <select v-model="form.region">
-      <option disabled value="">지역 선택</option>
-      <option>서울</option><option>부산</option><option>대구</option><option>인천</option>
-      <option>광주</option><option>대전</option><option>울산</option><option>세종</option>
-      <option>경기</option><option>강원</option><option>충북</option><option>충남</option>
-      <option>전남</option><option>전북</option><option>경북</option><option>경남</option><option>제주</option>
-    </select>
-
-    <!-- ✅ 선호 장르 체크박스 방식 -->
-    <label>선호 장르 선택:</label>
-    <div v-for="genre in genres" :key="genre.id">
-      <input
-        type="checkbox"
-        :value="genre.id"
-        v-model="form.preferred_genres"
-      />
-      {{ genre.name }}
-    </div>
-
-    <button type="submit">회원가입</button>
-
-    <p v-if="errorMsg" class="text-danger mt-2">{{ errorMsg }}</p>
-  </form>
+      <p v-if="errorMsg" class="error">{{ errorMsg }}</p>
+    </form>
+  </div>
 </template>
 
 <script setup>
@@ -72,7 +68,7 @@ import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
 const router = useRouter()
-// ✅ 회원가입 폼 데이터
+
 const form = ref({
   username: '',
   email: '',
@@ -87,8 +83,9 @@ const form = ref({
   preferred_genres: []
 })
 
-// ✅ 장르 목록 불러오기용 ref
 const genres = ref([])
+const mbtis = ['INTP', 'INFP', 'INFJ', 'INTJ', 'ISFP', 'ISFJ', 'ISTP', 'ISTJ', 'ENFP', 'ENFJ', 'ENTP', 'ENTJ', 'ESFP', 'ESFJ', 'ESTP', 'ESTJ']
+const regions = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전남', '전북', '경북', '경남', '제주']
 
 onMounted(async () => {
   try {
@@ -101,13 +98,11 @@ onMounted(async () => {
 
 const errorMsg = ref('')
 
-// ✅ 회원가입 요청
 const onRegister = async () => {
-  errorMsg.value = ''  // 에러 메시지 초기화
-
+  errorMsg.value = ''
   try {
     await userStore.register(form.value)
-    router.push('/')  // 성공 시 홈으로 이동
+    router.push('/')
   } catch (error) {
     if (error.response?.data) {
       const errorData = error.response.data
@@ -116,9 +111,88 @@ const onRegister = async () => {
     } else {
       errorMsg.value = '알 수 없는 오류가 발생하였습니다.'
     }
-    // 실패 시 alert로 알림
     alert(errorMsg.value)
   }
 }
 </script>
 
+<style scoped>
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000; /* 배경 */
+  min-height: 100vh;
+}
+
+.register-form {
+  background: #1c1c1e;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.form-title {
+  color: #fff;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.8rem;
+  background: #2c2c2e;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  outline: none;
+}
+
+.form-group input::placeholder {
+  color: #bbb;
+}
+
+.form-group label {
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.genre-box .genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.genre-box .genres label {
+  color: #bbb;
+  font-size: 0.8rem;
+}
+
+.submit-btn {
+  width: 100%;
+  background: #007aff;
+  color: #fff;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #005fcc;
+}
+
+.error {
+  color: #ff3b30;
+  text-align: center;
+  margin-top: 1rem;
+}
+</style>
