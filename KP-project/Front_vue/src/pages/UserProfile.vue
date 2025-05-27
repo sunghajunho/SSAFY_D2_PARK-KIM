@@ -162,23 +162,28 @@ const goToChangePassword = () => {
 </template>
 
 <style scoped>
+:root {
+  color-scheme: light dark;
+}
+
 /* 전체 컨테이너를 중앙 정렬 + 고정 폭 */
 .profile-container {
   width: 760px;
   margin: 0 auto;
-  background-color: #fff;
-  border: 1px solid #ddd;
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border: 1px solid var(--bs-border-color);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   position: relative;
 }
 
 /* 톱니바퀴 버튼 위치 & 스타일 */
 .dropdown-container {
   position: absolute;
-  top: 10px;       /* 상단 여백 */
-  right: 10px;     /* 오른쪽 여백 */
+  top: 10px;
+  right: 10px;
 }
 
 .gear-icon {
@@ -186,28 +191,27 @@ const goToChangePassword = () => {
   background: none;
   border: none;
   cursor: pointer;
-  color: #666;
+  color: var(--bs-secondary-color);
 }
-
 .gear-icon:hover {
-  color: #333;
+  color: var(--bs-body-color);
 }
 
 /* 드롭다운 메뉴 스타일 */
 .dropdown-menu {
   position: absolute;
-  top: 30px;       /* 톱니바퀴 아래로 내려옴 */
+  top: 30px;
   right: 0;
   min-width: 140px;
-  background: #fff;
-  border: 1px solid #ccc;
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border: 1px solid var(--bs-border-color);
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
   z-index: 20;
 }
-
 .dropdown-menu button {
   padding: 10px 12px;
   border: none;
@@ -215,12 +219,11 @@ const goToChangePassword = () => {
   text-align: left;
   cursor: pointer;
   font-size: 0.9rem;
+  color: var(--bs-body-color);
 }
-
 .dropdown-menu button:hover {
-  background: #f5f5f5;
+  background: var(--bs-tertiary-bg);
 }
-
 .delete-btn {
   color: red;
 }
@@ -266,31 +269,29 @@ const goToChangePassword = () => {
   flex-direction: row;
   gap: 4px;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--bs-secondary-color);
   margin-top: 8px;
 }
-
 .follow-info b {
   font-weight: bold;
-  color: #000;
+  color: var(--bs-body-color);
 }
 
 .bio {
   margin: 0;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--bs-secondary-color);
 }
 
 /* 팔로우 버튼 영역 */
 .follow-btn-container {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--bs-border-color);
   padding: 12px;
   text-align: center;
 }
-
 .follow-btn {
-  background-color: black;
-  color: white;
+  background-color: var(--bs-emphasis-color);
+  color: var(--bs-body-bg);
   border: none;
   border-radius: 6px;
   padding: 10px 0;
@@ -302,7 +303,7 @@ const goToChangePassword = () => {
 /* ✅ 게시글/댓글/컬렉션 통계 스타일 */
 .profile-stats {
   display: flex;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--bs-border-color);
   padding: 12px 0;
 }
 
@@ -319,12 +320,14 @@ const goToChangePassword = () => {
 .stat-number {
   font-size: 1.2rem;
   font-weight: bold;
+  color: var(--bs-body-color);
 }
 
 .stat-label {
   display: flex;
   flex-direction: column;
   font-size: 0.8rem;
-  color: #777;
+  color: var(--bs-secondary-color);
 }
+
 </style>

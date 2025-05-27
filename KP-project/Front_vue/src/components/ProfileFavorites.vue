@@ -101,19 +101,21 @@ onMounted(fetchFavoriteMovieDetails)
 .favorite-movies-container {
   max-width: 760px;
   margin: 0 auto;
-  background: #fff;
+  background: var(--bs-body-bg);        /* ✅ 자동 테마 전환 */
+  color: var(--bs-body-color);
   padding: 20px;
   border-radius: 8px;
+  border: 1px solid var(--bs-border-color);
 }
 
 .section-title {
-  font-family: 'Noto Sans KR', sans-serif; /* 세련된 고딕체 */
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 1.5rem;
   font-weight: 600;
-  color: #333;
+  color: var(--bs-emphasis-color);      /* 더 강조된 색상 */
   margin-bottom: 12px;
   text-align: left;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid var(--bs-border-color);
   padding-bottom: 4px;
 }
 
@@ -138,18 +140,26 @@ onMounted(fetchFavoriteMovieDetails)
   height: 270px;
   border-radius: 8px;
   object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
+}
+.movie-poster:hover {
+  transform: scale(1.02);
 }
 
 .remove-btn {
-  margin-top: 8px; /* 포스터 아래로 공간 */
-  background: #ff4d4f;
-  color: white;
+  margin-top: 8px;
+  background: var(--bs-danger);
+  color: var(--bs-light);
   border: none;
   border-radius: 4px;
   padding: 4px 8px;
   font-size: 0.8rem;
   cursor: pointer;
+  transition: background 0.2s ease;
+}
+.remove-btn:hover {
+  background: #c82333; /* Bootstrap red hover 대체값 */
 }
 </style>
 
