@@ -3,24 +3,42 @@ import { ref, onMounted, computed } from 'vue'
 import api from '@/api/axios'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
+import { useMovieStore } from '@/stores/movieStore'
 
 const movies = ref([])
 const loading = ref(true)
 const error = ref('')
 const router = useRouter()
 
+const movieStore = useMovieStore()
 const userStore = useUserStore()
 const isLoggedIn = computed(() => userStore.isLoggedIn)
 const username = computed(() => userStore.username)
 const favoriteGenres = computed(() => userStore.favoriteGenres || [])
 const tagline = computed(() => favoriteGenres.value.slice(0, 3).join(', '))
 
-async function fetchRecommendations() {
+const RECOMMEND_CACHE_TTL = 60 * 10 * 1000  // 10분
+
+onMounted(async () => {
+  const now = Date.now()
+  const cached = movieStore.recommended
+  const lastFetched = movieStore.recommendedAt || 0
+  const isExpired = now - lastFetched > RECOMMEND_CACHE_TTL
+
+  if (cached.length > 0 && !isExpired) {
+    movies.value = cached
+    loading.value = false
+    return
+  }
+
+  // → 만료되었거나 없음 → 새로 불러오기
   try {
     const { data } = await api.get('api/recommend/default/?count=10')
     if (Array.isArray(data?.ids)) {
       const promises = data.ids.map(id => api.get(`api/recommend/tmdb/${id}/`).then(res => res.data))
-      movies.value = await Promise.all(promises)
+      const result = await Promise.all(promises)
+      movies.value = result
+      movieStore.setRecommended(result)  // 🔄 새 캐시 저장
     } else {
       error.value = '추천 ID를 받지 못했습니다.'
     }
@@ -30,9 +48,7 @@ async function fetchRecommendations() {
   } finally {
     loading.value = false
   }
-}
-
-onMounted(fetchRecommendations)
+})
 </script>
 
 <template>
@@ -59,11 +75,21 @@ onMounted(fetchRecommendations)
 </template>
 
 <style scoped>
+.card-body {
+  padding: 0.75rem 0.75rem 0.75rem;
+}
+.card-body .text-truncate {
+  line-height: 1.3;
+}
+.card-body .small {
+  line-height: 1.2;
+}
 .scroll-wrapper {
+  padding-top: 8px;
   overflow: hidden;
   position: relative;
   width: 100%;
-  height: 280px;
+  height: 320px;
 }
 .scroll-track {
   display: flex;
@@ -76,11 +102,13 @@ onMounted(fetchRecommendations)
 .scroll-card {
   flex: 0 0 auto;
   width: 180px;
+  height: 310px;
   cursor: pointer;
   border: 1px solid #dee2e6;
   border-radius: 0.5rem;
   overflow: hidden;
-  background: #fff;
+  background-color: #1e1e1e; /* 다크 배경에 어울리는 진회색 */
+  color: #f1f1f1; /* 텍스트 색상도 더 밝게 */
   transition: transform 0.2s ease;
 }
 .scroll-card:hover {

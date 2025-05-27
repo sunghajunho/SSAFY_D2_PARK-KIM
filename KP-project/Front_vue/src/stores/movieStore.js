@@ -4,6 +4,8 @@ export const useMovieStore = defineStore('movie', {
   state: () => ({
     query: '',
     results: [],
+    recommended: [], // ✅ 추가
+    recommendedAt: null,
   }),
   actions: {
     setQuery(q) {
@@ -11,6 +13,10 @@ export const useMovieStore = defineStore('movie', {
     },
     setResults(list) {
       this.results = list
+    },
+    setRecommended(list) {  // ✅ 추가
+      this.recommended = list
+      this.recommendedAt = Date.now()
     },
   },
 })

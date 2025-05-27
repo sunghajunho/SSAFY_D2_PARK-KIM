@@ -11,20 +11,20 @@ const mood = ref('')
 const situation = ref('')
 const genres = ref([])
 
-// ✅ ‘기분’ – 메이저 OTT에서 자주 쓰이는 감성 키워드 10선
+const showMood = ref(false)
+const showSituation = ref(false)
+const showGenres = ref(false)
+
 const moodOptions = ['힐링되는', '감동적인', '유쾌한', '스릴 넘치는', '긴장감 있는',
                      '따뜻한', '로맨틱한', '웃긴', '우울한', '무서운']
 
-// ✅ ‘상황’ – 시청 시나리오별 10선
 const situationOptions = ['혼자 볼 때', '연인과 함께', '가족과 함께', '친구들과 파티용',
                           '휴가 중', '출퇴근길', '집중해서 볼 때', '배경으로 틀어놓기',
                           '비 오는 날', '주말 밤']
 
-// ✅ ‘장르’ – TMDB 인기·수록량 상위 순으로 정렬
 const genreOptions = ['드라마', '액션', '코미디', '스릴러', '로맨스', 'SF', '모험',
                       '애니메이션', '공포', '범죄', '판타지', '다큐멘터리', '가족',
                       '미스터리', '역사', '음악', '서부', '전쟁', 'TV 영화']
-
 
 const userStore = useUserStore()
 const model = computed({
@@ -34,7 +34,6 @@ const model = computed({
 
 function buildPrompt() {
   const parts = []
-
   if (mood.value) parts.push(`${mood.value} 분위기`)
   if (situation.value) parts.push(`${situation.value}`)
   if (genres.value.length > 0) parts.push(`${genres.value.join(', ')} 장르`)
@@ -49,7 +48,6 @@ function buildPrompt() {
     return `${conditionText} 영화를 추천해줘.`
   }
 }
-
 
 function searchCombined() {
   const prompt = buildPrompt()
@@ -66,10 +64,9 @@ watch(model, (val) => {
 
 <template>
   <div class="container text-center mt-5">
-    <h1 class="display-4 mb-4 fw-bold">🎬 MovieGPT</h1>
+    <h1 class="display-4 mb-4 fw-bold">MovieGPT</h1>
     <p class="lead text-muted mb-4">GPT와 함께, 당신의 취향을 읽는 영화 추천</p>
 
-    <!-- 검색어 + 조건 필터 통합 영역 -->
     <div class="mb-4">
       <form
         @submit.prevent="searchCombined"
@@ -89,63 +86,104 @@ watch(model, (val) => {
         </button>
       </form>
 
-
-      <!-- 조건 필터 UI -->
-      <div class="text-start mt-4" style="max-width: 600px; margin: auto;">
+      <div class="row text-start mt-5 g-4">
         <!-- 기분 선택 -->
-        <div class="mb-2">
-          <label class="me-2 fw-bold">기분:</label>
-          <button
-            v-for="option in moodOptions"
-            :key="option"
-            class="btn btn-sm me-1 mb-1"
-            :class="mood === option ? 'btn-primary' : 'btn-outline-primary'"
-            @click="mood = option"
-          >
-            {{ option }}
-          </button>
+          <div class="col-md-4 border-end pe-4">
+            <h5 class="fw-bold mb-2 d-flex justify-content-between align-items-center">
+              <span>🎭 기분</span>
+              <button class="btn btn-sm btn-outline-secondary" @click="showMood ? (mood = '', showMood = false) : showMood = true">
+                {{ showMood ? '선택 안함' : '열기' }}
+              </button>
+            </h5>
+          <div v-if="showMood" class="border rounded p-3" style="max-height: 200px; overflow-y: auto;">
+            <div v-for="option in moodOptions" :key="option" class="form-check mb-2">
+              <input
+                type="radio"
+                class="form-check-input"
+                :id="'mood-' + option"
+                :value="option"
+                v-model="mood"
+              />
+              <label class="form-check-label" :for="'mood-' + option">{{ option }}</label>
+            </div>
+          </div>
         </div>
 
         <!-- 상황 선택 -->
-        <div class="mb-2">
-          <label class="me-2 fw-bold">상황:</label>
-          <button
-            v-for="option in situationOptions"
-            :key="option"
-            class="btn btn-sm me-1 mb-1"
-            :class="situation === option ? 'btn-secondary' : 'btn-outline-secondary'"
-            @click="situation = option"
-          >
-            {{ option }}
-          </button>
+        <div class="col-md-4 border-end pe-4">
+          <h5 class="fw-bold mb-2 d-flex justify-content-between align-items-center">
+            <span>🕰️ 상황</span>
+            <button class="btn btn-sm btn-outline-secondary" @click="showSituation ? (situation = '', showSituation = false) : showSituation = true">
+              {{ showSituation ? '선택 안함' : '열기' }}
+            </button>
+          </h5>
+          <div v-if="showSituation" class="border rounded p-3" style="max-height: 200px; overflow-y: auto;">
+            <div v-for="option in situationOptions" :key="option" class="form-check mb-2">
+              <input
+                type="radio"
+                class="form-check-input"
+                :id="'situation-' + option"
+                :value="option"
+                v-model="situation"
+              />
+              <label class="form-check-label" :for="'situation-' + option">{{ option }}</label>
+            </div>
+          </div>
         </div>
 
         <!-- 장르 선택 -->
-        <div class="mb-3">
-          <label class="fw-bold me-2">장르:</label>
-          <div class="d-inline-block" v-for="option in genreOptions" :key="option">
-            <input
-              type="checkbox"
-              class="form-check-input me-1"
-              :id="option"
-              :value="option"
-              v-model="genres"
-            />
-            <label class="form-check-label me-3" :for="option">{{ option }}</label>
+        <div class="col-md-4">
+          <h5 class="fw-bold mb-2 d-flex justify-content-between align-items-center">
+            <span>🎬 장르</span>
+            <button class="btn btn-sm btn-outline-secondary" @click="showGenres ? (genres = [], showGenres = false) : showGenres = true">
+              {{ showGenres ? '선택 안함' : '열기' }}
+            </button>
+          </h5>
+          <div v-if="showGenres" class="border rounded p-3" style="max-height: 200px; overflow-y: auto;">
+            <div v-for="option in genreOptions" :key="option" class="form-check mb-2">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                :id="'genre-' + option"
+                :value="option"
+                v-model="genres"
+              />
+              <label class="form-check-label" :for="'genre-' + option">{{ option }}</label>
+            </div>
           </div>
-        </div>
-        <div class="mb-3">
-          <label for="modelSelect" class="fw-bold me-2">모델 선택:</label>
-          <select id="modelSelect" v-model="model" class="form-select d-inline-block w-auto">
-            <option value="gpt-4">🧠 GPT-4 (정확도 우선)</option>
-            <option value="gpt-3.5-turbo">⚡ GPT-3.5 (속도 우선)</option>
-          </select>
+          <small class="text-muted">복수 선택 가능</small>
         </div>
       </div>
     </div>
+    <div class="my-4">
+      <label class="fw-bold me-3">누가 추천할까요?</label><br><br>
+      <div class="btn-group" role="group">
+        <input
+          type="radio"
+          class="btn-check"
+          name="model"
+          id="gpt4"
+          value="gpt-4"
+          v-model="model"
+          autocomplete="off"
+        />
+        <label class="btn btn-outline-primary" for="gpt4">정확 🧠 GPT-4</label>
+
+        <input
+          type="radio"
+          class="btn-check"
+          name="model"
+          id="gpt35"
+          value="gpt-3.5-turbo"
+          v-model="model"
+          autocomplete="off"
+        />
+        <label class="btn btn-outline-primary" for="gpt35">GPT-3.5 ⚡ 속도</label>
+      </div>
+    </div>
+
 
     <hr class="my-4" />
-
     <RecommendedPreview />
 
     <div class="mt-5">
