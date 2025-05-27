@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ArticleViewSet, CommentViewSet, UserArticlesView, UserCommentsView
+from .views import ArticleViewSet, CommentViewSet, UserArticlesView, UserCommentsView, WordcloudView
 
 router = DefaultRouter()
 router.register(r'articles', ArticleViewSet)
@@ -21,4 +21,5 @@ urlpatterns = [
     })),
     path('<str:username>/posts/', UserArticlesView.as_view(), name='user-articles'),
     path('<str:username>/comments/', UserCommentsView.as_view(), name='user-comments'),
+    path('api/wordcloud/<str:username>/', WordcloudView.as_view(), name='wordcloud'),
 ]

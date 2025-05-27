@@ -2,27 +2,15 @@
   <div class="register-container">
     <form class="register-form" @submit.prevent="onRegister">
       <h2 class="form-title">회원가입</h2>
-      <div class="form-group">
-        <input type="text" placeholder="Username" v-model="form.username" />
-      </div>
-      <div class="form-group">
-        <input type="email" placeholder="Email" v-model="form.email" />
-      </div>
-      <div class="form-group">
-        <input type="password" placeholder="Password" v-model="form.password1" />
-      </div>
-      <div class="form-group">
-        <input type="password" placeholder="Password 확인" v-model="form.password2" />
-      </div>
-      <div class="form-group">
-        <input type="text" placeholder="Real Name" v-model="form.real_name" />
-      </div>
-      <div class="form-group">
-        <input type="text" placeholder="Nickname" v-model="form.nickname" />
-      </div>
-      <div class="form-group">
-        <input type="number" placeholder="Age" v-model.number="form.age" />
-      </div>
+
+      <div class="form-group"><input type="text" placeholder="Username" v-model="form.username" /></div>
+      <div class="form-group"><input type="email" placeholder="Email" v-model="form.email" /></div>
+      <div class="form-group"><input type="password" placeholder="Password" v-model="form.password1" /></div>
+      <div class="form-group"><input type="password" placeholder="Password 확인" v-model="form.password2" /></div>
+      <div class="form-group"><input type="text" placeholder="Real Name" v-model="form.real_name" /></div>
+      <div class="form-group"><input type="text" placeholder="Nickname" v-model="form.nickname" /></div>
+      <div class="form-group"><input type="number" placeholder="Age" v-model.number="form.age" /></div>
+
       <div class="form-group">
         <select v-model="form.gender">
           <option disabled value="">성별 선택</option>
@@ -30,12 +18,14 @@
           <option>여성</option>
         </select>
       </div>
+
       <div class="form-group">
         <select v-model="form.mbti">
           <option disabled value="">MBTI 선택</option>
           <option v-for="mbti in mbtis" :key="mbti">{{ mbti }}</option>
         </select>
       </div>
+
       <div class="form-group">
         <select v-model="form.region">
           <option disabled value="">지역 선택</option>
@@ -43,25 +33,39 @@
         </select>
       </div>
 
-      <div class="form-group genre-box">
-        <label>선호 장르</label>
-        <div class="genres">
-          <label v-for="genre in genres" :key="genre.id">
-            <input type="checkbox" :value="genre.id" v-model="form.preferred_genres" />
-            {{ genre.name }}
-          </label>
-        </div>
+      <!-- ✅ 선호 장르 우선순위 (중복 방지) -->
+      <div class="form-group genre-priority">
+        <label>1순위 장르:</label>
+        <select v-model="firstGenre">
+          <option disabled value="">선택</option>
+          <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group genre-priority">
+        <label>2순위 장르:</label>
+        <select v-model="secondGenre">
+          <option disabled value="">선택</option>
+          <option v-for="genre in filteredGenresForSecond" :key="genre.id" :value="genre.id">{{ genre.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group genre-priority">
+        <label>3순위 장르:</label>
+        <select v-model="thirdGenre">
+          <option disabled value="">선택</option>
+          <option v-for="genre in filteredGenresForThird" :key="genre.id" :value="genre.id">{{ genre.name }}</option>
+        </select>
       </div>
 
       <button class="submit-btn" type="submit">회원가입</button>
-
       <p v-if="errorMsg" class="error">{{ errorMsg }}</p>
     </form>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
@@ -69,6 +73,7 @@ import { useRouter } from 'vue-router'
 const userStore = useUserStore()
 const router = useRouter()
 
+// ✅ 회원가입 폼
 const form = ref({
   username: '',
   email: '',
@@ -80,8 +85,13 @@ const form = ref({
   gender: '',
   mbti: '',
   region: '',
-  preferred_genres: []
+  preferred_genres: [] // 최종 전송할 preferred_genres 배열
 })
+
+// ✅ 1순위, 2순위, 3순위 드롭다운
+const firstGenre = ref('')
+const secondGenre = ref('')
+const thirdGenre = ref('')
 
 const genres = ref([])
 const mbtis = ['INTP', 'INFP', 'INFJ', 'INTJ', 'ISFP', 'ISFJ', 'ISTP', 'ISTJ', 'ENFP', 'ENFJ', 'ENTP', 'ENTJ', 'ESFP', 'ESFJ', 'ESTP', 'ESTJ']
@@ -96,9 +106,28 @@ onMounted(async () => {
   }
 })
 
+// ✅ 중복 방지 (computed)
+const filteredGenresForSecond = computed(() => {
+  return genres.value.filter(genre => genre.id !== firstGenre.value)
+})
+const filteredGenresForThird = computed(() => {
+  return genres.value.filter(genre =>
+    genre.id !== firstGenre.value && genre.id !== secondGenre.value
+  )
+})
+
 const errorMsg = ref('')
 
+// ✅ 회원가입 요청
 const onRegister = async () => {
+  // preferred_genres 리스트로 구성
+  form.value.preferred_genres = [firstGenre.value, secondGenre.value, thirdGenre.value].filter(Boolean)
+
+  if (form.value.preferred_genres.length === 0) {
+    errorMsg.value = '선호 장르는 최소 1개 선택해야 합니다.'
+    return
+  }
+
   errorMsg.value = ''
   try {
     await userStore.register(form.value)
@@ -121,7 +150,7 @@ const onRegister = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #000; /* 배경 */
+  background: #000;
   min-height: 100vh;
 }
 
@@ -164,17 +193,6 @@ const onRegister = async () => {
   font-size: 0.9rem;
 }
 
-.genre-box .genres {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.genre-box .genres label {
-  color: #bbb;
-  font-size: 0.8rem;
-}
-
 .submit-btn {
   width: 100%;
   background: #007aff;
@@ -196,3 +214,5 @@ const onRegister = async () => {
   margin-top: 1rem;
 }
 </style>
+
+

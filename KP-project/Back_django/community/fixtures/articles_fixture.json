@@ -1,0 +1,1802 @@
+[
+  {
+    "model": "community.article",
+    "pk": 1,
+    "fields": {
+      "author": 1,
+      "title": "감상글 1 - 색감",
+      "content": "감독의 카메라워크 표현이 돋보였어요.",
+      "movie_title": 98459,
+      "article_likes": 30,
+      "views": 176
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 2,
+    "fields": {
+      "author": 1,
+      "title": "감상글 2 - 연출",
+      "content": "이번 영화에서는 촬영이 정말 인상적이었다.",
+      "movie_title": 13860,
+      "article_likes": 6,
+      "views": 99
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 3,
+    "fields": {
+      "author": 1,
+      "title": "감상글 3 - 촬영",
+      "content": "감독의 카메라워크 표현이 돋보였어요.",
+      "movie_title": 39721,
+      "article_likes": 4,
+      "views": 299
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 4,
+    "fields": {
+      "author": 1,
+      "title": "감상글 4 - 영상미",
+      "content": "영상미 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 94433,
+      "article_likes": 24,
+      "views": 45
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 5,
+    "fields": {
+      "author": 1,
+      "title": "감상글 5 - 영상미",
+      "content": "이번 영화에서는 색감이 정말 인상적이었다.",
+      "movie_title": 98584,
+      "article_likes": 9,
+      "views": 74
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 6,
+    "fields": {
+      "author": 1,
+      "title": "감상글 6 - 촬영",
+      "content": "이 영화는 색감가 정말 예술적이네요.",
+      "movie_title": 11582,
+      "article_likes": 27,
+      "views": 432
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 7,
+    "fields": {
+      "author": 1,
+      "title": "감상글 7 - 촬영",
+      "content": "이 영화는 촬영가 정말 예술적이네요.",
+      "movie_title": 51718,
+      "article_likes": 10,
+      "views": 245
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 8,
+    "fields": {
+      "author": 1,
+      "title": "감상글 8 - 카메라워크",
+      "content": "감독의 촬영 표현이 돋보였어요.",
+      "movie_title": 57960,
+      "article_likes": 11,
+      "views": 164
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 9,
+    "fields": {
+      "author": 1,
+      "title": "감상글 9 - 색감",
+      "content": "이번 영화에서는 촬영이 정말 인상적이었다.",
+      "movie_title": 83368,
+      "article_likes": 7,
+      "views": 28
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 10,
+    "fields": {
+      "author": 1,
+      "title": "감상글 10 - 색감",
+      "content": "감독의 영상미 표현이 돋보였어요.",
+      "movie_title": 94827,
+      "article_likes": 21,
+      "views": 107
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 11,
+    "fields": {
+      "author": 1,
+      "title": "감상글 11 - 카메라워크",
+      "content": "연출 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 13522,
+      "article_likes": 2,
+      "views": 51
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 12,
+    "fields": {
+      "author": 1,
+      "title": "감상글 12 - 촬영",
+      "content": "감독의 영상미 표현이 돋보였어요.",
+      "movie_title": 67512,
+      "article_likes": 10,
+      "views": 411
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 13,
+    "fields": {
+      "author": 1,
+      "title": "감상글 13 - 촬영",
+      "content": "이번 영화에서는 연출이 정말 인상적이었다.",
+      "movie_title": 51962,
+      "article_likes": 13,
+      "views": 290
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 14,
+    "fields": {
+      "author": 1,
+      "title": "감상글 14 - 카메라워크",
+      "content": "감독의 촬영 표현이 돋보였어요.",
+      "movie_title": 85661,
+      "article_likes": 7,
+      "views": 154
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 15,
+    "fields": {
+      "author": 1,
+      "title": "감상글 15 - 연출",
+      "content": "특히 색감 부분이 너무 좋았어요.",
+      "movie_title": 30689,
+      "article_likes": 16,
+      "views": 43
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 16,
+    "fields": {
+      "author": 1,
+      "title": "감상글 16 - 색감",
+      "content": "이 영화는 촬영가 정말 예술적이네요.",
+      "movie_title": 82070,
+      "article_likes": 3,
+      "views": 309
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 17,
+    "fields": {
+      "author": 1,
+      "title": "감상글 17 - 연출",
+      "content": "카메라워크 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 77946,
+      "article_likes": 15,
+      "views": 250
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 18,
+    "fields": {
+      "author": 1,
+      "title": "감상글 18 - 영상미",
+      "content": "이번 영화에서는 색감이 정말 인상적이었다.",
+      "movie_title": 41335,
+      "article_likes": 25,
+      "views": 254
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 19,
+    "fields": {
+      "author": 1,
+      "title": "감상글 19 - 영상미",
+      "content": "이번 영화에서는 영상미이 정말 인상적이었다.",
+      "movie_title": 26040,
+      "article_likes": 20,
+      "views": 304
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 20,
+    "fields": {
+      "author": 1,
+      "title": "감상글 20 - 영상미",
+      "content": "특히 촬영 부분이 너무 좋았어요.",
+      "movie_title": 64043,
+      "article_likes": 21,
+      "views": 460
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 21,
+    "fields": {
+      "author": 1,
+      "title": "감상글 21 - 촬영",
+      "content": "촬영 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 73921,
+      "article_likes": 12,
+      "views": 134
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 22,
+    "fields": {
+      "author": 1,
+      "title": "감상글 22 - 연출",
+      "content": "특히 연출 부분이 너무 좋았어요.",
+      "movie_title": 44544,
+      "article_likes": 20,
+      "views": 387
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 23,
+    "fields": {
+      "author": 1,
+      "title": "감상글 23 - 촬영",
+      "content": "감독의 영상미 표현이 돋보였어요.",
+      "movie_title": 71704,
+      "article_likes": 12,
+      "views": 229
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 24,
+    "fields": {
+      "author": 1,
+      "title": "감상글 24 - 촬영",
+      "content": "이 영화는 연출가 정말 예술적이네요.",
+      "movie_title": 87226,
+      "article_likes": 27,
+      "views": 84
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 25,
+    "fields": {
+      "author": 1,
+      "title": "감상글 25 - 영상미",
+      "content": "감독의 연출 표현이 돋보였어요.",
+      "movie_title": 53218,
+      "article_likes": 12,
+      "views": 434
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 26,
+    "fields": {
+      "author": 1,
+      "title": "감상글 26 - 색감",
+      "content": "이번 영화에서는 촬영이 정말 인상적이었다.",
+      "movie_title": 28925,
+      "article_likes": 29,
+      "views": 165
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 27,
+    "fields": {
+      "author": 1,
+      "title": "감상글 27 - 촬영",
+      "content": "이번 영화에서는 영상미이 정말 인상적이었다.",
+      "movie_title": 28101,
+      "article_likes": 27,
+      "views": 247
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 28,
+    "fields": {
+      "author": 1,
+      "title": "감상글 28 - 촬영",
+      "content": "특히 색감 부분이 너무 좋았어요.",
+      "movie_title": 98336,
+      "article_likes": 26,
+      "views": 99
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 29,
+    "fields": {
+      "author": 1,
+      "title": "감상글 29 - 촬영",
+      "content": "특히 연출 부분이 너무 좋았어요.",
+      "movie_title": 87988,
+      "article_likes": 10,
+      "views": 490
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 30,
+    "fields": {
+      "author": 1,
+      "title": "감상글 30 - 영상미",
+      "content": "이 영화는 영상미가 정말 예술적이네요.",
+      "movie_title": 85026,
+      "article_likes": 3,
+      "views": 191
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 31,
+    "fields": {
+      "author": 2,
+      "title": "감상글 1 - 스토리",
+      "content": "특히 스토리 부분이 너무 좋았어요.",
+      "movie_title": 69734,
+      "article_likes": 26,
+      "views": 367
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 32,
+    "fields": {
+      "author": 2,
+      "title": "감상글 2 - 스토리",
+      "content": "감독의 플롯 표현이 돋보였어요.",
+      "movie_title": 47801,
+      "article_likes": 19,
+      "views": 68
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 33,
+    "fields": {
+      "author": 2,
+      "title": "감상글 3 - 반전",
+      "content": "감독의 반전 표현이 돋보였어요.",
+      "movie_title": 68833,
+      "article_likes": 21,
+      "views": 294
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 34,
+    "fields": {
+      "author": 2,
+      "title": "감상글 4 - 스토리",
+      "content": "반전 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 49401,
+      "article_likes": 7,
+      "views": 356
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 35,
+    "fields": {
+      "author": 2,
+      "title": "감상글 5 - 반전",
+      "content": "특히 시나리오 부분이 너무 좋았어요.",
+      "movie_title": 37074,
+      "article_likes": 9,
+      "views": 204
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 36,
+    "fields": {
+      "author": 2,
+      "title": "감상글 6 - 결말",
+      "content": "감독의 결말 표현이 돋보였어요.",
+      "movie_title": 58653,
+      "article_likes": 13,
+      "views": 469
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 37,
+    "fields": {
+      "author": 2,
+      "title": "감상글 7 - 플롯",
+      "content": "감독의 스토리 표현이 돋보였어요.",
+      "movie_title": 75843,
+      "article_likes": 30,
+      "views": 414
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 38,
+    "fields": {
+      "author": 2,
+      "title": "감상글 8 - 시나리오",
+      "content": "특히 결말 부분이 너무 좋았어요.",
+      "movie_title": 69521,
+      "article_likes": 15,
+      "views": 305
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 39,
+    "fields": {
+      "author": 2,
+      "title": "감상글 9 - 스토리",
+      "content": "감독의 결말 표현이 돋보였어요.",
+      "movie_title": 20209,
+      "article_likes": 21,
+      "views": 456
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 40,
+    "fields": {
+      "author": 2,
+      "title": "감상글 10 - 시나리오",
+      "content": "감독의 반전 표현이 돋보였어요.",
+      "movie_title": 14892,
+      "article_likes": 5,
+      "views": 245
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 41,
+    "fields": {
+      "author": 2,
+      "title": "감상글 11 - 시나리오",
+      "content": "결말 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 70884,
+      "article_likes": 27,
+      "views": 39
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 42,
+    "fields": {
+      "author": 2,
+      "title": "감상글 12 - 플롯",
+      "content": "이 영화는 시나리오가 정말 예술적이네요.",
+      "movie_title": 93608,
+      "article_likes": 26,
+      "views": 401
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 43,
+    "fields": {
+      "author": 2,
+      "title": "감상글 13 - 스토리",
+      "content": "이 영화는 반전가 정말 예술적이네요.",
+      "movie_title": 25270,
+      "article_likes": 9,
+      "views": 239
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 44,
+    "fields": {
+      "author": 2,
+      "title": "감상글 14 - 스토리",
+      "content": "이 영화는 스토리가 정말 예술적이네요.",
+      "movie_title": 73067,
+      "article_likes": 23,
+      "views": 97
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 45,
+    "fields": {
+      "author": 2,
+      "title": "감상글 15 - 결말",
+      "content": "플롯 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 41667,
+      "article_likes": 18,
+      "views": 205
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 46,
+    "fields": {
+      "author": 2,
+      "title": "감상글 16 - 결말",
+      "content": "반전 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 77152,
+      "article_likes": 26,
+      "views": 313
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 47,
+    "fields": {
+      "author": 2,
+      "title": "감상글 17 - 스토리",
+      "content": "시나리오 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 91260,
+      "article_likes": 21,
+      "views": 327
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 48,
+    "fields": {
+      "author": 2,
+      "title": "감상글 18 - 결말",
+      "content": "반전 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 47498,
+      "article_likes": 28,
+      "views": 433
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 49,
+    "fields": {
+      "author": 2,
+      "title": "감상글 19 - 결말",
+      "content": "스토리 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 75995,
+      "article_likes": 7,
+      "views": 295
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 50,
+    "fields": {
+      "author": 2,
+      "title": "감상글 20 - 반전",
+      "content": "시나리오 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 67769,
+      "article_likes": 29,
+      "views": 203
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 51,
+    "fields": {
+      "author": 2,
+      "title": "감상글 21 - 결말",
+      "content": "시나리오 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 61595,
+      "article_likes": 22,
+      "views": 127
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 52,
+    "fields": {
+      "author": 2,
+      "title": "감상글 22 - 결말",
+      "content": "결말 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 41332,
+      "article_likes": 20,
+      "views": 429
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 53,
+    "fields": {
+      "author": 2,
+      "title": "감상글 23 - 결말",
+      "content": "반전 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 47669,
+      "article_likes": 27,
+      "views": 144
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 54,
+    "fields": {
+      "author": 2,
+      "title": "감상글 24 - 스토리",
+      "content": "특히 스토리 부분이 너무 좋았어요.",
+      "movie_title": 87401,
+      "article_likes": 26,
+      "views": 167
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 55,
+    "fields": {
+      "author": 2,
+      "title": "감상글 25 - 플롯",
+      "content": "이번 영화에서는 시나리오이 정말 인상적이었다.",
+      "movie_title": 67774,
+      "article_likes": 25,
+      "views": 232
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 56,
+    "fields": {
+      "author": 2,
+      "title": "감상글 26 - 스토리",
+      "content": "반전 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 22192,
+      "article_likes": 11,
+      "views": 249
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 57,
+    "fields": {
+      "author": 2,
+      "title": "감상글 27 - 시나리오",
+      "content": "스토리 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 44572,
+      "article_likes": 3,
+      "views": 108
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 58,
+    "fields": {
+      "author": 2,
+      "title": "감상글 28 - 스토리",
+      "content": "이 영화는 스토리가 정말 예술적이네요.",
+      "movie_title": 71788,
+      "article_likes": 6,
+      "views": 441
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 59,
+    "fields": {
+      "author": 2,
+      "title": "감상글 29 - 스토리",
+      "content": "이 영화는 결말가 정말 예술적이네요.",
+      "movie_title": 40454,
+      "article_likes": 24,
+      "views": 492
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 60,
+    "fields": {
+      "author": 2,
+      "title": "감상글 30 - 스토리",
+      "content": "이 영화는 반전가 정말 예술적이네요.",
+      "movie_title": 51856,
+      "article_likes": 3,
+      "views": 81
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 61,
+    "fields": {
+      "author": 3,
+      "title": "감상글 1 - 감정선",
+      "content": "이번 영화에서는 몰입감이 정말 인상적이었다.",
+      "movie_title": 32341,
+      "article_likes": 13,
+      "views": 165
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 62,
+    "fields": {
+      "author": 3,
+      "title": "감상글 2 - 연기력",
+      "content": "특히 감정선 부분이 너무 좋았어요.",
+      "movie_title": 26829,
+      "article_likes": 8,
+      "views": 338
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 63,
+    "fields": {
+      "author": 3,
+      "title": "감상글 3 - 배우",
+      "content": "이 영화는 캐릭터가 정말 예술적이네요.",
+      "movie_title": 26052,
+      "article_likes": 25,
+      "views": 400
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 64,
+    "fields": {
+      "author": 3,
+      "title": "감상글 4 - 감정선",
+      "content": "캐릭터 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 27724,
+      "article_likes": 14,
+      "views": 342
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 65,
+    "fields": {
+      "author": 3,
+      "title": "감상글 5 - 연기력",
+      "content": "캐릭터 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 17857,
+      "article_likes": 11,
+      "views": 325
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 66,
+    "fields": {
+      "author": 3,
+      "title": "감상글 6 - 연기력",
+      "content": "캐릭터 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 46029,
+      "article_likes": 6,
+      "views": 332
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 67,
+    "fields": {
+      "author": 3,
+      "title": "감상글 7 - 연기력",
+      "content": "이번 영화에서는 캐릭터이 정말 인상적이었다.",
+      "movie_title": 26875,
+      "article_likes": 1,
+      "views": 481
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 68,
+    "fields": {
+      "author": 3,
+      "title": "감상글 8 - 캐릭터",
+      "content": "이 영화는 감정선가 정말 예술적이네요.",
+      "movie_title": 39959,
+      "article_likes": 9,
+      "views": 257
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 69,
+    "fields": {
+      "author": 3,
+      "title": "감상글 9 - 연기력",
+      "content": "감독의 연기력 표현이 돋보였어요.",
+      "movie_title": 79635,
+      "article_likes": 1,
+      "views": 420
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 70,
+    "fields": {
+      "author": 3,
+      "title": "감상글 10 - 감정선",
+      "content": "특히 연기력 부분이 너무 좋았어요.",
+      "movie_title": 82089,
+      "article_likes": 16,
+      "views": 187
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 71,
+    "fields": {
+      "author": 3,
+      "title": "감상글 11 - 몰입감",
+      "content": "이 영화는 연기력가 정말 예술적이네요.",
+      "movie_title": 15214,
+      "article_likes": 29,
+      "views": 441
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 72,
+    "fields": {
+      "author": 3,
+      "title": "감상글 12 - 몰입감",
+      "content": "이번 영화에서는 연기력이 정말 인상적이었다.",
+      "movie_title": 30209,
+      "article_likes": 25,
+      "views": 63
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 73,
+    "fields": {
+      "author": 3,
+      "title": "감상글 13 - 연기력",
+      "content": "특히 배우 부분이 너무 좋았어요.",
+      "movie_title": 57335,
+      "article_likes": 17,
+      "views": 59
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 74,
+    "fields": {
+      "author": 3,
+      "title": "감상글 14 - 배우",
+      "content": "이 영화는 연기력가 정말 예술적이네요.",
+      "movie_title": 77243,
+      "article_likes": 26,
+      "views": 446
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 75,
+    "fields": {
+      "author": 3,
+      "title": "감상글 15 - 캐릭터",
+      "content": "감정선 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 72121,
+      "article_likes": 8,
+      "views": 499
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 76,
+    "fields": {
+      "author": 3,
+      "title": "감상글 16 - 몰입감",
+      "content": "이번 영화에서는 몰입감이 정말 인상적이었다.",
+      "movie_title": 68368,
+      "article_likes": 13,
+      "views": 214
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 77,
+    "fields": {
+      "author": 3,
+      "title": "감상글 17 - 캐릭터",
+      "content": "특히 연기력 부분이 너무 좋았어요.",
+      "movie_title": 47612,
+      "article_likes": 0,
+      "views": 292
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 78,
+    "fields": {
+      "author": 3,
+      "title": "감상글 18 - 연기력",
+      "content": "감독의 배우 표현이 돋보였어요.",
+      "movie_title": 44097,
+      "article_likes": 14,
+      "views": 390
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 79,
+    "fields": {
+      "author": 3,
+      "title": "감상글 19 - 몰입감",
+      "content": "이 영화는 감정선가 정말 예술적이네요.",
+      "movie_title": 97540,
+      "article_likes": 22,
+      "views": 415
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 80,
+    "fields": {
+      "author": 3,
+      "title": "감상글 20 - 몰입감",
+      "content": "이번 영화에서는 연기력이 정말 인상적이었다.",
+      "movie_title": 90781,
+      "article_likes": 30,
+      "views": 463
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 81,
+    "fields": {
+      "author": 3,
+      "title": "감상글 21 - 감정선",
+      "content": "감독의 연기력 표현이 돋보였어요.",
+      "movie_title": 61058,
+      "article_likes": 14,
+      "views": 114
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 82,
+    "fields": {
+      "author": 3,
+      "title": "감상글 22 - 몰입감",
+      "content": "특히 연기력 부분이 너무 좋았어요.",
+      "movie_title": 74085,
+      "article_likes": 28,
+      "views": 206
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 83,
+    "fields": {
+      "author": 3,
+      "title": "감상글 23 - 연기력",
+      "content": "연기력 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 48928,
+      "article_likes": 21,
+      "views": 248
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 84,
+    "fields": {
+      "author": 3,
+      "title": "감상글 24 - 캐릭터",
+      "content": "배우 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 73487,
+      "article_likes": 11,
+      "views": 245
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 85,
+    "fields": {
+      "author": 3,
+      "title": "감상글 25 - 배우",
+      "content": "감독의 배우 표현이 돋보였어요.",
+      "movie_title": 13082,
+      "article_likes": 29,
+      "views": 380
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 86,
+    "fields": {
+      "author": 3,
+      "title": "감상글 26 - 연기력",
+      "content": "감독의 몰입감 표현이 돋보였어요.",
+      "movie_title": 43891,
+      "article_likes": 11,
+      "views": 84
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 87,
+    "fields": {
+      "author": 3,
+      "title": "감상글 27 - 감정선",
+      "content": "감독의 몰입감 표현이 돋보였어요.",
+      "movie_title": 65503,
+      "article_likes": 26,
+      "views": 293
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 88,
+    "fields": {
+      "author": 3,
+      "title": "감상글 28 - 몰입감",
+      "content": "이 영화는 캐릭터가 정말 예술적이네요.",
+      "movie_title": 72988,
+      "article_likes": 6,
+      "views": 150
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 89,
+    "fields": {
+      "author": 3,
+      "title": "감상글 29 - 감정선",
+      "content": "특히 몰입감 부분이 너무 좋았어요.",
+      "movie_title": 12569,
+      "article_likes": 15,
+      "views": 349
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 90,
+    "fields": {
+      "author": 3,
+      "title": "감상글 30 - 배우",
+      "content": "이번 영화에서는 캐릭터이 정말 인상적이었다.",
+      "movie_title": 41279,
+      "article_likes": 11,
+      "views": 83
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 91,
+    "fields": {
+      "author": 4,
+      "title": "감상글 1 - 음악",
+      "content": "음악 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 86867,
+      "article_likes": 27,
+      "views": 435
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 92,
+    "fields": {
+      "author": 4,
+      "title": "감상글 2 - 음향",
+      "content": "이번 영화에서는 배경음이 정말 인상적이었다.",
+      "movie_title": 42869,
+      "article_likes": 22,
+      "views": 346
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 93,
+    "fields": {
+      "author": 4,
+      "title": "감상글 3 - 배경음",
+      "content": "감독의 음향 표현이 돋보였어요.",
+      "movie_title": 66725,
+      "article_likes": 25,
+      "views": 497
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 94,
+    "fields": {
+      "author": 4,
+      "title": "감상글 4 - 배경음",
+      "content": "감독의 배경음 표현이 돋보였어요.",
+      "movie_title": 78483,
+      "article_likes": 20,
+      "views": 250
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 95,
+    "fields": {
+      "author": 4,
+      "title": "감상글 5 - 음악",
+      "content": "사운드트랙 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 37100,
+      "article_likes": 15,
+      "views": 463
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 96,
+    "fields": {
+      "author": 4,
+      "title": "감상글 6 - 음악",
+      "content": "이 영화는 배경음가 정말 예술적이네요.",
+      "movie_title": 56536,
+      "article_likes": 28,
+      "views": 12
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 97,
+    "fields": {
+      "author": 4,
+      "title": "감상글 7 - 음악",
+      "content": "특히 배경음 부분이 너무 좋았어요.",
+      "movie_title": 77957,
+      "article_likes": 25,
+      "views": 247
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 98,
+    "fields": {
+      "author": 4,
+      "title": "감상글 8 - 음악",
+      "content": "사운드트랙 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 46529,
+      "article_likes": 21,
+      "views": 359
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 99,
+    "fields": {
+      "author": 4,
+      "title": "감상글 9 - OST",
+      "content": "이번 영화에서는 음향이 정말 인상적이었다.",
+      "movie_title": 49901,
+      "article_likes": 5,
+      "views": 473
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 100,
+    "fields": {
+      "author": 4,
+      "title": "감상글 10 - 음향",
+      "content": "특히 음향 부분이 너무 좋았어요.",
+      "movie_title": 77385,
+      "article_likes": 10,
+      "views": 268
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 101,
+    "fields": {
+      "author": 4,
+      "title": "감상글 11 - 음악",
+      "content": "이번 영화에서는 OST이 정말 인상적이었다.",
+      "movie_title": 76541,
+      "article_likes": 24,
+      "views": 451
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 102,
+    "fields": {
+      "author": 4,
+      "title": "감상글 12 - 음악",
+      "content": "이 영화는 배경음가 정말 예술적이네요.",
+      "movie_title": 82065,
+      "article_likes": 3,
+      "views": 303
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 103,
+    "fields": {
+      "author": 4,
+      "title": "감상글 13 - OST",
+      "content": "이번 영화에서는 배경음이 정말 인상적이었다.",
+      "movie_title": 83272,
+      "article_likes": 10,
+      "views": 44
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 104,
+    "fields": {
+      "author": 4,
+      "title": "감상글 14 - 음향",
+      "content": "이번 영화에서는 OST이 정말 인상적이었다.",
+      "movie_title": 38498,
+      "article_likes": 14,
+      "views": 213
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 105,
+    "fields": {
+      "author": 4,
+      "title": "감상글 15 - 음향",
+      "content": "이번 영화에서는 음향이 정말 인상적이었다.",
+      "movie_title": 52943,
+      "article_likes": 26,
+      "views": 171
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 106,
+    "fields": {
+      "author": 4,
+      "title": "감상글 16 - OST",
+      "content": "이 영화는 사운드트랙가 정말 예술적이네요.",
+      "movie_title": 68287,
+      "article_likes": 5,
+      "views": 106
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 107,
+    "fields": {
+      "author": 4,
+      "title": "감상글 17 - 배경음",
+      "content": "감독의 배경음 표현이 돋보였어요.",
+      "movie_title": 55822,
+      "article_likes": 26,
+      "views": 306
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 108,
+    "fields": {
+      "author": 4,
+      "title": "감상글 18 - 배경음",
+      "content": "이번 영화에서는 음향이 정말 인상적이었다.",
+      "movie_title": 23171,
+      "article_likes": 28,
+      "views": 403
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 109,
+    "fields": {
+      "author": 4,
+      "title": "감상글 19 - 사운드트랙",
+      "content": "OST 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 24923,
+      "article_likes": 6,
+      "views": 88
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 110,
+    "fields": {
+      "author": 4,
+      "title": "감상글 20 - OST",
+      "content": "배경음 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 99976,
+      "article_likes": 18,
+      "views": 313
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 111,
+    "fields": {
+      "author": 4,
+      "title": "감상글 21 - 배경음",
+      "content": "이 영화는 음향가 정말 예술적이네요.",
+      "movie_title": 67262,
+      "article_likes": 13,
+      "views": 368
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 112,
+    "fields": {
+      "author": 4,
+      "title": "감상글 22 - 음향",
+      "content": "이 영화는 OST가 정말 예술적이네요.",
+      "movie_title": 26042,
+      "article_likes": 16,
+      "views": 291
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 113,
+    "fields": {
+      "author": 4,
+      "title": "감상글 23 - OST",
+      "content": "감독의 사운드트랙 표현이 돋보였어요.",
+      "movie_title": 13664,
+      "article_likes": 25,
+      "views": 486
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 114,
+    "fields": {
+      "author": 4,
+      "title": "감상글 24 - OST",
+      "content": "특히 OST 부분이 너무 좋았어요.",
+      "movie_title": 13790,
+      "article_likes": 0,
+      "views": 120
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 115,
+    "fields": {
+      "author": 4,
+      "title": "감상글 25 - 음향",
+      "content": "특히 사운드트랙 부분이 너무 좋았어요.",
+      "movie_title": 31513,
+      "article_likes": 8,
+      "views": 349
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 116,
+    "fields": {
+      "author": 4,
+      "title": "감상글 26 - 배경음",
+      "content": "음향 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 53350,
+      "article_likes": 4,
+      "views": 472
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 117,
+    "fields": {
+      "author": 4,
+      "title": "감상글 27 - 배경음",
+      "content": "이 영화는 음악가 정말 예술적이네요.",
+      "movie_title": 96601,
+      "article_likes": 25,
+      "views": 247
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 118,
+    "fields": {
+      "author": 4,
+      "title": "감상글 28 - 음향",
+      "content": "감독의 음향 표현이 돋보였어요.",
+      "movie_title": 11423,
+      "article_likes": 15,
+      "views": 144
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 119,
+    "fields": {
+      "author": 4,
+      "title": "감상글 29 - 배경음",
+      "content": "감독의 배경음 표현이 돋보였어요.",
+      "movie_title": 94653,
+      "article_likes": 15,
+      "views": 67
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 120,
+    "fields": {
+      "author": 4,
+      "title": "감상글 30 - 음향",
+      "content": "특히 음악 부분이 너무 좋았어요.",
+      "movie_title": 71809,
+      "article_likes": 20,
+      "views": 425
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 121,
+    "fields": {
+      "author": 5,
+      "title": "감상글 1 - 감독의 의도",
+      "content": "이 영화는 주제의식가 정말 예술적이네요.",
+      "movie_title": 85752,
+      "article_likes": 7,
+      "views": 24
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 122,
+    "fields": {
+      "author": 5,
+      "title": "감상글 2 - 주제의식",
+      "content": "감독의 사회적 메시지 표현이 돋보였어요.",
+      "movie_title": 99057,
+      "article_likes": 2,
+      "views": 359
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 123,
+    "fields": {
+      "author": 5,
+      "title": "감상글 3 - 사회적 메시지",
+      "content": "감독의 의도 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 60455,
+      "article_likes": 22,
+      "views": 421
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 124,
+    "fields": {
+      "author": 5,
+      "title": "감상글 4 - 사회적 메시지",
+      "content": "이 영화는 철학가 정말 예술적이네요.",
+      "movie_title": 80289,
+      "article_likes": 8,
+      "views": 282
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 125,
+    "fields": {
+      "author": 5,
+      "title": "감상글 5 - 주제의식",
+      "content": "이 영화는 주제의식가 정말 예술적이네요.",
+      "movie_title": 46124,
+      "article_likes": 18,
+      "views": 225
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 126,
+    "fields": {
+      "author": 5,
+      "title": "감상글 6 - 철학",
+      "content": "이 영화는 사회적 메시지가 정말 예술적이네요.",
+      "movie_title": 50939,
+      "article_likes": 1,
+      "views": 88
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 127,
+    "fields": {
+      "author": 5,
+      "title": "감상글 7 - 감독의 의도",
+      "content": "감독의 감독의 의도 표현이 돋보였어요.",
+      "movie_title": 19132,
+      "article_likes": 13,
+      "views": 119
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 128,
+    "fields": {
+      "author": 5,
+      "title": "감상글 8 - 철학",
+      "content": "이번 영화에서는 사회 비판이 정말 인상적이었다.",
+      "movie_title": 32993,
+      "article_likes": 9,
+      "views": 418
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 129,
+    "fields": {
+      "author": 5,
+      "title": "감상글 9 - 감독의 의도",
+      "content": "이 영화는 감독의 의도가 정말 예술적이네요.",
+      "movie_title": 48123,
+      "article_likes": 4,
+      "views": 427
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 130,
+    "fields": {
+      "author": 5,
+      "title": "감상글 10 - 주제의식",
+      "content": "이 영화는 사회적 메시지가 정말 예술적이네요.",
+      "movie_title": 91966,
+      "article_likes": 9,
+      "views": 174
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 131,
+    "fields": {
+      "author": 5,
+      "title": "감상글 11 - 사회적 메시지",
+      "content": "이번 영화에서는 철학이 정말 인상적이었다.",
+      "movie_title": 18468,
+      "article_likes": 14,
+      "views": 86
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 132,
+    "fields": {
+      "author": 5,
+      "title": "감상글 12 - 철학",
+      "content": "이 영화는 철학가 정말 예술적이네요.",
+      "movie_title": 60610,
+      "article_likes": 11,
+      "views": 194
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 133,
+    "fields": {
+      "author": 5,
+      "title": "감상글 13 - 감독의 의도",
+      "content": "사회적 메시지 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 86203,
+      "article_likes": 20,
+      "views": 207
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 134,
+    "fields": {
+      "author": 5,
+      "title": "감상글 14 - 주제의식",
+      "content": "이번 영화에서는 사회적 메시지이 정말 인상적이었다.",
+      "movie_title": 73250,
+      "article_likes": 9,
+      "views": 95
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 135,
+    "fields": {
+      "author": 5,
+      "title": "감상글 15 - 철학",
+      "content": "특히 감독의 의도 부분이 너무 좋았어요.",
+      "movie_title": 75975,
+      "article_likes": 7,
+      "views": 275
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 136,
+    "fields": {
+      "author": 5,
+      "title": "감상글 16 - 철학",
+      "content": "감독의 의도 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 89266,
+      "article_likes": 10,
+      "views": 306
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 137,
+    "fields": {
+      "author": 5,
+      "title": "감상글 17 - 철학",
+      "content": "철학 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 33062,
+      "article_likes": 25,
+      "views": 84
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 138,
+    "fields": {
+      "author": 5,
+      "title": "감상글 18 - 철학",
+      "content": "특히 사회적 메시지 부분이 너무 좋았어요.",
+      "movie_title": 83677,
+      "article_likes": 30,
+      "views": 261
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 139,
+    "fields": {
+      "author": 5,
+      "title": "감상글 19 - 사회 비판",
+      "content": "감독의 사회 비판 표현이 돋보였어요.",
+      "movie_title": 56593,
+      "article_likes": 29,
+      "views": 58
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 140,
+    "fields": {
+      "author": 5,
+      "title": "감상글 20 - 철학",
+      "content": "이번 영화에서는 철학이 정말 인상적이었다.",
+      "movie_title": 18010,
+      "article_likes": 2,
+      "views": 61
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 141,
+    "fields": {
+      "author": 5,
+      "title": "감상글 21 - 철학",
+      "content": "이 영화는 사회적 메시지가 정말 예술적이네요.",
+      "movie_title": 68056,
+      "article_likes": 16,
+      "views": 97
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 142,
+    "fields": {
+      "author": 5,
+      "title": "감상글 22 - 철학",
+      "content": "감독의 의도 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 97170,
+      "article_likes": 7,
+      "views": 366
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 143,
+    "fields": {
+      "author": 5,
+      "title": "감상글 23 - 사회적 메시지",
+      "content": "감독의 감독의 의도 표현이 돋보였어요.",
+      "movie_title": 23567,
+      "article_likes": 22,
+      "views": 488
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 144,
+    "fields": {
+      "author": 5,
+      "title": "감상글 24 - 주제의식",
+      "content": "주제의식 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 25962,
+      "article_likes": 3,
+      "views": 44
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 145,
+    "fields": {
+      "author": 5,
+      "title": "감상글 25 - 주제의식",
+      "content": "감독의 철학 표현이 돋보였어요.",
+      "movie_title": 25428,
+      "article_likes": 28,
+      "views": 166
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 146,
+    "fields": {
+      "author": 5,
+      "title": "감상글 26 - 주제의식",
+      "content": "이 영화는 주제의식가 정말 예술적이네요.",
+      "movie_title": 91330,
+      "article_likes": 10,
+      "views": 36
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 147,
+    "fields": {
+      "author": 5,
+      "title": "감상글 27 - 사회 비판",
+      "content": "감독의 주제의식 표현이 돋보였어요.",
+      "movie_title": 37981,
+      "article_likes": 22,
+      "views": 413
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 148,
+    "fields": {
+      "author": 5,
+      "title": "감상글 28 - 사회적 메시지",
+      "content": "감독의 사회 비판 표현이 돋보였어요.",
+      "movie_title": 55775,
+      "article_likes": 29,
+      "views": 94
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 149,
+    "fields": {
+      "author": 5,
+      "title": "감상글 29 - 사회적 메시지",
+      "content": "이 영화는 감독의 의도가 정말 예술적이네요.",
+      "movie_title": 65720,
+      "article_likes": 20,
+      "views": 30
+    }
+  },
+  {
+    "model": "community.article",
+    "pk": 150,
+    "fields": {
+      "author": 5,
+      "title": "감상글 30 - 철학",
+      "content": "사회 비판 덕분에 더 몰입할 수 있었어요.",
+      "movie_title": 55438,
+      "article_likes": 17,
+      "views": 149
+    }
+  }
+]

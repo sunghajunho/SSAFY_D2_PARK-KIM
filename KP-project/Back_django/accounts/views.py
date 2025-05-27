@@ -8,6 +8,7 @@ from .models import CustomUser, Follow, WatchHistory, FavoriteMovie
 from core.models import Genre
 from rest_framework import status, viewsets, generics, permissions, serializers
 from rest_framework.authentication import TokenAuthentication
+import numpy as np
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 
@@ -168,3 +169,5 @@ class FavoriteMovieListView(APIView):
         tmdb_ids = favorite_movies.values_list('tmdb_id', flat=True)
         print(list(tmdb_ids))
         return Response({'tmdb_ids': list(tmdb_ids)})
+    
+

@@ -1,17 +1,88 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useUserStore } from '@/stores/userStore'
+import { useRoute, useRouter } from 'vue-router'
+import api from '@/api/axios'
+import axios from 'axios'
+
+const userStore = useUserStore()
+const router = useRouter()
+const route = useRoute()
+
+const favoriteMovies = ref([])
+
+const props = defineProps({
+  isMyProfile: Boolean
+})
+
+const fetchFavoriteMovieDetails = async () => {
+  try {
+    // ⭐ Pinia에서 favoriteMovieIds를 채워줌
+    await userStore.fetchFavoriteMovies(route.params.username)
+
+    console.log('ID 목록:', userStore.favoriteMovieIds)  // 👈 이거 확인
+
+    // ⭐ TMDB API로 실제 데이터 요청
+    if (userStore.favoriteMovieIds.length) {
+      const details = await Promise.all(
+        userStore.favoriteMovieIds.map(async (id) => {
+          const res = await axios.get(
+            `https://api.themoviedb.org/3/movie/${id}`,
+            {
+              params: { api_key: 'f2fd16b8032965fdf2108baab6171e4e', language: 'ko-KR' },
+            }
+          )
+          return res.data
+        })
+      )
+      favoriteMovies.value = details
+    } else {
+      favoriteMovies.value = []
+    }
+
+    console.log('최종 데이터:', favoriteMovies.value)
+  } catch (e) {
+    console.error('찜한 영화 정보 로딩 실패', e)
+  }
+}
+
+// ⭐ 영화 삭제 함수
+const removeFromFavorites = async (tmdbId) => {
+  try {
+    await api.delete(`/accounts/favorites/remove/${tmdbId}/`)
+    // 삭제 성공 시 목록에서 제거
+    favoriteMovies.value = favoriteMovies.value.filter(
+      (movie) => movie.id !== tmdbId
+    )
+  } catch (e) {
+    console.error('찜한 영화 삭제 실패:', e)
+  }
+}
+
+
+// ⭐️ goToMovieDetail 정의
+const goToMovieDetail = (movieId) => {
+  router.push(`detail/${movieId}`)
+}
+
+onMounted(fetchFavoriteMovieDetails)
+</script>
+
+
 <template>
-  <div class="favorite-movies">
+  <div class="favorite-movies-container">
     <h4>찜한 영화</h4>
-    <div v-if="favoriteMovies.length" class="favorite-movie-list">
+    <div v-if="favoriteMovies && favoriteMovies.length" class="favorite-movie-list">
       <div
         v-for="movie in favoriteMovies"
         :key="movie.id"
         class="movie-item"
-        @click="goToMovieDetail(movie.id)"
       >
         <img
           :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
           :alt="movie.title"
           class="movie-poster"
+          @click="goToMovieDetail(movie.id)"
         />
         <button
           v-if="isMyProfile"
@@ -26,95 +97,32 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue'
-import { useUserStore } from '@/stores/userStore'
-import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
-
-const userStore = useUserStore()
-const router = useRouter()
-const route = useRoute()
-const favoriteMovies = ref([])
-
-const props = defineProps({
-  isMyProfile: Boolean
-})
-
-onMounted(async () => {
-  await userStore.fetchFavoriteMovies(route.params.username)
-  console.log(userStore.favoriteMovieIds)
-  if (userStore.favoriteMovieIds.length) {
-    try {
-      const movieDetails = await Promise.all(
-        userStore.favoriteMovieIds.map(async (id) => {
-          const res = await axios.get(
-            `https://api.themoviedb.org/3/movie/${id}`,
-            {
-              params: { api_key: 'f2fd16b8032965fdf2108baab6171e4e', language: 'ko-KR' },
-            }
-          )
-          return res.data
-          console.log(res.data)
-        })
-      )
-      favoriteMovies.value = movieDetails
-    } catch (e) {
-      console.error('TMDB API 오류:', e)
-      favoriteMovies.value = []  // ✅ 오류시도 안전하게 초기화!
-    }
-  } else {
-    favoriteMovies.value = []  // ✅ 없을 때도 안전하게 초기화
-  }
-})
-
-const goToMovieDetail = (movieId) => {
-  router.push(`/movies/${movieId}`)
-}
-
-const removeFromFavorites = async (tmdbId) => {
-  if (confirm('정말로 삭제하시겠습니까?')) {
-    try {
-      await axios.delete(`http://localhost:8000/accounts/favorites/remove/${tmdbId}/`, {
-        headers: { Authorization: `Token ${userStore.token}` }
-      })
-      // 삭제 후 목록에서 제거
-      favoriteMovies.value = favoriteMovies.value.filter(
-        (movie) => movie.id !== tmdbId
-      )
-      userStore.favoriteMovieIds = userStore.favoriteMovieIds.filter(
-        (id) => id !== tmdbId
-      )
-    } catch (e) {
-      console.error('삭제 실패', e)
-      alert('삭제 중 오류가 발생했습니다.')
-    }
-  }
-}
-</script>
-
 <style scoped>
+.favorite-movies-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
 .favorite-movie-list {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  justify-content: center; /* ✅ 중앙 정렬 */
+  justify-content: center;
 }
 
 .movie-item {
-  display:flex;
+  cursor: pointer;
+  position: relative;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.movie-item:hover {
-  transform: scale(1.05);
 }
 
 .movie-poster {
-  width: 180px; /* ✅ 포스터 크기 조절 */
+  width: 180px;
   height: 270px;
   border-radius: 8px;
   object-fit: cover;
@@ -132,3 +140,4 @@ const removeFromFavorites = async (tmdbId) => {
   cursor: pointer;
 }
 </style>
+
