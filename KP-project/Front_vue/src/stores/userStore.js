@@ -97,6 +97,7 @@ export const useUserStore = defineStore('user', () => {
   const getUserProfile = async (usernameParam) => {
     try {
       const res = await api.get(`/accounts/profile/${usernameParam}/`)
+      console.log(res.data)
       return res.data
     } catch (err) {
       console.error('사용자 프로필 로드 실패:', err)

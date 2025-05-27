@@ -4,8 +4,8 @@ import { useUserStore } from '@/stores/userStore'
 import { useReviewStore } from '@/stores/reviewStore'
 import { useRoute, useRouter } from 'vue-router'
 import api from '@/api/axios'
-import PreferenceMatch from '@/components/PreferenceMatch.vue'
 import ProfileFavorites from '@/components/ProfileFavorites.vue'
+import Wordcloud from '@/components/Wordcloud.vue' 
 
 const route = useRoute()
 const router = useRouter()
@@ -18,6 +18,7 @@ const usernameParam = route.params.username
 const fetchProfile = async () => {
   if (usernameParam) {
     profile.value = await userStore.getUserProfile(usernameParam)
+    console.log(profile.value)
   } else {
     profile.value = await userStore.getUserProfile(userStore.username)
   }
@@ -87,6 +88,9 @@ const myComments = computed(() =>
               <span>팔로잉 <b>{{ following.length }}</b></span>
             </router-link>
           </div>
+          <div v-if="isMyProfile">
+            <router-link to="/profile/edit" class="edit-profile-btn">  ✏️ </router-link>
+          </div>
         </div>
       </div>
 
@@ -117,14 +121,12 @@ const myComments = computed(() =>
           </div>
       </div>
     </div>
-    
-    <div v-if="isMyProfile">
-      <router-link to="/profile/edit" class="btn btn-primary">프로필 변경</router-link>
-    </div>
 
     <hr />
 
-    <PreferenceMatch />
+    <Wordcloud />
+
+    <hr />
 
     <ProfileFavorites :is-my-profile="isMyProfile"/>
 
@@ -135,13 +137,14 @@ const myComments = computed(() =>
 <style scoped>
 /* 전체 컨테이너를 중앙 정렬 + 고정 폭 */
 .profile-container {
-  width: 420px; /* 적당한 너비 */
+  width: 760px; /* 적당한 너비 */
   margin: 0 auto;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 /* 프로필 헤더 */
@@ -198,6 +201,21 @@ const myComments = computed(() =>
   margin: 0;
   font-size: 0.9rem;
   color: #555;
+}
+
+.edit-profile-btn {
+  position: absolute;
+  top: 10px;       /* 위쪽 여백 */
+  right: 10px;     /* 오른쪽 여백 */
+  background: none; /* 배경 없앰 */
+  border: none;     /* 테두리 없앰 */
+  font-size: 1.2rem; /* 아이콘 크기 조정 */
+  cursor: pointer;
+  color: #333;
+}
+
+.edit-profile-btn:hover {
+  color: #000;     /* 호버 시 색 변경 */
 }
 
 /* 팔로우 버튼 영역 */

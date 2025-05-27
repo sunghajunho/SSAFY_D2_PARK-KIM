@@ -104,7 +104,7 @@ const changePage = (page) => {
       <div class="flex-grow-1">
         <h6 class="m-0">{{ review.title }}</h6>
         <p class="m-0 text-muted small">{{ review.author.nickname }}</p>
-        <p class="text-muted small">조회수: {{ review.views }}</p>
+        <p class="text-muted small">영화 제목: {{ review.movie_title_display }}</p>
       </div>
 
       <!-- 자세히 버튼 -->

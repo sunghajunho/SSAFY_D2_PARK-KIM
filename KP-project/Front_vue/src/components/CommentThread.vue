@@ -20,6 +20,14 @@ const replyingTo = ref(null)
 const editingCommentId = ref(null)
 const editBuffer = ref('')
 
+const formattedDate = computed(() => {
+  if (store.currentReview?.created_at) {
+    return new Date(store.currentReview.created_at).toISOString().slice(0, 10)
+  }
+  return ''
+})
+
+
 async function loadComments() {
   await store.fetchComments(props.reviewId)
 }
@@ -107,7 +115,7 @@ const sortedComments = computed(() => {
       <div class="p-2 bg-light border rounded">
         <p class="mb-1">{{ comment.content }}</p>
         <small class="text-muted">
-          {{ comment.author.nickname }} · {{ comment.created_at }}
+          {{ comment.author.nickname }} · {{ formattedDate }}
         </small>
 
         <button @click="handleCommentLike(comment.id)">

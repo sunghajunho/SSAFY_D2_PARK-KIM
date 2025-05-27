@@ -37,7 +37,15 @@ class CommentSerializer(serializers.ModelSerializer):
 class ArticleSerializer(serializers.ModelSerializer):
     author = CustomUserSerializer(read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
-    movie_title = serializers.PrimaryKeyRelatedField(queryset=Movie.objects.all())
+
+    # ✅ 원래 ForeignKey 필드 (id 저장용)
+    movie_title = serializers.PrimaryKeyRelatedField(
+        queryset=Movie.objects.all()
+    )
+
+    # ✅ 영화 제목을 보여주기 위한 read-only 필드
+    movie_title_display = serializers.SerializerMethodField()
+
     genre = serializers.PrimaryKeyRelatedField(
         many=True,
         queryset=Genre.objects.all()
@@ -46,21 +54,19 @@ class ArticleSerializer(serializers.ModelSerializer):
     is_liked = serializers.SerializerMethodField()
 
     class Meta:
-        model = Article  # ✅ 문자열이 아닌 클래스 참조로 수정
+        model = Article
         fields = '__all__'
         read_only_fields = ['author', 'article_likes', 'views', 'created_at', 'updated_at',]
 
-    def get_movie_genres(self, obj):
-        if obj.movie:
-            return [genre.name for genre in obj.movie.genres.all()]
-        return []
-    
-    def get_article_likes(self,obj):
+    def get_movie_title_display(self, obj):
+        return obj.movie_title.title if obj.movie_title else None
+
+    def get_article_likes(self, obj):
         return obj.liked_users.count()
-    
-    def get_is_liked(self,obj):
-        request = self.context.get('request',None)
-        user = getattr(request,'user',None)
+
+    def get_is_liked(self, obj):
+        request = self.context.get('request', None)
+        user = getattr(request, 'user', None)
         if user and request.user.is_authenticated:
             return obj.liked_users.filter(pk=request.user.pk).exists()
         return False

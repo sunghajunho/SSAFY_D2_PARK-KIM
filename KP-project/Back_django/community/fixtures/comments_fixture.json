@@ -1,0 +1,1102 @@
+[
+  {
+    "model": "community.comment",
+    "pk": 1,
+    "fields": {
+      "article": 105,
+      "author": 1,
+      "content": "특히 카메라워크 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 0
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 2,
+    "fields": {
+      "article": 110,
+      "author": 1,
+      "content": "감독의 연출 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 13
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 3,
+    "fields": {
+      "article": 124,
+      "author": 1,
+      "content": "이번 영화에서는 색감이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 5
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 4,
+    "fields": {
+      "article": 76,
+      "author": 1,
+      "content": "이번 영화에서는 연출이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 11
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 5,
+    "fields": {
+      "article": 6,
+      "author": 1,
+      "content": "감독의 촬영 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 5
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 6,
+    "fields": {
+      "article": 144,
+      "author": 1,
+      "content": "감독의 영상미 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 19
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 7,
+    "fields": {
+      "article": 58,
+      "author": 1,
+      "content": "영상미 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 11
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 8,
+    "fields": {
+      "article": 67,
+      "author": 1,
+      "content": "촬영 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 14
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 9,
+    "fields": {
+      "article": 80,
+      "author": 1,
+      "content": "이 영화는 카메라워크가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 13
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 10,
+    "fields": {
+      "article": 68,
+      "author": 1,
+      "content": "이번 영화에서는 촬영이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 8
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 11,
+    "fields": {
+      "article": 108,
+      "author": 1,
+      "content": "이 영화는 색감가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 0
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 12,
+    "fields": {
+      "article": 31,
+      "author": 1,
+      "content": "감독의 연출 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 5
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 13,
+    "fields": {
+      "article": 52,
+      "author": 1,
+      "content": "촬영 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 19
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 14,
+    "fields": {
+      "article": 75,
+      "author": 1,
+      "content": "이 영화는 카메라워크가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 2
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 15,
+    "fields": {
+      "article": 146,
+      "author": 1,
+      "content": "특히 색감 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 20
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 16,
+    "fields": {
+      "article": 71,
+      "author": 1,
+      "content": "감독의 영상미 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 9
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 17,
+    "fields": {
+      "article": 46,
+      "author": 1,
+      "content": "영상미 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 5
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 18,
+    "fields": {
+      "article": 137,
+      "author": 1,
+      "content": "감독의 영상미 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 13
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 19,
+    "fields": {
+      "article": 80,
+      "author": 1,
+      "content": "영상미 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 20
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 20,
+    "fields": {
+      "article": 126,
+      "author": 1,
+      "content": "이번 영화에서는 연출이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 11
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 21,
+    "fields": {
+      "article": 145,
+      "author": 2,
+      "content": "이 영화는 스토리가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 7
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 22,
+    "fields": {
+      "article": 43,
+      "author": 2,
+      "content": "이번 영화에서는 스토리이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 13
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 23,
+    "fields": {
+      "article": 132,
+      "author": 2,
+      "content": "감독의 스토리 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 13
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 24,
+    "fields": {
+      "article": 68,
+      "author": 2,
+      "content": "플롯 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 10
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 25,
+    "fields": {
+      "article": 120,
+      "author": 2,
+      "content": "감독의 결말 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 16
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 26,
+    "fields": {
+      "article": 3,
+      "author": 2,
+      "content": "시나리오 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 20
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 27,
+    "fields": {
+      "article": 85,
+      "author": 2,
+      "content": "이 영화는 결말가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 0
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 28,
+    "fields": {
+      "article": 118,
+      "author": 2,
+      "content": "이 영화는 시나리오가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 7
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 29,
+    "fields": {
+      "article": 23,
+      "author": 2,
+      "content": "특히 반전 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 14
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 30,
+    "fields": {
+      "article": 56,
+      "author": 2,
+      "content": "감독의 스토리 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 9
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 31,
+    "fields": {
+      "article": 25,
+      "author": 2,
+      "content": "이번 영화에서는 플롯이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 1
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 32,
+    "fields": {
+      "article": 145,
+      "author": 2,
+      "content": "반전 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 14
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 33,
+    "fields": {
+      "article": 127,
+      "author": 2,
+      "content": "이 영화는 반전가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 11
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 34,
+    "fields": {
+      "article": 36,
+      "author": 2,
+      "content": "특히 결말 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 19
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 35,
+    "fields": {
+      "article": 79,
+      "author": 2,
+      "content": "특히 결말 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 20
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 36,
+    "fields": {
+      "article": 35,
+      "author": 2,
+      "content": "스토리 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 15
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 37,
+    "fields": {
+      "article": 69,
+      "author": 2,
+      "content": "감독의 플롯 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 17
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 38,
+    "fields": {
+      "article": 61,
+      "author": 2,
+      "content": "이 영화는 반전가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 19
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 39,
+    "fields": {
+      "article": 42,
+      "author": 2,
+      "content": "반전 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 1
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 40,
+    "fields": {
+      "article": 73,
+      "author": 2,
+      "content": "이 영화는 시나리오가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 9
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 41,
+    "fields": {
+      "article": 75,
+      "author": 3,
+      "content": "감정선 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 18
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 42,
+    "fields": {
+      "article": 143,
+      "author": 3,
+      "content": "이 영화는 배우가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 20
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 43,
+    "fields": {
+      "article": 24,
+      "author": 3,
+      "content": "이번 영화에서는 연기력이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 0
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 44,
+    "fields": {
+      "article": 134,
+      "author": 3,
+      "content": "특히 배우 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 9
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 45,
+    "fields": {
+      "article": 89,
+      "author": 3,
+      "content": "캐릭터 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 14
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 46,
+    "fields": {
+      "article": 134,
+      "author": 3,
+      "content": "배우 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 6
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 47,
+    "fields": {
+      "article": 88,
+      "author": 3,
+      "content": "캐릭터 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 19
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 48,
+    "fields": {
+      "article": 3,
+      "author": 3,
+      "content": "이 영화는 몰입감가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 10
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 49,
+    "fields": {
+      "article": 72,
+      "author": 3,
+      "content": "이 영화는 연기력가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 12
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 50,
+    "fields": {
+      "article": 55,
+      "author": 3,
+      "content": "감독의 배우 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 19
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 51,
+    "fields": {
+      "article": 141,
+      "author": 3,
+      "content": "이 영화는 연기력가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 16
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 52,
+    "fields": {
+      "article": 132,
+      "author": 3,
+      "content": "이번 영화에서는 몰입감이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 1
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 53,
+    "fields": {
+      "article": 139,
+      "author": 3,
+      "content": "이번 영화에서는 캐릭터이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 4
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 54,
+    "fields": {
+      "article": 136,
+      "author": 3,
+      "content": "이번 영화에서는 배우이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 8
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 55,
+    "fields": {
+      "article": 56,
+      "author": 3,
+      "content": "이번 영화에서는 감정선이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 6
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 56,
+    "fields": {
+      "article": 47,
+      "author": 3,
+      "content": "감독의 감정선 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 18
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 57,
+    "fields": {
+      "article": 14,
+      "author": 3,
+      "content": "이번 영화에서는 배우이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 18
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 58,
+    "fields": {
+      "article": 34,
+      "author": 3,
+      "content": "배우 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 6
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 59,
+    "fields": {
+      "article": 30,
+      "author": 3,
+      "content": "특히 배우 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 17
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 60,
+    "fields": {
+      "article": 138,
+      "author": 3,
+      "content": "이번 영화에서는 캐릭터이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 0
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 61,
+    "fields": {
+      "article": 91,
+      "author": 4,
+      "content": "사운드트랙 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 18
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 62,
+    "fields": {
+      "article": 53,
+      "author": 4,
+      "content": "이번 영화에서는 OST이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 18
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 63,
+    "fields": {
+      "article": 59,
+      "author": 4,
+      "content": "OST 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 16
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 64,
+    "fields": {
+      "article": 68,
+      "author": 4,
+      "content": "이번 영화에서는 배경음이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 9
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 65,
+    "fields": {
+      "article": 63,
+      "author": 4,
+      "content": "감독의 OST 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 19
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 66,
+    "fields": {
+      "article": 70,
+      "author": 4,
+      "content": "이 영화는 음향가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 10
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 67,
+    "fields": {
+      "article": 60,
+      "author": 4,
+      "content": "이번 영화에서는 음악이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 11
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 68,
+    "fields": {
+      "article": 117,
+      "author": 4,
+      "content": "이번 영화에서는 배경음이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 12
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 69,
+    "fields": {
+      "article": 33,
+      "author": 4,
+      "content": "특히 사운드트랙 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 14
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 70,
+    "fields": {
+      "article": 110,
+      "author": 4,
+      "content": "특히 사운드트랙 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 13
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 71,
+    "fields": {
+      "article": 16,
+      "author": 4,
+      "content": "특히 음향 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 17
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 72,
+    "fields": {
+      "article": 107,
+      "author": 4,
+      "content": "감독의 음악 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 10
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 73,
+    "fields": {
+      "article": 66,
+      "author": 4,
+      "content": "감독의 음향 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 20
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 74,
+    "fields": {
+      "article": 28,
+      "author": 4,
+      "content": "이 영화는 배경음가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 16
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 75,
+    "fields": {
+      "article": 7,
+      "author": 4,
+      "content": "OST 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 15
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 76,
+    "fields": {
+      "article": 90,
+      "author": 4,
+      "content": "이번 영화에서는 사운드트랙이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 8
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 77,
+    "fields": {
+      "article": 6,
+      "author": 4,
+      "content": "이 영화는 배경음가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 6
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 78,
+    "fields": {
+      "article": 149,
+      "author": 4,
+      "content": "감독의 사운드트랙 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 16
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 79,
+    "fields": {
+      "article": 146,
+      "author": 4,
+      "content": "특히 사운드트랙 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 7
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 80,
+    "fields": {
+      "article": 108,
+      "author": 4,
+      "content": "사운드트랙 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 15
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 81,
+    "fields": {
+      "article": 106,
+      "author": 5,
+      "content": "이번 영화에서는 사회 비판이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 3
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 82,
+    "fields": {
+      "article": 111,
+      "author": 5,
+      "content": "이번 영화에서는 사회 비판이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 13
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 83,
+    "fields": {
+      "article": 44,
+      "author": 5,
+      "content": "특히 사회적 메시지 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 10
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 84,
+    "fields": {
+      "article": 148,
+      "author": 5,
+      "content": "철학 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 5
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 85,
+    "fields": {
+      "article": 122,
+      "author": 5,
+      "content": "감독의 철학 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 2
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 86,
+    "fields": {
+      "article": 110,
+      "author": 5,
+      "content": "감독의 사회적 메시지 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 13
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 87,
+    "fields": {
+      "article": 53,
+      "author": 5,
+      "content": "사회 비판 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 3
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 88,
+    "fields": {
+      "article": 23,
+      "author": 5,
+      "content": "감독의 철학 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 1
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 89,
+    "fields": {
+      "article": 73,
+      "author": 5,
+      "content": "감독의 사회적 메시지 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 7
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 90,
+    "fields": {
+      "article": 36,
+      "author": 5,
+      "content": "이번 영화에서는 사회적 메시지이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 3
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 91,
+    "fields": {
+      "article": 112,
+      "author": 5,
+      "content": "이번 영화에서는 감독의 의도이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 11
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 92,
+    "fields": {
+      "article": 82,
+      "author": 5,
+      "content": "감독의 주제의식 표현이 돋보였어요.",
+      "parent": null,
+      "comment_likes": 18
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 93,
+    "fields": {
+      "article": 8,
+      "author": 5,
+      "content": "특히 감독의 의도 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 14
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 94,
+    "fields": {
+      "article": 77,
+      "author": 5,
+      "content": "특히 철학 부분이 너무 좋았어요.",
+      "parent": null,
+      "comment_likes": 6
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 95,
+    "fields": {
+      "article": 46,
+      "author": 5,
+      "content": "사회적 메시지 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 19
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 96,
+    "fields": {
+      "article": 120,
+      "author": 5,
+      "content": "사회 비판 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 12
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 97,
+    "fields": {
+      "article": 55,
+      "author": 5,
+      "content": "이 영화는 사회 비판가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 19
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 98,
+    "fields": {
+      "article": 38,
+      "author": 5,
+      "content": "이 영화는 주제의식가 정말 예술적이네요.",
+      "parent": null,
+      "comment_likes": 2
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 99,
+    "fields": {
+      "article": 58,
+      "author": 5,
+      "content": "이번 영화에서는 사회 비판이 정말 인상적이었다.",
+      "parent": null,
+      "comment_likes": 19
+    }
+  },
+  {
+    "model": "community.comment",
+    "pk": 100,
+    "fields": {
+      "article": 2,
+      "author": 5,
+      "content": "감독의 의도 덕분에 더 몰입할 수 있었어요.",
+      "parent": null,
+      "comment_likes": 18
+    }
+  }
+]

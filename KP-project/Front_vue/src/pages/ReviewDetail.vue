@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted,computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useReviewStore } from '@/stores/reviewStore'
 import { useUserStore } from '@/stores/userStore'
@@ -11,12 +11,37 @@ const reviewStore = useReviewStore()
 const userStore = useUserStore()
 
 const reviewId = parseInt(route.params.id)
-
 const articleLikes = computed(() => reviewStore.currentReview?.article_likes ?? 0)
+
+// ⭐️ 영화 포스터 URL
+const posterUrl = ref(null)
+
+// ⭐️ TMDB API로 영화 포스터 가져오기
+const fetchPoster = async (movieTitle) => {
+  const apiKey = 'f2fd16b8032965fdf2108baab6171e4e'
+  const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(movieTitle)}&api_key=${apiKey}&language=ko-KR`
+  try {
+    const res = await fetch(url)
+    const data = await res.json()
+    if (data.results && data.results.length > 0) {
+      const firstMovie = data.results.find(movie => movie.poster_path !== null)
+      if (firstMovie) {
+        return `https://image.tmdb.org/t/p/w500/${firstMovie.poster_path}`
+      }
+    }
+  } catch (e) {
+    console.error('포스터 가져오기 실패', e)
+  }
+  return null
+}
 
 onMounted(async () => {
   await reviewStore.fetchReview(reviewId)
   await reviewStore.fetchComments(reviewId)
+
+  if (reviewStore.currentReview?.movie_title_display) {
+    posterUrl.value = await fetchPoster(reviewStore.currentReview.movie_title_display)
+  }
 })
 
 async function deleteReview() {
@@ -33,43 +58,70 @@ async function handleReviewLike() {
     console.error('게시글 좋아요 실패:', e)
   }
 }
-
 </script>
 
 <template>
   <div class="container mt-4">
     <div v-if="!reviewStore.currentReview" class="text-muted">로딩 중...</div>
-    <div v-else>
-      <h3>글 제목: {{ reviewStore.currentReview.title }}</h3>
-      <p class="m-0 text-muted small">
-        작성자: 
-        <router-link
-          :to="reviewStore.currentReview.author.username === userStore.username ? '/profile' : `/profile/${reviewStore.currentReview.author.username}`"
-          class="text-decoration-none"
-        >
-        {{ reviewStore.currentReview.author.username }}
-        </router-link>
-      </p>  
-      <p class="text-muted small">조회수: {{ reviewStore.currentReview.views }}</p>
-      <p>{{ reviewStore.currentReview.content }}</p>
+    <div v-else class="border rounded p-3 shadow-sm bg-light">
+      <!-- ⭐️ 영화 포스터 + 글 정보 나란히 -->
+      <div class="d-flex align-items-start mb-3">
+        <!-- 포스터 (작게!) -->
+        <div v-if="posterUrl" class="me-3 flex-shrink-0" style="width: 100px;">
+          <img
+            :src="posterUrl"
+            alt="영화 포스터"
+            class="img-fluid rounded"
+          />
+        </div>
 
-      <div v-if="reviewStore.currentReview.author.username === userStore.username" class="mt-3">
-        <!-- TODO: 수정기능 추후 구현 -->
-        <button class="btn btn-sm btn-danger" @click="deleteReview">삭제</button>
+        <!-- 글 정보 -->
+        <div class="flex-grow-1">
+          <h5 class="mb-1">{{ reviewStore.currentReview.title }}</h5>
+          <p class="mb-1 text-muted small">
+            작성자:
+            <router-link
+              :to="reviewStore.currentReview.author.username === userStore.username ? '/profile' : `/profile/${reviewStore.currentReview.author.username}`"
+              class="text-decoration-none"
+            >
+              {{ reviewStore.currentReview.author.nickname }}
+            </router-link>
+          </p>
+          <p class="mb-1 text-muted small">영화 제목:{{ reviewStore.currentReview.movie_title_display }}</p>
+          <p class="mb-1 text-muted small">조회수: {{ reviewStore.currentReview.views }}</p>
+        </div>
       </div>
-      <div>
-        <button @click="handleReviewLike">
-            {{ reviewStore.currentReview.is_liked ? '💔 좋아요 취소' : '❤️ 좋아요' }}
-            {{ articleLikes }}
+
+      <!-- 글 내용 -->
+      <div class="mb-2">
+        <p class="mb-0">{{ reviewStore.currentReview.content }}</p>
+      </div>
+
+      <!-- 좋아요/삭제 버튼 -->
+      <div class="d-flex align-items-center mb-3">
+        <button @click="handleReviewLike" class="btn btn-sm btn-outline-danger me-2">
+          {{ reviewStore.currentReview.is_liked ? '💔 좋아요 취소' : '❤️ 좋아요' }}
+          {{ articleLikes }}
+        </button>
+
+        <button
+          v-if="reviewStore.currentReview.author.username === userStore.username"
+          class="btn btn-sm btn-danger"
+          @click="deleteReview"
+        >
+          삭제
         </button>
       </div>
 
       <hr />
       <CommentThread :reviewId="reviewId" />
     </div>
-    
+
     <button @click="router.push('/reviews')" class="btn btn-secondary mt-3">
       목록으로
     </button>
   </div>
 </template>
+
+
+
