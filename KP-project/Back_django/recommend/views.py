@@ -11,7 +11,7 @@ from .gpt_client import call_gpt
 from .tmdb_client import enrich_movies, get_movie_details, get_recommendations, get_watch_providers
 from .prompt_builder import build_prompt
 from .serializers import RecommendationRequestSerializer
-from accounts.models import CustomUser, WatchHistory
+from accounts.models import CustomUser, WatchHistory, FavoriteMovie
 from core.models import Movie
 
 # JSON 파일 경로
@@ -31,6 +31,7 @@ class RecommendationAPIView(APIView):
         username = None
         preferred_genres = []
         watched_titles = []
+        liked_titles = []  # ✅ 찜한 영화 타이틀 리스트
 
         if request.user.is_authenticated:
             user = request.user
@@ -50,12 +51,19 @@ class RecommendationAPIView(APIView):
                 Movie.objects.filter(id__in=tmdb_ids).values_list("title", flat=True)
             )
 
+            # ✅ 찜한 영화 title 리스트 추출
+            liked_ids = FavoriteMovie.objects.filter(user=user).values_list("tmdb_id", flat=True)
+            liked_titles = list(
+                Movie.objects.filter(id__in=liked_ids).values_list("title", flat=True)
+            )
+
         # 2. 프롬프트 구성
         prompt = build_prompt(
             user_input,
             username=username,
             preferred_genres=preferred_genres,
             watch_history=watched_titles,
+            liked_movies=liked_titles,  # ✅ 추가 인자 전달
         )
         print(prompt)
 
@@ -104,7 +112,7 @@ def tmdb_detail(request, movie_id):
                 genre_ids = [g["id"] for g in movie_data.get("genres", [])]
                 if genre_ids:
                     movie.genres.set(genre_ids)
-    
+
     data = get_movie_details(movie_id)
     if not data:
         return Response({'detail': 'TMDB fetch failed'}, status=502)

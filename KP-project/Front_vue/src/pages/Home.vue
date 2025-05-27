@@ -1,11 +1,11 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
-import { useThemeStore } from '@/stores/themeStore'
 import RecommendedPreview from '@/components/RecommendedPreview.vue'
 import { useUserStore } from '@/stores/userStore'
+import { useRouter } from 'vue-router'
+import { useMovieStore } from '@/stores/movieStore'
 
 const query = ref('')
-const themeStore = useThemeStore()
 
 const mood = ref('')
 const situation = ref('')
@@ -14,6 +14,9 @@ const genres = ref([])
 const showMood = ref(false)
 const showSituation = ref(false)
 const showGenres = ref(false)
+
+const router = useRouter()
+const movieStore = useMovieStore()
 
 const moodOptions = ['힐링되는', '감동적인', '유쾌한', '스릴 넘치는', '긴장감 있는',
                      '따뜻한', '로맨틱한', '웃긴', '우울한', '무서운']
@@ -52,9 +55,22 @@ function buildPrompt() {
 function searchCombined() {
   const prompt = buildPrompt()
   if (!prompt.trim()) return
-  const base = `/results?q=${encodeURIComponent(prompt)}`
-  const full = `${base}&model=${encodeURIComponent(model.value)}`
-  window.location.href = full
+
+  // ✅ 조건 저장
+  movieStore.setConditions({
+    mood: mood.value,
+    situation: situation.value,
+    genres: [...genres.value],
+  })
+
+  // ✅ 이동
+  router.push({
+    name: 'Results',
+    query: {
+      q: prompt,
+      model: model.value,
+    }
+  })
 }
 
 watch(model, (val) => {
@@ -132,7 +148,7 @@ watch(model, (val) => {
         </div>
 
         <!-- 장르 선택 -->
-        <div class="col-md-4">
+        <div class="col-md-4 border-end pe-4">
           <h5 class="fw-bold mb-2 d-flex justify-content-between align-items-center">
             <span>🎬 장르</span>
             <button class="btn btn-sm btn-outline-secondary" @click="showGenres ? (genres = [], showGenres = false) : showGenres = true">
@@ -186,10 +202,5 @@ watch(model, (val) => {
     <hr class="my-4" />
     <RecommendedPreview />
 
-    <div class="mt-5">
-      <button class="btn btn-outline-secondary btn-sm" @click="themeStore.toggleTheme">
-        🌗 테마 전환 ({{ themeStore.theme === 'light' ? '라이트' : '다크' }})
-      </button>
-    </div>
   </div>
 </template>
