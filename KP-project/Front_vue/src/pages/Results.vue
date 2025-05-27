@@ -13,6 +13,10 @@ const searchQuery = computed(() => route.query.q || '')
 const model = computed(() => route.query.model || 'gpt-3.5-turbo')
 const results     = computed(() => movieStore.results)
 
+const mood = computed(() => movieStore.conditions.mood)
+const situation = computed(() => movieStore.conditions.situation)
+const genres = computed(() => movieStore.conditions.genres)
+
 async function fetchAndStoreResults (query) {
   loading.value = true
   try {
@@ -38,64 +42,52 @@ watch(
 </script>
 
 <template>
-  <div class="container mt-5">
-    <h2 class="mb-4">🔍 추천 결과</h2>
-    <p class="text-muted fst-italic" v-if="explanation">
-      🧠 {{ explanation }}
-    </p>
+  <div class="results-container">
+    <!-- 🔍 추천 결과 -->
+    <h2 class="results-title">🔍 당신을 위한 추천 영화</h2>
 
-    <div v-if="loading" class="text-muted">
-      GPT & TMDB에서 추천을 불러오는 중...
+    <!-- 🎯 조건 요약 영역 -->
+    <div class="conditions-bar">
+      <span v-if="mood" class="chip">🎭 {{ mood }}</span>
+      <span v-if="situation" class="chip">🕰️ {{ situation }}</span>
+      <span v-for="g in genres" :key="g" class="chip">🎬 {{ g }}</span>
     </div>
 
-    <div v-else class="row">
+    <!-- 🧠 추천 이유 -->
+    <p v-if="explanation" class="explanation-box">
+      🧠 <em>{{ explanation }}</em>
+    </p>
+    <div v-if="loading" class="loading-msg">GPT & TMDB에서 추천을 불러오는 중...</div>
+
+    <div v-else class="grid-wrapper">
       <div
-        class="col-md-4 mb-4"
+        class="card"
         v-for="movie in results"
         :key="movie.id"
       >
         <router-link
-           v-if="movie.id"
+          v-if="movie.id"
           :to="`/detail/${movie.id}`"
-          class="text-decoration-none text-dark"
+          class="card-link"
         >
-          <div class="card h-100 shadow-sm">
-            <!-- ─────────── 이미지 영역 (Skeleton + 고정 비율) ─────────── -->
-            <div class="img-wrapper">
-              <!-- Skeleton -->
-              <div class="img-skeleton"></div>
-
-              <!-- 실제 이미지: onload 시 Skeleton 제거 -->
-              <img
-                v-if="movie.poster_path"
-                :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
-                class="w-100 h-100 object-fit-cover position-absolute top-0 start-0"
-                :alt="movie.title"
-                @load="e => e.target.previousElementSibling?.remove()"
-              />
-            </div>
-
-            <!-- ─────────── 텍스트 영역 ─────────── -->
-            <div class="card-body">
-              <h5 class="card-title">{{ movie.title }}</h5>
-              <p class="card-text text-muted small">
-                ⭐ 평점: {{ movie.rating || '정보 없음' }}
-              </p>
-              <p class="card-text text-muted small">
-                {{ movie.overview || '줄거리 정보가 없습니다.' }}
-              </p>
-              <p class="card-text text-muted small fst-italic" v-if="movie.reason">
-                🧠 추천 이유: {{ movie.reason }}
-              </p>
+          <div class="poster-wrapper">
+            <img
+              v-if="movie.poster_path"
+              :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+              class="poster-img"
+              :alt="movie.title"
+            />
+            <div class="overlay">
+              <h5 class="title">{{ movie.title }}</h5>
+              <p class="rating">⭐ {{ movie.rating || movie.vote_average?.toFixed(1) || '정보 없음' }}</p>
+              <p class="reason" v-if="movie.reason">🧠 {{ movie.reason }}</p>
             </div>
           </div>
         </router-link>
-          <div v-else class="card h-100 shadow-sm">
-          <!-- 정보를 못 찾은 영화 -->
-          <div class="card-body text-muted small">
-            <h5 class="card-title">{{ movie.title }}</h5>
-            <p>이 영화는 아직 정보가 부족합니다.</p>
-          </div>
+
+        <div v-else class="card-missing">
+          <h5>{{ movie.title }}</h5>
+          <p>이 영화는 아직 정보가 부족합니다.</p>
         </div>
       </div>
     </div>
@@ -103,36 +95,127 @@ watch(
 </template>
 
 <style scoped>
-/* --- Skeleton & 고정 비율 ------------------------------------------------ */
-.img-wrapper {
+.results-container {
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.results-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.explanation {
+  font-style: italic;
+  margin-bottom: 2rem;
+  color: #6c757d;
+}
+
+.loading-msg {
+  color: #999;
+  font-style: italic;
+  margin-top: 2rem;
+}
+
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  position: relative;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+.card:hover {
+  transform: scale(1.03);
+}
+
+.card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.poster-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 2 / 3;         /* TMDB 포스터 기본 비율 2:3 */
-  overflow: hidden;
+  aspect-ratio: 2 / 3;
+  background-color: #eaeaea;
 }
 
-.img-skeleton {
+.poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.overlay {
   position: absolute;
   inset: 0;
-  background: #e9ecef;         /* Bootstrap gray-200 */
-  animation: pulse 1.6s infinite linear;
-  background-size: 400% 400%;
-  background-image: linear-gradient(
-    -90deg,
-    #e9ecef 0%,
-    #f8f9fa 50%,
-    #e9ecef 100%
-  );
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem;
+  transition: opacity 0.3s ease;
 }
 
-@keyframes pulse {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+.card:hover .overlay {
+  opacity: 1;
 }
 
-/* 이미지가 로드된 뒤에는 object-fit 으로 깔끔하게 맞춤 */
-.object-fit-cover {
-  object-fit: cover;
+.overlay .title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
 }
+
+.overlay .rating,
+.overlay .reason {
+  font-size: 0.85rem;
+  margin-bottom: 0.2rem;
+  color: #f8f9fa;
+}
+
+.card-missing {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 0.75rem;
+  color: #999;
+  font-size: 0.95rem;
+}
+.conditions-bar {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.explanation-box {
+  background-color: var(--bs-secondary-bg);  /* 자동 다크/라이트 대응 */
+  border-left: 4px solid var(--bs-primary);
+  color: var(--bs-secondary-color);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+.chip {
+  background-color: var(--bs-tertiary-bg);  /* 밝은 회색 ~ 어두운 회색 자동 전환 */
+  color: var(--bs-body-color);              /* 본문 텍스트와 같은 색 */
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
 </style>
-    

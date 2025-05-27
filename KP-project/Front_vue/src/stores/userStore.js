@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import api from '@/api/axios'  // ✅ 공통 인스턴스를 사용
+import { useRouter } from 'vue-router'
 
 export const useUserStore = defineStore('user', () => {
   const ACCOUNT_API_URL = 'accounts'  // baseURL에서 이미 / 붙었음
@@ -14,6 +15,7 @@ export const useUserStore = defineStore('user', () => {
   const id = ref(localStorage.getItem('id') || '')
   const isLoggedIn = computed(() => !!token.value)
   const favoriteMovieIds = ref([])
+  const favoriteGenres = ref([])
 
   const setModel = (val) => {
   model.value = val
@@ -72,6 +74,11 @@ export const useUserStore = defineStore('user', () => {
       token.value = res.data.key
       localStorage.setItem('token', token.value)
       await fetchUserInfo()
+
+      const { useMovieStore } = await import('@/stores/movieStore')
+      const movieStore = useMovieStore()
+      movieStore.clearRecommended()
+
       return true
     } catch (err) {
       console.error('로그인 실패:', err.response?.data || err)
@@ -85,6 +92,7 @@ export const useUserStore = defineStore('user', () => {
       const res = await api.get(`${ACCOUNT_API_URL}/user/`)
       username.value = res.data.username
       nickname.value = res.data.nickname
+      favoriteGenres.value = (res.data.preferred_genres || []).map(g => g.name)
       id.value = res.data.id
       localStorage.setItem('username', username.value)
       localStorage.setItem('nickname', nickname.value)
@@ -114,12 +122,17 @@ export const useUserStore = defineStore('user', () => {
 
 
   // ✅ 로그아웃
-  const logout = () => {
+  const logout = async () => {
     token.value = ''
     username.value = ''
+    favoriteGenres.value = []
     localStorage.removeItem('token')
     localStorage.removeItem('username')
+    const { useMovieStore } = await import('@/stores/movieStore')
+    const movieStore = useMovieStore()
+    movieStore.clearRecommended()
   }
+
 
   // ✅ 특정 사용자 프로필 가져오기
   const getUserProfile = async (usernameParam) => {
@@ -198,6 +211,7 @@ export const useUserStore = defineStore('user', () => {
     isLoggedIn,
     favoriteMovieIds,
     model,
+    favoriteGenres,
     setModel,
     register,
     deleteUserAccount,

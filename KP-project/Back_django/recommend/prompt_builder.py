@@ -1,12 +1,13 @@
-def build_prompt(user_input, username=None, preferred_genres=None, watch_history=None):
+def build_prompt(user_input, username=None, preferred_genres=None, watch_history=None, liked_movies=None):
     preferred_genres = preferred_genres or []
     watch_history = watch_history or []
+    liked_movies = liked_movies or []
 
     # 1. 사용자 소개부
     intro = ""
     if username:
         intro += f"{username}님의 취향을 반영한 영화를 추천받고 싶습니다. "
-    
+
     genre_prefer = ""
     if preferred_genres:
         genre_prefer = f"사용자의 선호 장르는 {', '.join(preferred_genres)}입니다. "
@@ -23,7 +24,15 @@ def build_prompt(user_input, username=None, preferred_genres=None, watch_history
         "먼저 추천 이유를 한 문장으로 요약한 뒤, 그에 기반한 영화 추천을 JSON 배열로 제공 바랍니다.\n"
     )
 
-    # 3. 시청 기록 제외
+    # 3. 찜한 영화 강조
+    liked_part = ""
+    if liked_movies:
+        liked_part = (
+            "사용자가 특히 선호하는 영화 목록은 다음과 같습니다. 이 영화들과 유사한 분위기, 주제, 스타일을 가진 작품은 추천에 적극 반영해주세요: "
+            + "[" + ', '.join(liked_movies[:20]) + "]\n"
+        )
+
+    # 4. 시청 기록 제외
     exclusion = ""
     if watch_history:
         exclusion = (
@@ -31,7 +40,7 @@ def build_prompt(user_input, username=None, preferred_genres=None, watch_history
             + "[" + ', '.join(watch_history[:20]) + "]\n"
         )
 
-    # 4. 포맷 안내
+    # 5. 포맷 안내
     format_guide = "JSON 응답 양식은 다음과 같습니다:" + (
         """
 [
@@ -44,4 +53,4 @@ def build_prompt(user_input, username=None, preferred_genres=None, watch_history
 """
     )
 
-    return intro + core + genre_prefer + exclusion + format_guide
+    return intro + core + genre_prefer + liked_part + exclusion + format_guide

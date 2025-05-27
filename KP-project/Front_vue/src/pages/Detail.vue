@@ -1,14 +1,16 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import api from '@/api/axios'
 import { useMovieStore } from '@/stores/movieStore'
 
 /* ───────────────────────── 상태 ───────────────────────── */
 const route         = useRoute()
+const router        = useRouter()
 const movie         = ref(null)
 const loading       = ref(true)
 const error         = ref('')
+const expanded      = ref(false) // ✅ 줄거리 펼치기 상태
 
 /* 시청/찜 */
 const seen          = ref(false)
@@ -37,6 +39,7 @@ const movieStore   = useMovieStore()
 
 /* ───────────────────────── API helpers ───────────────────────── */
 async function fetchMovie () {
+  loading.value = true
   const id = Number(route.params.id)
   if (!id) {
     error.value   = '올바른 영화 ID가 아닙니다.'
@@ -63,6 +66,13 @@ function pickThumb(thumbnails, videoId) {
     thumbnails?.default?.url ||
     `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
   )
+}
+
+function goToMovie(id) {
+  // 완전한 재이동처럼 보이게
+  router.push(`/detail/${id}`).then(() => {
+    window.scrollTo({ top: 0 })  // 즉시 이동
+  })
 }
 
 /* ─── 유튜브 검색 ───────────────────────────── */
@@ -135,6 +145,10 @@ async function toggleFavorite () {
 /* ───────────────────── 마운트 & Watch ───────────────────── */
 onMounted(fetchMovie)
 
+watch(() => route.params.id, (newId, oldId) => {
+  if (newId !== oldId) fetchMovie()
+})
+
 watch(movie, (m) => {
   if (!m?.title) return
   checkWatchHistory(); checkFavorite()
@@ -156,13 +170,16 @@ const castCards = computed(()=>{
 /* ─────────────────── 가로 스크롤 유틸 ─────────────────── */
 function scrollByPx(el, px){ el?.scrollBy({left:px,behavior:'smooth'}) }
 
-
-// ▼ 추가 : 영상 ID → 썸네일 URL  
+// ▼ 추가 : 영상 ID → 썸네일 URL
 function ytThumb (id, isShorts = false) {
-  /* 16:9 리뷰 : hqdefault (480×360)
-     9:16 쇼츠 : hq720     (720×1280, 세로형) */
   const quality = isShorts ? 'hq720' : 'hqdefault'
   return `https://i.ytimg.com/vi/${id}/${quality}.jpg`
+}
+
+function toggleExpanded () {
+  console.log('[디버그] toggle 실행 전:', expanded.value)
+  expanded.value = !expanded.value
+  console.log('[디버그] toggle 실행 후:', expanded.value)
 }
 </script>
 
@@ -187,7 +204,18 @@ function ytThumb (id, isShorts = false) {
       <div class="col-md-8">
         <h2 class="fw-bold">{{ movie.title }}</h2>
         <p class="text-muted mb-1">평점 ★ {{ movie.vote_average?.toFixed(1) ?? 'N/A' }}</p>
-        <p>{{ movie.overview || '줄거리 정보가 없습니다.' }}</p>
+
+        <p class="mb-2" :class="{ 'line-clamp': !expanded }">
+            {{ movie.overview || '줄거리 정보가 없습니다.' }}
+          </p>
+          <span
+            v-if="movie.overview && movie.overview.length > 100"
+            @click="toggleExpanded"
+            class="text-grey text-decoration-underline mb-2 d-inline-block"
+            style="cursor: pointer;"
+          >
+            {{ expanded ? '접기' : '더보기...' }}
+          </span>
 
         <!-- 찜 & 시청 토글 -->
         <div class="d-flex gap-3 flex-wrap align-items-center mt-3">
@@ -199,7 +227,7 @@ function ytThumb (id, isShorts = false) {
             @click="toggleFavorite"
             style="min-width: 150px"
           >
-            ❤️ {{ liked ? '찜한 영화입니다' : '찜하기' }}
+            ❤️ {{ liked ? '자주 추천할게요' : '찜하기' }}
           </button>
 
           <!-- 시청 버튼 -->
@@ -210,7 +238,7 @@ function ytThumb (id, isShorts = false) {
             @click="seen ? removeFromWatchHistory() : addToWatchHistory()"
             style="min-width: 150px"
           >
-            👁️ {{ seen ? '이미 본 영화입니다' : '봤어요' }}
+            👁️ {{ seen ? '추천에 뜨지 않아요' : '봤어요' }}
           </button>
         </div>
 
@@ -236,13 +264,14 @@ function ytThumb (id, isShorts = false) {
           </a>
         </div>
 
-
         <!-- 장르 & 개봉일 -->
         <div v-if="movie.genres?.length" class="mt-4">
           <h5 class="mb-2">장르</h5>
           <span v-for="g in movie.genres" :key="g.id" class="badge bg-primary me-2">{{ g.name }}</span>
         </div>
-        <div v-if="movie.release_date" class="mt-3"><small class="text-muted">개봉일: {{ movie.release_date }}</small></div>
+        <div v-if="movie.release_date" class="mt-3">
+          <small class="text-muted">개봉일: {{ movie.release_date }}</small>
+        </div>
       </div>
 
       <!-- 감독/출연 캐러셀 -->
@@ -297,31 +326,32 @@ function ytThumb (id, isShorts = false) {
       </div>
 
       <!-- 연관 영화 추천 -->
-      <div v-if="relatedMovies.length" class="col-12 mt-5">
-        <h4 class="mb-3">🎬 이 영화를 본 사람들이 좋아한 작품</h4>
-        <div class="scroll-row">
-          <router-link
-            v-for="r in relatedMovies"
-            :key="r.id"
-            :to="`/detail/${r.id}`"
-            class="text-decoration-none text-dark flex-shrink-0"
-            style="width: 200px"
-          >
-            <div class="card h-100 shadow-sm">
-              <img
-                v-if="r.poster_path"
-                :src="'https://image.tmdb.org/t/p/w500' + r.poster_path"
-                class="card-img-top"
-                :alt="r.title"
-              />
-              <div class="card-body">
-                <h6 class="card-title text-truncate">{{ r.title }}</h6>
-                <p class="card-text text-muted small">★ {{ r.vote_average.toFixed(1) }}</p>
+        <div v-if="relatedMovies.length" class="col-12 mt-5">
+          <h4 class="mb-3">🎬 이 영화를 본 사람들이 좋아한 작품</h4>
+          <div class="scroll-row">
+            <div
+              v-for="r in relatedMovies"
+              :key="r.id"
+              class="text-decoration-none text-dark flex-shrink-0"
+              style="width: 200px; cursor: pointer;"
+              @click="goToMovie(r.id)"
+            >
+              <div class="card h-100 shadow-sm">
+                <img
+                  v-if="r.poster_path"
+                  :src="'https://image.tmdb.org/t/p/w500' + r.poster_path"
+                  class="card-img-top"
+                  :alt="r.title"
+                />
+                <div class="card-body">
+                  <h6 class="card-title text-truncate">{{ r.title }}</h6>
+                  <p class="card-text text-muted small">★ {{ r.vote_average.toFixed(1) }}</p>
+                </div>
               </div>
             </div>
-          </router-link>
+          </div>
         </div>
-      </div>
+
     </div>
     <!-- 유튜브 팝업 플레이어 -->
       <div v-if="activeVideoId" class="yt-overlay" @click.self="closeVideo">
@@ -415,6 +445,10 @@ img { max-height: 540px; object-fit: cover; }
 .animated-toggle:active {
   transform: scale(1.08);
 }
-
-
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 </style>
