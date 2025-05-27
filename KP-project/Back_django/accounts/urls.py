@@ -19,5 +19,6 @@ urlpatterns = [
     path('favorites/remove/<int:tmdb_id>/', views.FavoriteRemoveView.as_view(), name='favorite-remove'),
     path('favorite-movies/', views.FavoriteMovieListView.as_view(), name='my-favorite-movie-list'),
     path('favorite-movies/<str:username>/',views.FavoriteMovieListView.as_view(), name='favorite-movie-list'),
+    path('accounts/delete/', views.AccountDeleteView.as_view(), name='account-delete'),
 ]
 

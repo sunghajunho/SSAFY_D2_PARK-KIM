@@ -15,6 +15,13 @@ const reviewStore = useReviewStore()
 const profile = ref({})
 const usernameParam = route.params.username
 
+const showMenu = ref(false)
+
+const toggleMenu = () => {
+  showMenu.value = !showMenu.value
+  console.log(showMenu.value)
+}
+
 const fetchProfile = async () => {
   if (usernameParam) {
     profile.value = await userStore.getUserProfile(usernameParam)
@@ -70,6 +77,20 @@ const myReviews = computed(() =>
 const myComments = computed(() =>
   reviewStore.comments.filter(c => c.author?.username === profile.value?.username)
 )
+
+const handleDeleteAccount = async () => {
+  if (confirm('정말로 탈퇴하시겠습니까?')) {
+    await userStore.deleteUserAccount()
+  }
+}
+
+const goToEditProfile = () => {
+  router.push('/profile/edit')
+}
+
+const goToChangePassword = () => {
+  router.push('/profile/change-password')
+}
 </script>
 
 <template>
@@ -91,6 +112,15 @@ const myComments = computed(() =>
           <div v-if="isMyProfile">
             <router-link to="/profile/edit" class="edit-profile-btn">  ✏️ </router-link>
           </div>
+        </div>
+
+        <div class="dropdown-container">
+          <button class="gear-icon" @click="toggleMenu">⚙️</button>
+            <div v-if="showMenu.value" class="dropdown-menu">
+              <button @click="goToEditProfile">회원정보 수정</button>
+              <button @click="goToChangePassword">비밀번호 변경</button>
+              <button @click="handleDeleteAccount" class="delete-btn">회원탈퇴</button>
+            </div>
         </div>
       </div>
 
@@ -263,5 +293,46 @@ const myComments = computed(() =>
   flex-direction: column;
   font-size: 0.8rem;
   color: #777;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.gear-icon {
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 120%;
+  right: 0;
+  min-width: 140px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.dropdown-menu button {
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+  background: #f5f5f5;
+}
+
+.delete-btn {
+  color: red;
 }
 </style>

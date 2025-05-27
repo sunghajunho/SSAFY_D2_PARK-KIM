@@ -40,9 +40,12 @@ onMounted(async () => {
 }
 
 .wordcloud-image {
-  max-width: 100%;
-  height: auto;
+  max-width: 40%;         /* 조금 넓게 */
+  aspect-ratio: 4 / 3;    /* 4:3 비율로 가로가 살짝 더 길게 */
+  object-fit: contain;    /* 이미지가 잘리지 않도록 */
   border: 1px solid #ccc;
+  display: block;
+  margin: 0 auto;
 }
 
 .title {

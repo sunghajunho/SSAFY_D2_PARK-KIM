@@ -170,4 +170,10 @@ class FavoriteMovieListView(APIView):
         print(list(tmdb_ids))
         return Response({'tmdb_ids': list(tmdb_ids)})
     
+class AccountDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def delete(self, request):
+        user = request.user
+        user.delete()
+        return Response({"detail": "계정이 삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)

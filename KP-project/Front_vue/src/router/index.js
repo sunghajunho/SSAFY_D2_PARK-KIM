@@ -7,6 +7,7 @@ import Detail from '@/pages/Detail.vue'
 import ReviewBoard from '@/pages/ReviewBoard.vue'
 import ReviewDetail from '@/pages/ReviewDetail.vue'
 import UserLogin from '@/pages/UserLogin.vue'
+import ChangePassword from '@/pages/ChangePassword.vue'
 import UserRegister from '@/pages/UserRegister.vue'
 import UserProfile from '@/pages/UserProfile.vue'
 import ProfileEdit from '@/pages/ProfileEdit.vue'
@@ -25,6 +26,7 @@ const routes = [
   { path: '/reviews', name: 'ReviewBoard', component: ReviewBoard },
   { path: '/login', name: 'UserLogin', component: UserLogin },
   { path: '/register', name: 'UserRegister', component: UserRegister },
+  { path: '/profile/change-password', name:'ChangePassword',component: ChangePassword},
   { path: '/profile', name: 'MyProfile', component: UserProfile, meta: { requiresAuth: true }},
   { path: '/profile/:username', name: 'UserProfile', component: UserProfile, meta: { requiresAuth: true } },
   { path: '/profile/:username/posts', name: 'ProfilePosts', component: ProfilePosts},
