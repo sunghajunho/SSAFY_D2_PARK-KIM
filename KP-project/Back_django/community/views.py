@@ -229,13 +229,13 @@ class WordcloudView(View):
 
         top_category = max(category_scores, key=category_scores.get)
         category_phrases = {
-            "영상미": "영상미를 중시하는 감각파",
-            "스토리": "스토리를 중시하는 몰입파",
-            "연기력": "연기력을 중시하는 배우파",
-            "음악": "음악을 중시하는 감성파",
-            "메시지": "메시지를 중시하는 메시지파"
+            "영상미": "영상미를 중시하는 감각파 🎥",
+            "스토리": "스토리를 중시하는 몰입파 📚",
+            "연기력": "연기력을 중시하는 배우파 🎭",
+            "음악": "음악을 중시하는 감성파 🎶",
+            "메시지": "메시지를 중시하는 메시지파 💬"
         }
-        final_sentence = f"{category_phrases[top_category]}"
+        final_sentence = f"당신은 {category_phrases[top_category]}!"
 
         # JSON 응답
         return JsonResponse({

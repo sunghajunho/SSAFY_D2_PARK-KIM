@@ -18,8 +18,36 @@ export const useUserStore = defineStore('user', () => {
   const setModel = (val) => {
   model.value = val
   localStorage.setItem('model', val)
-}
+  }
 
+  const deleteUserAccount = async () => {
+    try {
+      await api.delete('/accounts/delete/')
+      // 로컬스토리지/토큰 정리 등 필요시
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      localStorage.removeItem('nickname')
+      alert('회원탈퇴가 완료되었습니다.')
+      window.location.href = '/'  // 홈으로 이동
+    } catch (e) {
+      console.error('회원탈퇴 실패:', e)
+      alert('회원탈퇴에 실패했습니다.')
+    }
+  }
+
+  const changePassword = async (currentPassword, newPassword) => {
+    try {
+      await api.post('/accounts/password/change/', {
+        old_password: currentPassword,
+        new_password1: newPassword,
+        new_password2: newPassword
+      })
+      alert('비밀번호가 성공적으로 변경되었습니다.')
+    } catch (e) {
+      console.error('비밀번호 변경 실패:', e)
+      alert('비밀번호 변경에 실패했습니다.')
+    }
+  }
 
   // ✅ 회원가입
   const register = async (form) => {
@@ -172,6 +200,8 @@ export const useUserStore = defineStore('user', () => {
     model,
     setModel,
     register,
+    deleteUserAccount,
+    changePassword,
     logIn,
     fetchUserInfo,
     logout,

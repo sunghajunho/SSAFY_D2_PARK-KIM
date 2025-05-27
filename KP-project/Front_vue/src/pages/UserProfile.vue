@@ -15,6 +15,13 @@ const reviewStore = useReviewStore()
 const profile = ref({})
 const usernameParam = route.params.username
 
+const showMenu = ref(false)
+
+const toggleMenu = () => {
+  showMenu.value = !showMenu.value
+  console.log(showMenu.value)
+}
+
 const fetchProfile = async () => {
   if (usernameParam) {
     profile.value = await userStore.getUserProfile(usernameParam)
@@ -70,6 +77,20 @@ const myReviews = computed(() =>
 const myComments = computed(() =>
   reviewStore.comments.filter(c => c.author?.username === profile.value?.username)
 )
+
+const handleDeleteAccount = async () => {
+  if (confirm('정말로 탈퇴하시겠습니까?')) {
+    await userStore.deleteUserAccount()
+  }
+}
+
+const goToEditProfile = () => {
+  router.push('/profile/edit')
+}
+
+const goToChangePassword = () => {
+  router.push('/profile/change-password')
+}
 </script>
 
 <template>
@@ -88,9 +109,15 @@ const myComments = computed(() =>
               <span>팔로잉 <b>{{ following.length }}</b></span>
             </router-link>
           </div>
-          <div v-if="isMyProfile">
-            <router-link to="/profile/edit" class="edit-profile-btn">  ✏️ </router-link>
-          </div>
+        </div>
+
+        <div class="dropdown-container">
+          <button class="gear-icon" @click="toggleMenu">⚙️</button>
+            <div v-show="showMenu" class="dropdown-menu">
+              <button @click="goToEditProfile">회원정보 수정</button>
+              <button @click="goToChangePassword">비밀번호 변경</button>
+              <button @click="handleDeleteAccount" class="delete-btn">회원탈퇴</button>
+            </div>
         </div>
       </div>
 
@@ -137,7 +164,7 @@ const myComments = computed(() =>
 <style scoped>
 /* 전체 컨테이너를 중앙 정렬 + 고정 폭 */
 .profile-container {
-  width: 760px; /* 적당한 너비 */
+  width: 760px;
   margin: 0 auto;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -145,6 +172,57 @@ const myComments = computed(() =>
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
+}
+
+/* 톱니바퀴 버튼 위치 & 스타일 */
+.dropdown-container {
+  position: absolute;
+  top: 10px;       /* 상단 여백 */
+  right: 10px;     /* 오른쪽 여백 */
+}
+
+.gear-icon {
+  font-size: 1.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+
+.gear-icon:hover {
+  color: #333;
+}
+
+/* 드롭다운 메뉴 스타일 */
+.dropdown-menu {
+  position: absolute;
+  top: 30px;       /* 톱니바퀴 아래로 내려옴 */
+  right: 0;
+  min-width: 140px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+}
+
+.dropdown-menu button {
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.dropdown-menu button:hover {
+  background: #f5f5f5;
+}
+
+.delete-btn {
+  color: red;
 }
 
 /* 프로필 헤더 */
@@ -201,21 +279,6 @@ const myComments = computed(() =>
   margin: 0;
   font-size: 0.9rem;
   color: #555;
-}
-
-.edit-profile-btn {
-  position: absolute;
-  top: 10px;       /* 위쪽 여백 */
-  right: 10px;     /* 오른쪽 여백 */
-  background: none; /* 배경 없앰 */
-  border: none;     /* 테두리 없앰 */
-  font-size: 1.2rem; /* 아이콘 크기 조정 */
-  cursor: pointer;
-  color: #333;
-}
-
-.edit-profile-btn:hover {
-  color: #000;     /* 호버 시 색 변경 */
 }
 
 /* 팔로우 버튼 영역 */

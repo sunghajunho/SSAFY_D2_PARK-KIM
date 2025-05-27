@@ -71,7 +71,7 @@ onMounted(fetchFavoriteMovieDetails)
 
 <template>
   <div class="favorite-movies-container">
-    <h4>찜한 영화</h4>
+    <h4 class="section-title">추천 & Pick!</h4>
     <div v-if="favoriteMovies && favoriteMovies.length" class="favorite-movie-list">
       <div
         v-for="movie in favoriteMovies"
@@ -99,18 +99,30 @@ onMounted(fetchFavoriteMovieDetails)
 
 <style scoped>
 .favorite-movies-container {
-  max-width: 800px;
+  max-width: 760px;
   margin: 0 auto;
   background: #fff;
   padding: 20px;
   border-radius: 8px;
 }
 
+.section-title {
+  font-family: 'Noto Sans KR', sans-serif; /* 세련된 고딕체 */
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 4px;
+}
+
 .favorite-movie-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 10px;
   gap: 16px;
-  justify-content: center;
 }
 
 .movie-item {
