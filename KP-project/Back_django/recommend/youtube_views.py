@@ -16,7 +16,7 @@ def youtube_search(request):
     if not title:
         return JsonResponse({"error": "title 파라미터가 필요합니다."}, status=400)
 
-    q = f"{title} {category}"
+    q = f"영화 {title} {category}"
     url = "https://www.googleapis.com/youtube/v3/search"
     params = {
         "key": YOUTUBE_API_KEY,

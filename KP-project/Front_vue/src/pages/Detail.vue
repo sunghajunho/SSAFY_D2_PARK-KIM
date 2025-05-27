@@ -25,6 +25,14 @@ const reviewsLoading    = ref(false)
 const shortsLoading     = ref(false)
 const youtubeErr        = ref('')
 
+const activeVideoId = ref(null)  // 팝업으로 띄울 영상 ID
+const closeVideo = () => activeVideoId.value = null
+
+const ottFlatrate = computed(() => movie.value?.watch_providers?.flatrate || [])
+const ottLink = computed(() => movie.value?.watch_providers?.link || null)
+
+const relatedMovies = computed(() => movie.value?.related_movies || [])
+
 const movieStore   = useMovieStore()
 
 /* ───────────────────────── API helpers ───────────────────────── */
@@ -46,6 +54,17 @@ async function fetchMovie () {
   }
 }
 
+function pickThumb(thumbnails, videoId) {
+  return (
+    thumbnails?.maxres?.url ||
+    thumbnails?.standard?.url ||
+    thumbnails?.high?.url ||
+    thumbnails?.medium?.url ||
+    thumbnails?.default?.url ||
+    `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
+  )
+}
+
 /* ─── 유튜브 검색 ───────────────────────────── */
 async function searchYoutube (category, page) {
   const params = {
@@ -55,7 +74,12 @@ async function searchYoutube (category, page) {
   }
   try {
     const { data } = await api.get('/api/recommend/youtube/search/', { params })
-    return data           // [{ videoId, title, channel, thumbnail } ...]
+    return data.map(item => ({
+   videoId: item.videoId,
+      title: item.title,
+   channel: item.channel,
+   thumbnail: pickThumb(item.thumbnails, item.videoId)
+ }))
   } catch (e) {
     console.error('YouTube 검색 실패', e)
     youtubeErr.value = '유튜브 영상을 불러오지 못했습니다.'
@@ -78,7 +102,7 @@ async function loadShorts  (initial=false) {
   if (shortsLoading.value) return
   shortsLoading.value = true
   if (initial) shortsPage.value = 1
-  const list = await searchYoutube('쇼츠', shortsPage.value)
+  const list = await searchYoutube('명장면 쇼츠', shortsPage.value)
   if (initial) shortsVideos.value = list
   else shortsVideos.value.push(...list)
   shortsPage.value += 1
@@ -167,13 +191,51 @@ function ytThumb (id, isShorts = false) {
 
         <!-- 찜 & 시청 토글 -->
         <div class="d-flex gap-3 flex-wrap align-items-center mt-3">
-          <button v-if="likeChecked" class="btn btn-sm" :class="liked?'btn-danger':'btn-outline-danger'" @click="toggleFavorite">❤️ {{ liked?'찜한 영화입니다':'찜하기' }}</button>
-          <button v-if="checked" class="btn btn-sm" :class="seen?'btn-outline-secondary':'btn-outline-primary'" @click="seen? removeFromWatchHistory() : addToWatchHistory()">
-            👁️ {{ seen?'이미 본 영화입니다':'봤어요' }}
+          <!-- 찜 버튼 -->
+          <button
+            v-if="likeChecked"
+            class="btn btn-sm animated-toggle"
+            :class="liked ? 'btn-danger' : 'btn-outline-danger'"
+            @click="toggleFavorite"
+            style="min-width: 150px"
+          >
+            ❤️ {{ liked ? '찜한 영화입니다' : '찜하기' }}
+          </button>
+
+          <!-- 시청 버튼 -->
+          <button
+            v-if="checked"
+            class="btn btn-sm animated-toggle"
+            :class="seen ? 'btn-outline-secondary' : 'btn-outline-primary'"
+            @click="seen ? removeFromWatchHistory() : addToWatchHistory()"
+            style="min-width: 150px"
+          >
+            👁️ {{ seen ? '이미 본 영화입니다' : '봤어요' }}
           </button>
         </div>
 
         <p v-if="reason" class="text-muted fst-italic mt-3">🧠 이 영화를 추천한 이유: {{ reason }}</p>
+
+        <!-- OTT 감상처 안내 -->
+        <div v-if="ottFlatrate.length" class="mt-3">
+          <h5 class="mb-2">📺 감상 가능한 OTT</h5>
+          <a
+            v-for="provider in ottFlatrate"
+            :key="provider.provider_id"
+            :href="ottLink"
+            target="_blank"
+            rel="noopener"
+            class="ott-badge me-2 d-inline-flex align-items-center justify-content-center"
+            :title="provider.provider_name"
+          >
+            <img
+              :src="'https://image.tmdb.org/t/p/w92' + provider.logo_path"
+              :alt="provider.provider_name"
+              class="ott-logo"
+            />
+          </a>
+        </div>
+
 
         <!-- 장르 & 개봉일 -->
         <div v-if="movie.genres?.length" class="mt-4">
@@ -205,13 +267,13 @@ function ytThumb (id, isShorts = false) {
         <h4 class="mb-3">🎬 유튜브 리뷰 영상</h4>
         <div class="scroll-row" ref="reviewRow">
           <div v-for="v in reviewVideos" :key="v.videoId" class="video-card flex-shrink-0">
-            <a :href="`https://www.youtube.com/watch?v=${v.videoId}`" target="_blank" rel="noopener" class="text-decoration-none">
+            <div @click="activeVideoId = v.videoId" class="text-decoration-none" style="cursor: pointer;">
               <img :src="ytThumb(v.videoId)" :alt="v.title" class="thumb w-100" />
               <div class="p-2">
                 <div class="fw-semibold text-dark small text-truncate">{{ v.title }}</div>
                 <div class="text-muted small text-truncate">{{ v.channel }}</div>
               </div>
-            </a>
+            </div>
           </div>
           <button class="more-card" @click="loadReviews()" v-if="!reviewsLoading">
             더보기 »
@@ -225,16 +287,56 @@ function ytThumb (id, isShorts = false) {
         <h4 class="mb-3">📱 유튜브 쇼츠</h4>
         <div class="scroll-row" ref="shortsRow">
           <div v-for="s in shortsVideos" :key="s.videoId" class="shorts-card flex-shrink-0">
-            <a :href="`https://www.youtube.com/watch?v=${s.videoId}`" target="_blank" rel="noopener">
-              <img :src="ytThumb(s.videoId, true)" :alt="s.title" class="thumb w-100" />
-            </a>
+            <div @click="activeVideoId = s.videoId" style="cursor: pointer;">
+              <img :src="s.thumbnail" :alt="s.title" class="thumb w-100" />
+            </div>
           </div>
           <button class="more-card" @click="loadShorts()" v-if="!shortsLoading">더보기 »</button>
           <div class="more-card" v-else><span class="spinner-border spinner-border-sm"/></div>
         </div>
       </div>
 
+      <!-- 연관 영화 추천 -->
+      <div v-if="relatedMovies.length" class="col-12 mt-5">
+        <h4 class="mb-3">🎬 이 영화를 본 사람들이 좋아한 작품</h4>
+        <div class="scroll-row">
+          <router-link
+            v-for="r in relatedMovies"
+            :key="r.id"
+            :to="`/detail/${r.id}`"
+            class="text-decoration-none text-dark flex-shrink-0"
+            style="width: 200px"
+          >
+            <div class="card h-100 shadow-sm">
+              <img
+                v-if="r.poster_path"
+                :src="'https://image.tmdb.org/t/p/w500' + r.poster_path"
+                class="card-img-top"
+                :alt="r.title"
+              />
+              <div class="card-body">
+                <h6 class="card-title text-truncate">{{ r.title }}</h6>
+                <p class="card-text text-muted small">★ {{ r.vote_average.toFixed(1) }}</p>
+              </div>
+            </div>
+          </router-link>
+        </div>
+      </div>
     </div>
+    <!-- 유튜브 팝업 플레이어 -->
+      <div v-if="activeVideoId" class="yt-overlay" @click.self="closeVideo">
+        <div class="yt-player">
+          <button class="btn-close float-end" @click="closeVideo" />
+          <iframe
+            :src="`https://www.youtube.com/embed/${activeVideoId}?autoplay=1&rel=0`"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+            width="100%"
+            height="100%"
+          ></iframe>
+        </div>
+      </div>
   </section>
 </template>
 
@@ -261,4 +363,58 @@ img { max-height: 540px; object-fit: cover; }
 
 .more-card{display:flex;align-items:center;justify-content:center;width:100px;min-width:100px;scroll-snap-align:start;border:2px dashed #868e96;background:#f8f9fa;border-radius:.5rem;font-weight:600;color:#495057}
 .more-card:hover{background:#e9ecef;cursor:pointer}
+
+.yt-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.yt-player {
+  width: 90%;
+  max-width: 720px;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  position: relative;
+  border-radius: .5rem;
+  overflow: hidden;
+}
+.btn-close {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  z-index: 1;
+}
+
+.ott-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 0.5rem;
+  background-color: #f1f3f5;
+  transition: all 0.2s ease;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+.ott-badge:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+.ott-logo {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+}
+.animated-toggle {
+  transition: transform 0.2s ease;
+  transform: scale(1);
+}
+.animated-toggle:active {
+  transform: scale(1.08);
+}
+
+
 </style>

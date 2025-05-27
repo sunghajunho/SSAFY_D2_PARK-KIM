@@ -6,12 +6,20 @@ import api from '@/api/axios'  // ✅ 공통 인스턴스를 사용
 export const useUserStore = defineStore('user', () => {
   const ACCOUNT_API_URL = 'accounts'  // baseURL에서 이미 / 붙었음
 
+  const model = ref(localStorage.getItem('model') || 'gpt-3.5-turbo')  // 초기화
+
   const token = ref(localStorage.getItem('token') || '')
   const username = ref(localStorage.getItem('username') || '')
   const nickname = ref(localStorage.getItem('nickname') || '')
   const id = ref(localStorage.getItem('id') || '')
   const isLoggedIn = computed(() => !!token.value)
   const favoriteMovieIds = ref([])
+
+  const setModel = (val) => {
+  model.value = val
+  localStorage.setItem('model', val)
+}
+
 
   // ✅ 회원가입
   const register = async (form) => {
@@ -160,6 +168,8 @@ export const useUserStore = defineStore('user', () => {
     nickname,
     isLoggedIn,
     favoriteMovieIds,
+    model,
+    setModel,
     register,
     logIn,
     fetchUserInfo,

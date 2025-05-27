@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useThemeStore } from '@/stores/themeStore'
 import RecommendedPreview from '@/components/RecommendedPreview.vue'
 import { useUserStore } from '@/stores/userStore'
@@ -27,24 +27,29 @@ const genreOptions = ['드라마', '액션', '코미디', '스릴러', '로맨�
 
 
 const userStore = useUserStore()
-const model = ref(userStore.model)
+const model = computed({
+  get: () => userStore.model,
+  set: (val) => userStore.setModel(val)
+})
 
 function buildPrompt() {
-  let prompt = ''
+  const parts = []
 
-  if (mood.value) prompt += `${mood.value} 분위기의 `
-  if (situation.value) prompt += `${situation.value} `
-  if (genres.value.length > 0) prompt += `${genres.value.join(', ')} 장르의 `
-  if (prompt) prompt += '영화 중, '
+  if (mood.value) parts.push(`${mood.value} 분위기`)
+  if (situation.value) parts.push(`${situation.value}`)
+  if (genres.value.length > 0) parts.push(`${genres.value.join(', ')} 장르`)
+
+  const conditionText = parts.length > 0
+    ? parts.join('에서 ') + ' 볼만한'
+    : ''
 
   if (query.value.trim()) {
-    prompt += `'${query.value}'와 어울리는 영화를 추천해줘.`
+    return `${conditionText} 영화 중 '${query.value}'와 어울리는 작품을 추천해줘.`
   } else {
-    prompt += '추천할 만한 영화를 알려줘.'
+    return `${conditionText} 영화를 추천해줘.`
   }
-
-  return prompt
 }
+
 
 function searchCombined() {
   const prompt = buildPrompt()
