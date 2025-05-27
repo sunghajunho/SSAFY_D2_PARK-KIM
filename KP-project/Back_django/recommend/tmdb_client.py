@@ -23,6 +23,21 @@ def search_movie_by_title(title: str) -> Optional[Dict]:
     results = res.json().get("results", [])
     return results[0] if results else None
 
+def search_movies_by_title(title: str, limit: int = 4) -> List[Dict]:
+    """제목으로 유사한 영화 여러 개 반환"""
+    params = {
+        "api_key": TMDB_API_KEY,
+        "query": title,
+        "language": "ko-KR",
+    }
+    res = requests.get(f"{TMDB_BASE_URL}/search/movie", params=params)
+    if res.status_code != 200:
+        print(f"[TMDB] 검색 실패: {res.text}")
+        return []
+    results = res.json().get("results", [])
+    return results[:limit]
+
+
 
 def get_movie_details(movie_id: int) -> Optional[Dict]:
     """id로 영화 상세정보 + 출연진까지 불러오기"""
@@ -96,3 +111,43 @@ def enrich_movies(gpt_result: List[Dict]) -> List[Dict]:
         })
 
     return enriched
+
+def get_recommendations(movie_id: int) -> List[Dict]:
+    """TMDB에서 연관 영화 추천 가져오기"""
+    params = {
+        "api_key": TMDB_API_KEY,
+        "language": "ko-KR",
+    }
+    url = f"{TMDB_BASE_URL}/movie/{movie_id}/recommendations"
+    res = requests.get(url, params=params)
+    if res.status_code != 200:
+        print(f"[TMDB] 연관 영화 추천 실패: {res.text}")
+        return []
+
+    results = res.json().get("results", [])
+    recommendations = []
+
+    for movie in results[:10]:  # 최대 10개까지만 사용
+        recommendations.append({
+            "id": movie["id"],
+            "title": movie.get("title", ""),
+            "poster_path": movie.get("poster_path"),
+            "overview": movie.get("overview", ""),
+            "vote_average": movie.get("vote_average", 0)
+        })
+
+    return recommendations
+
+def get_watch_providers(movie_id: int) -> Dict:
+    """TMDB에서 OTT 제공처 정보 가져오기"""
+    params = {
+        "api_key": TMDB_API_KEY,
+    }
+    url = f"{TMDB_BASE_URL}/movie/{movie_id}/watch/providers"
+    res = requests.get(url, params=params)
+    if res.status_code != 200:
+        print(f"[TMDB] 감상처 정보 실패: {res.text}")
+        return {}
+
+    data = res.json().get("results", {})
+    return data.get("KR", {})  # 한국 감상처만

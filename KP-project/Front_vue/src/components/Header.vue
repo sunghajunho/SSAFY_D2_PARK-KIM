@@ -14,6 +14,7 @@ const userStore = useUserStore()
     <router-link class="navbar-brand" to="/">MovieGPT</router-link>
 
     <div class="navbar-nav">
+      <router-link class="nav-link" to="/search">영화 검색</router-link>
       <router-link class="nav-link" to="/reviews">리뷰</router-link>
       <router-link class="nav-link" to="/profile">내 프로필</router-link>
     </div>

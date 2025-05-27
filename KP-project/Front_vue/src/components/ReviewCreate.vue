@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-import { ref,defineEmits,onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useReviewStore } from '@/stores/reviewStore'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
