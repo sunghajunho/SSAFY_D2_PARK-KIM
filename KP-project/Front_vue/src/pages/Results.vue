@@ -47,8 +47,7 @@ watch(
     <h2 class="results-title">🔍 당신을 위한 추천 영화</h2>
 
     <!-- ✅ 로딩 애니메이션 추가 -->
-    <div v-if="loading" class="loading-overlay">
-      <video src="@/assets/loading_1.mp4" autoplay loop muted playsinline></video>
+    
     <!-- 🎯 조건 요약 영역 -->
     <div class="conditions-bar">
       <span v-if="mood" class="chip">🎭 {{ mood }}</span>
@@ -56,11 +55,15 @@ watch(
       <span v-for="g in genres" :key="g" class="chip">🎬 {{ g }}</span>
     </div>
 
+    <div v-if="loading" class="loading-overlay">
+      <video src="@/assets/loading_1.mp4" autoplay loop muted playsinline></video>
+    </div>
+
     <!-- 🧠 추천 이유 -->
     <p v-if="explanation" class="explanation-box">
       🧠 <em>{{ explanation }}</em>
     </p>
-    <div v-if="loading" class="loading-msg">GPT & TMDB에서 추천을 불러오는 중...</div>
+    <div v-if="loading" class="loading-msg"></div>
 
     <div v-else class="grid-wrapper">
       <div
@@ -90,11 +93,11 @@ watch(
 
         <div v-else class="card-missing">
           <h5>{{ movie.title }}</h5>
-          <p>이 영화는 아직 정보가 부족합니다.</p>
+            <p>이 영화는 아직 정보가 부족합니다.</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <style scoped>

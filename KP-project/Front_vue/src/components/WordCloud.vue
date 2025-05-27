@@ -37,32 +37,35 @@ onMounted(async () => {
   width: 760px;
   margin: 0 auto;
   text-align: center;
+  color: var(--bs-body-color);              /* ✅ 자동 본문 색상 */
 }
 
 .wordcloud-image {
-  max-width: 40%;         /* 조금 넓게 */
-  aspect-ratio: 4 / 3;    /* 4:3 비율로 가로가 살짝 더 길게 */
-  object-fit: contain;    /* 이미지가 잘리지 않도록 */
-  border: 1px solid #ccc;
+  max-width: 40%;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  border: 1px solid var(--bs-border-color); /* ✅ 자동 테두리 색상 */
   display: block;
   margin: 0 auto;
+  background-color: var(--bs-body-bg);      /* ✅ 이미지 배경 대비용 */
 }
 
 .title {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #333;            /* 짙은 회색 계열 */
+  color: var(--bs-emphasis-color);          /* ✅ 강조 색상 자동 대응 */
   margin-bottom: 0.5rem;
-  text-align: center;     /* 중앙 정렬 */
-  letter-spacing: 1px;    /* 글자 간격 */
+  text-align: center;
+  letter-spacing: 1px;
 }
 
 .description {
   font-size: 1rem;
-  color: #666;            /* 중간 회색 */
-  text-align: center;     /* 중앙 정렬 */
+  color: var(--bs-secondary-color);         /* ✅ 보조 텍스트 색상 */
+  text-align: center;
   margin: 0 auto;
-  max-width: 300px;       /* 최대 폭 제한으로 가독성 ↑ */
-  line-height: 1.5;       /* 줄간격 */
+  max-width: 300px;
+  line-height: 1.5;
 }
+
 </style>

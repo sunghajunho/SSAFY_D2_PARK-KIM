@@ -123,5 +123,66 @@ async function handleReviewLike() {
   </div>
 </template>
 
+<style scoped>
+/* ───────── 카드(본문) ───────── */
+.container .border.bg-light {
+  /* 부트스트랩 5.3 다크‧라이트 전환용 CSS 변수 */
+  background-color: var(--bs-secondary-bg) !important;
+  color:           var(--bs-body-color)    !important;
+  border-color:    var(--bs-border-color)  !important;
+}
 
+/* ───────── 작은 글씨 & 보조 정보 ───────── */
+.text-muted        { color: var(--bs-secondary-color) !important; }
+.text-muted.small  { color: var(--bs-tertiary-color)  !important; }
 
+/* ───────── 버튼 계열 ───────── */
+.btn-outline-danger {
+  color:          var(--bs-danger);
+  border-color:   var(--bs-danger);
+}
+.btn-outline-danger:hover,
+.btn-outline-danger:focus {
+  background-color: var(--bs-danger-bg-subtle);
+  color:            var(--bs-danger-text-emphasis);
+}
+
+.btn-danger {
+  background-color: var(--bs-danger);
+  border-color:     var(--bs-danger);
+}
+.btn-danger:hover,
+.btn-danger:focus {
+  background-color: var(--bs-danger-bg-subtle);
+  border-color:     var(--bs-danger);
+  color:            var(--bs-danger-text-emphasis);
+}
+
+/* 좋아요 숫자·아이콘이 잘 보이도록 살짝 굵게 */
+.btn-outline-danger,
+.btn-danger {
+  font-weight: 500;
+}
+
+/* 목록으로 버튼(회색)도 테마 대응 */
+.btn-secondary {
+  background-color: var(--bs-secondary-bg);
+  border-color:     var(--bs-border-color);
+  color:            var(--bs-body-color);
+}
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background-color: var(--bs-secondary-bg-hover, var(--bs-tertiary-bg));
+  color:            var(--bs-body-color);
+}
+
+/* 포스터 그림자·라운드 유지하지만 어둠 테마에서도 자연스럽게 */
+.img-fluid.rounded {
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+
+/* 댓글 컴포넌트 내부(입력창 등)가 카드 안에서 딱 붙지 않도록 */
+hr + * {
+  margin-top: 1rem;
+}
+</style>
