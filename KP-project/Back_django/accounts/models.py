@@ -9,10 +9,10 @@ class CustomUser(AbstractUser):
     # 사용자 기본 정보 확장
     real_name = models.CharField(max_length=100)
     nickname = models.CharField(max_length=30,unique=True)
-    age = models.PositiveIntegerField(null=True, blank=True)
+    age = models.PositiveIntegerField()
     gender = models.CharField(max_length=10, choices=[
         ('남성', '남성'), ('여성', '여성')
-    ], null=True, blank=True)
+    ])
     # MBTI
     MBTI_CHOICES = [
         ('ISTJ', 'ISTJ'), ('ISFJ', 'ISFJ'), ('INFJ', 'INFJ'), ('INTJ', 'INTJ'),
@@ -22,9 +22,7 @@ class CustomUser(AbstractUser):
     ]
     mbti = models.CharField(
         max_length=4,
-        choices=MBTI_CHOICES,
-        null=True,
-        blank=True
+        choices=MBTI_CHOICES
     )
     REGION_CHOICES = [
         ('서울', '서울'), ('부산', '부산'), ('대구', '대구'), ('인천', '인천'),
@@ -35,18 +33,14 @@ class CustomUser(AbstractUser):
     ]
     region = models.CharField(
         max_length=10,
-        choices=REGION_CHOICES,
-        null=True,
-        blank=True
+        choices=REGION_CHOICES
     )
     # 선호 장르 (ManyToMany → Genre 모델 필요)
-    preferred_genres = models.ManyToManyField(Genre,blank=True,through='UserGenrePreference', related_name='user_genre')
+    preferred_genres = models.ManyToManyField(Genre,through='UserGenrePreference', related_name='user_genre')
     # 감정 태그 (ManyToMany → EmotionTag 모델 필요)
     # 시청기록은 WatchHistory로 분리 관리 (다대다 중간 테이블)
     profile_image = models.ImageField(
         upload_to = user_profile_image_path,
-        blank = True,
-        null = True,
         default = 'default_profile.jpg'
         )
     # UI 구성용 메서드

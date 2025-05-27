@@ -1,6 +1,6 @@
 <template>
   <div class="wordcloud-container">
-    <h4 class="title">취향분석</h4>
+    <h4 class="title">취향 분석</h4>
     <h6 class="title">{{ description }}</h6>
     <img :src="imageUrl" alt="Wordcloud" class="wordcloud-image" />
   </div>
@@ -49,6 +49,20 @@ onMounted(async () => {
 }
 
 .title {
-  margin-bottom: 10px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #333;            /* 짙은 회색 계열 */
+  margin-bottom: 0.5rem;
+  text-align: center;     /* 중앙 정렬 */
+  letter-spacing: 1px;    /* 글자 간격 */
+}
+
+.description {
+  font-size: 1rem;
+  color: #666;            /* 중간 회색 */
+  text-align: center;     /* 중앙 정렬 */
+  margin: 0 auto;
+  max-width: 300px;       /* 최대 폭 제한으로 가독성 ↑ */
+  line-height: 1.5;       /* 줄간격 */
 }
 </style>
