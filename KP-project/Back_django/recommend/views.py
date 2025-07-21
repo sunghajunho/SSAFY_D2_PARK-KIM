@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes
-from .gpt_client import call_gpt
+from .gemini_client import call_gemini
 from .tmdb_client import enrich_movies, get_movie_details, get_recommendations, get_watch_providers
 from .prompt_builder import build_prompt
 from .serializers import RecommendationRequestSerializer
@@ -67,19 +67,19 @@ class RecommendationAPIView(APIView):
         )
         print(prompt)
 
-        # 3. GPT 호출
+        # 3. Gemini 호출
         try:
-            model = request.data.get("model", "gpt-3.5-turbo")
-            gpt_response_text = call_gpt(prompt, model)
-            parsed = json.loads(gpt_response_text)
+            model = request.data.get("model", "gemini-1.5-flash")
+            gemini_response_text = call_gemini(prompt, model)
+            parsed = json.loads(gemini_response_text)
             explanation = parsed.get("explanation", "")
-            gpt_result = parsed.get("recommendations", [])
+            gemini_result = parsed.get("recommendations", [])
 
         except Exception as e:
-            return Response({"error": f"GPT 응답 처리 실패: {str(e)}"}, status=500)
+            return Response({"error": f"Gemini 응답 처리 실패: {str(e)}"}, status=500)
 
         # 4. TMDB enrich
-        enriched = enrich_movies(gpt_result)
+        enriched = enrich_movies(gemini_result)
 
         return Response({
             "explanation": explanation,
